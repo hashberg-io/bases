@@ -102,7 +102,6 @@ class BlockBaseEncoding(BaseEncoding):
         else:
             alphabet = encoding
             encoding = SimpleBaseEncoding(alphabet)
-            print(alphabet, encoding)
         super().__init__(alphabet, case_sensitive=case_sensitive)
         self._block_encoding = encoding
         self._sep_char = sep_char

@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bases",
-    version="0.1.0",
+    version="0.1.0.post1",
     author="hashberg",
     author_email="sg495@users.noreply.github.com",
     url="https://github.com/hashberg-io/bases",
