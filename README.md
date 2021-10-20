@@ -52,6 +52,8 @@ The `decode` method can be used to decode strings into bytestrings:
 
 ```py
 >>> s = 'IZRL5O2C4CZA===='
+>>> base32.decode(s)
+b'Fb\xbe\xbbB\xe0\xb2'
 >>> list(base32.decode(s))
 [70, 98, 190, 187, 66, 224, 178]
 ```
