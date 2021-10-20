@@ -70,7 +70,7 @@ FixcharBaseEncoding(
     pad_char='=', padding='include')
 ```
 
-The [make(...)](https://hashberg-io.github.io/bases/encoding/index.html#bases.encoding.make) function can be used to obtain create a new encoding from a given alphabet, encoding kind and options:
+The [make(...)](https://hashberg-io.github.io/bases/encoding/index.html#bases.encoding.make) function can be used to create a new encoding from a given alphabet, encoding kind and options:
 
 ```py
 >>> bases.make("0123", kind="zeropad-enc", block_nchars=4, name="base4")
