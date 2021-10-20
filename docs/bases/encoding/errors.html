@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>bases.encoding.errors API documentation</title>
+<meta name="description" content="Encoding error classes." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>bases.encoding.errors</code></h1>
+</header>
+<section id="section-intro">
+<p>Encoding error classes.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+    Encoding error classes.
+&#34;&#34;&#34;
+
+import binascii
+
+from bases.alphabet import Alphabet
+
+class Error(binascii.Error):
+    &#34;&#34;&#34;
+        Generic encoding or decoding error.
+    &#34;&#34;&#34;
+    ...
+
+class EncodingError(Error):
+    &#34;&#34;&#34;
+        Generic encoding error.
+    &#34;&#34;&#34;
+    ...
+
+class InvalidDigitError(EncodingError):
+    &#34;&#34;&#34;
+        Encoding error raised when a digit does not index a character
+        in the given alphabet (because `not 0 &lt;= digit &lt; len(alphabet)`)
+    &#34;&#34;&#34;
+
+    digit: int
+    base: int
+
+    def __init__(self, digit: int, base: int) -&gt; None:
+        self.digit = digit
+        self.base = base
+        if 0 &lt;= digit &lt; base:
+            raise ValueError(f&#34;Digit {digit} is valid for base {base}.&#34;)
+        error_msg = f&#34;Invalid digit {digit} encountered for base {base}.&#34;
+        super().__init__(error_msg)
+
+class InvalidByteBlockError(EncodingError):
+    &#34;&#34;&#34;
+        Encoding error raised by block encodings when a byte block is invalid.
+    &#34;&#34;&#34;
+    ...
+
+class DecodingError(Error):
+    &#34;&#34;&#34;
+        Generic decoding error.
+    &#34;&#34;&#34;
+    ...
+
+class NonAlphabeticCharError(DecodingError):
+    &#34;&#34;&#34;
+        Decoding error raised when a character is not in the given alphabet,
+        (considering case-insensitivity of the alphabet, if relevant).
+    &#34;&#34;&#34;
+
+    char: str
+    alphabet: Alphabet
+
+    def __init__(self, char: str, alphabet: Alphabet) -&gt; None:
+        self.char = char
+        self.alphabet = alphabet
+        if char in alphabet:
+            raise ValueError(f&#34;Character {repr(char)} is alphabetic.&#34;)
+        error_msg = f&#34;Invalid character {repr(char)} encountered for alphabet {str(alphabet)}.&#34;
+        super().__init__(error_msg)
+
+class PaddingError(DecodingError):
+    &#34;&#34;&#34;
+        Decoding error raised when a string to be decoded has incorrect padding.
+    &#34;&#34;&#34;
+
+    padding: int
+    expected_padding: int
+
+    def __init__(self, padding: int, expected_padding: int) -&gt; None:
+        self.padding = padding
+        self.expected_padding = expected_padding
+        if padding &lt; expected_padding:
+            error_msg = f&#34;Insufficient padding: found {padding}, expected {expected_padding}&#34;
+        elif padding &gt; expected_padding:
+            error_msg = f&#34;Excessive padding: found {padding}, expected {expected_padding}&#34;
+        else:
+            raise ValueError(&#34;Padding is exactly what was expected.&#34;)
+        super().__init__(error_msg)
+
+class InvalidCharBlockError(DecodingError):
+    &#34;&#34;&#34;
+        Decoding error raised by block encodings when a char block is invalid.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="bases.encoding.errors.DecodingError"><code class="flex name class">
+<span>class <span class="ident">DecodingError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generic decoding error.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DecodingError(Error):
+    &#34;&#34;&#34;
+        Generic decoding error.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.InvalidCharBlockError" href="#bases.encoding.errors.InvalidCharBlockError">InvalidCharBlockError</a></li>
+<li><a title="bases.encoding.errors.NonAlphabeticCharError" href="#bases.encoding.errors.NonAlphabeticCharError">NonAlphabeticCharError</a></li>
+<li><a title="bases.encoding.errors.PaddingError" href="#bases.encoding.errors.PaddingError">PaddingError</a></li>
+</ul>
+</dd>
+<dt id="bases.encoding.errors.EncodingError"><code class="flex name class">
+<span>class <span class="ident">EncodingError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generic encoding error.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EncodingError(Error):
+    &#34;&#34;&#34;
+        Generic encoding error.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.InvalidByteBlockError" href="#bases.encoding.errors.InvalidByteBlockError">InvalidByteBlockError</a></li>
+<li><a title="bases.encoding.errors.InvalidDigitError" href="#bases.encoding.errors.InvalidDigitError">InvalidDigitError</a></li>
+</ul>
+</dd>
+<dt id="bases.encoding.errors.Error"><code class="flex name class">
+<span>class <span class="ident">Error</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generic encoding or decoding error.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Error(binascii.Error):
+    &#34;&#34;&#34;
+        Generic encoding or decoding error.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.DecodingError" href="#bases.encoding.errors.DecodingError">DecodingError</a></li>
+<li><a title="bases.encoding.errors.EncodingError" href="#bases.encoding.errors.EncodingError">EncodingError</a></li>
+</ul>
+</dd>
+<dt id="bases.encoding.errors.InvalidByteBlockError"><code class="flex name class">
+<span>class <span class="ident">InvalidByteBlockError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encoding error raised by block encodings when a byte block is invalid.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidByteBlockError(EncodingError):
+    &#34;&#34;&#34;
+        Encoding error raised by block encodings when a byte block is invalid.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.EncodingError" href="#bases.encoding.errors.EncodingError">EncodingError</a></li>
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="bases.encoding.errors.InvalidCharBlockError"><code class="flex name class">
+<span>class <span class="ident">InvalidCharBlockError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decoding error raised by block encodings when a char block is invalid.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidCharBlockError(DecodingError):
+    &#34;&#34;&#34;
+        Decoding error raised by block encodings when a char block is invalid.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.DecodingError" href="#bases.encoding.errors.DecodingError">DecodingError</a></li>
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="bases.encoding.errors.InvalidDigitError"><code class="flex name class">
+<span>class <span class="ident">InvalidDigitError</span></span>
+<span>(</span><span>digit: int, base: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encoding error raised when a digit does not index a character
+in the given alphabet (because <code>not 0 &lt;= digit &lt; len(alphabet)</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidDigitError(EncodingError):
+    &#34;&#34;&#34;
+        Encoding error raised when a digit does not index a character
+        in the given alphabet (because `not 0 &lt;= digit &lt; len(alphabet)`)
+    &#34;&#34;&#34;
+
+    digit: int
+    base: int
+
+    def __init__(self, digit: int, base: int) -&gt; None:
+        self.digit = digit
+        self.base = base
+        if 0 &lt;= digit &lt; base:
+            raise ValueError(f&#34;Digit {digit} is valid for base {base}.&#34;)
+        error_msg = f&#34;Invalid digit {digit} encountered for base {base}.&#34;
+        super().__init__(error_msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.EncodingError" href="#bases.encoding.errors.EncodingError">EncodingError</a></li>
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="bases.encoding.errors.InvalidDigitError.base"><code class="name">var <span class="ident">base</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="bases.encoding.errors.InvalidDigitError.digit"><code class="name">var <span class="ident">digit</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="bases.encoding.errors.NonAlphabeticCharError"><code class="flex name class">
+<span>class <span class="ident">NonAlphabeticCharError</span></span>
+<span>(</span><span>char: str, alphabet: <a title="bases.alphabet.abstract.Alphabet" href="../alphabet/abstract.html#bases.alphabet.abstract.Alphabet">Alphabet</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decoding error raised when a character is not in the given alphabet,
+(considering case-insensitivity of the alphabet, if relevant).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NonAlphabeticCharError(DecodingError):
+    &#34;&#34;&#34;
+        Decoding error raised when a character is not in the given alphabet,
+        (considering case-insensitivity of the alphabet, if relevant).
+    &#34;&#34;&#34;
+
+    char: str
+    alphabet: Alphabet
+
+    def __init__(self, char: str, alphabet: Alphabet) -&gt; None:
+        self.char = char
+        self.alphabet = alphabet
+        if char in alphabet:
+            raise ValueError(f&#34;Character {repr(char)} is alphabetic.&#34;)
+        error_msg = f&#34;Invalid character {repr(char)} encountered for alphabet {str(alphabet)}.&#34;
+        super().__init__(error_msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.DecodingError" href="#bases.encoding.errors.DecodingError">DecodingError</a></li>
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="bases.encoding.errors.NonAlphabeticCharError.alphabet"><code class="name">var <span class="ident">alphabet</span> : <a title="bases.alphabet.abstract.Alphabet" href="../alphabet/abstract.html#bases.alphabet.abstract.Alphabet">Alphabet</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="bases.encoding.errors.NonAlphabeticCharError.char"><code class="name">var <span class="ident">char</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="bases.encoding.errors.PaddingError"><code class="flex name class">
+<span>class <span class="ident">PaddingError</span></span>
+<span>(</span><span>padding: int, expected_padding: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decoding error raised when a string to be decoded has incorrect padding.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PaddingError(DecodingError):
+    &#34;&#34;&#34;
+        Decoding error raised when a string to be decoded has incorrect padding.
+    &#34;&#34;&#34;
+
+    padding: int
+    expected_padding: int
+
+    def __init__(self, padding: int, expected_padding: int) -&gt; None:
+        self.padding = padding
+        self.expected_padding = expected_padding
+        if padding &lt; expected_padding:
+            error_msg = f&#34;Insufficient padding: found {padding}, expected {expected_padding}&#34;
+        elif padding &gt; expected_padding:
+            error_msg = f&#34;Excessive padding: found {padding}, expected {expected_padding}&#34;
+        else:
+            raise ValueError(&#34;Padding is exactly what was expected.&#34;)
+        super().__init__(error_msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.errors.DecodingError" href="#bases.encoding.errors.DecodingError">DecodingError</a></li>
+<li><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></li>
+<li>binascii.Error</li>
+<li>builtins.ValueError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="bases.encoding.errors.PaddingError.expected_padding"><code class="name">var <span class="ident">expected_padding</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="bases.encoding.errors.PaddingError.padding"><code class="name">var <span class="ident">padding</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="bases.encoding" href="index.html">bases.encoding</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="bases.encoding.errors.DecodingError" href="#bases.encoding.errors.DecodingError">DecodingError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.EncodingError" href="#bases.encoding.errors.EncodingError">EncodingError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.Error" href="#bases.encoding.errors.Error">Error</a></code></h4>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.InvalidByteBlockError" href="#bases.encoding.errors.InvalidByteBlockError">InvalidByteBlockError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.InvalidCharBlockError" href="#bases.encoding.errors.InvalidCharBlockError">InvalidCharBlockError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.InvalidDigitError" href="#bases.encoding.errors.InvalidDigitError">InvalidDigitError</a></code></h4>
+<ul class="">
+<li><code><a title="bases.encoding.errors.InvalidDigitError.base" href="#bases.encoding.errors.InvalidDigitError.base">base</a></code></li>
+<li><code><a title="bases.encoding.errors.InvalidDigitError.digit" href="#bases.encoding.errors.InvalidDigitError.digit">digit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.NonAlphabeticCharError" href="#bases.encoding.errors.NonAlphabeticCharError">NonAlphabeticCharError</a></code></h4>
+<ul class="">
+<li><code><a title="bases.encoding.errors.NonAlphabeticCharError.alphabet" href="#bases.encoding.errors.NonAlphabeticCharError.alphabet">alphabet</a></code></li>
+<li><code><a title="bases.encoding.errors.NonAlphabeticCharError.char" href="#bases.encoding.errors.NonAlphabeticCharError.char">char</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="bases.encoding.errors.PaddingError" href="#bases.encoding.errors.PaddingError">PaddingError</a></code></h4>
+<ul class="">
+<li><code><a title="bases.encoding.errors.PaddingError.expected_padding" href="#bases.encoding.errors.PaddingError.expected_padding">expected_padding</a></code></li>
+<li><code><a title="bases.encoding.errors.PaddingError.padding" href="#bases.encoding.errors.PaddingError.padding">padding</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

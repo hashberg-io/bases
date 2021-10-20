@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>bases.encoding.block API documentation</title>
+<meta name="description" content="Block base encodings." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>bases.encoding.block</code></h1>
+</header>
+<section id="section-intro">
+<p>Block base encodings.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+    Block base encodings.
+&#34;&#34;&#34;
+
+import math
+from types import MappingProxyType
+from typing import Any, Dict, List, Mapping, Optional, Union
+
+from bases.alphabet import Alphabet
+from .base import BaseEncoding
+from .simple import SimpleBaseEncoding
+from .zeropad import ZeropadBaseEncoding
+from .errors import EncodingError, DecodingError, InvalidCharBlockError, InvalidByteBlockError
+
+class BlockBaseEncoding(BaseEncoding):
+    &#34;&#34;&#34;
+        Block base encodings. Split the bytestring to encode (resp. string to decode) into blocks,
+        then encodes (resp. decodes) each block individually using an underlying encoding.
+        By default, the underlying encoding is a `bases.encoding.simple.SimpleBaseEncoding`.
+
+        Constructor options:
+
+        - `block_size: Union[int, Mapping[int, int]]` cf. below
+        - `sep_char: str = &#34;&#34;` an optional separator character for encoded string blocks (empty string if unspecified)
+        - `reverse_blocks: bool = False` an optional flag to reverse individual char blocks in the encoded string
+
+        The `block_size` option is mandatory and determines the allowed block sizes for encoding and decoding:
+
+        - if `block_size` is a strictly increasing mapping of positive integers to positive integers, its keys are taken
+          to be the allowed block byte sizes and its values are taken to be the corresponding block char sizes.
+        - if `block_size` is an integer, all block byte sizes in `range(1, block_size+1)` are allowed, and the coresponding
+          block char sizes are computed by:
+
+          ```py
+          char_size = int(math.floor(math.log(256**byte_size, base)))+1
+          ```
+
+        The property `BlockBaseEncoding.nbytes2nchars` has all valid block byte sizes as keys and the corresponding block char sizes as values.
+        The property `BlockBaseEncoding.nchars2nbytes` has all valid block char sizes as keys and the corresponding block byte sizes as values.
+        Each pair of corresponding block byte and char sizes is assessed to ensure that encoding and decoding are unambiguous,
+        using the static methods `ZeropadBaseEncoding.max_block_nchars` and `ZeropadBaseEncoding.max_block_nbytes`.
+
+        The maximum valid block byte (resp. char) size is used on encoding (resp. decoding) for all blocks except at most the last one:
+        if the number of bytes (resp. chars) in the last block is not valid, the bytestring (resp. string) is not valid overall.
+
+        As a concrete example, the following is the constructor for the [base45 encoding](https://datatracker.ietf.org/doc/draft-faltstrom-base45/):
+
+        ```py
+        base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3})
+        ```
+
+        In this case, encoding uses blocks of 2 bytes, with the final block allowed to be 1 or 2 bytes. Decoding uses blocks of 3 chars, with the
+        final block allowed to be 2 or 3 chars (but not 1 char). Because no encoding was explicitly specified, the encoding used is the simple
+        encoding for the base45 alphabet.
+
+        Encoding of a bytestring `b`:
+
+        1. split `b` into blocks of size `BlockBaseEncoding.block_nbytes`, with the final block allowed to be any size in `BlockBaseEncoding.nbytes2nchars`
+           (raise `bases.encoding.errors.EncodingError` if it isn&#39;t)
+        2. encode each block individually using the `BlockBaseEncoding.block_encoding`
+        3. check that no encoded block string exceeds the block char size corresponding to the original block byte size
+        4. prepend zero chars to each encoded block string until it reaches the designated block char size
+        5. if `reverse_blocks`, reverse each individual char block
+        6. join the blocks into the final encoded string (using the separator character `BlockBaseEncoding.sep_char`, if specified)
+
+        Decoding of a string `s`:
+
+        1. split `s` into blocks of size `BlockBaseEncoding.block_nchars`, with the final block allowed to be any size in `BlockBaseEncoding.nchars2nbytes`
+           (raise `bases.encoding.errors.DecodingError` if it isn&#39;t)
+        2. if `reverse_blocks`, reverse each individual char block
+        3. decode each block individually using the `BlockBaseEncoding.block_encoding`
+        4. check that no decode block bytestring exceeds the block byte size corresponding to the original block char size
+        5. prepend zero bytes to each decoded block bytestring until it reaches the designated block byte size
+        6. join the blocks into the final decoded bytestring
+
+    &#34;&#34;&#34;
+    # pylint: disable = too-many-instance-attributes
+
+    _init_encoding: Union[str, range, Alphabet, BaseEncoding]
+    _init_case_sensitive: Optional[bool]
+    _init_block_size: Union[int, Mapping[int, int]]
+
+    _block_encoding: BaseEncoding
+    _nbytes2nchars: Mapping[int, int]
+    _nchars2nbytes: Mapping[int, int]
+    _block_nbytes: int
+    _sep_char: str = &#34;&#34;
+    _block_nchars: int
+    _reverse_blocks: bool = False
+
+    def __init__(self, encoding: Union[str, range, Alphabet, BaseEncoding], *,
+                 case_sensitive: Optional[bool] = None,
+                 block_size: Union[int, Mapping[int, int]],
+                 sep_char: str = &#34;&#34;,
+                 reverse_blocks: bool = False):
+        self._init_encoding = encoding
+        self._init_case_sensitive = case_sensitive
+        self._init_block_size = block_size
+
+        if isinstance(encoding, BaseEncoding):
+            alphabet: Union[str, range, Alphabet] = encoding.alphabet
+        else:
+            alphabet = encoding
+            encoding = SimpleBaseEncoding(alphabet)
+            print(alphabet, encoding)
+        super().__init__(alphabet, case_sensitive=case_sensitive)
+        self._block_encoding = encoding
+        self._sep_char = sep_char
+        self._reverse_blocks = reverse_blocks
+        if isinstance(block_size, int):
+            base = self.base
+            block_sizes: Mapping[int, int] = {
+                i: int(math.floor(math.log(256**i, base)))+1
+                for i in range(1, block_size+1)
+            }
+        else:
+            block_sizes = block_size
+        self._nbytes2nchars = MappingProxyType({
+            nbytes: block_sizes[nbytes]
+            for nbytes in sorted(block_sizes)
+        })
+        _nchars2nbytes = {
+            nchars: nbytes for nbytes, nchars in block_sizes.items()
+        }
+        self._nchars2nbytes = MappingProxyType({
+            nchars: _nchars2nbytes[nchars]
+            for nchars in sorted(_nchars2nbytes)
+        })
+        self._block_nbytes = max(self.nbytes2nchars)
+        self._block_nchars = max(self.nchars2nbytes)
+        self.__validate_init()
+
+    def __validate_init(self) -&gt; None:
+        base = self.base
+        sep_char = self.sep_char
+        nbytes2nchars = self.nbytes2nchars
+        if len(sep_char) not in (0, 1):
+            raise ValueError(&#34;Separator character must be empty string or length 1 string.&#34;)
+        prev_nchars: Optional[int] = None
+        for _, nchars in nbytes2nchars.items():
+            if prev_nchars is None:
+                prev_nchars = nchars
+            elif prev_nchars &gt;= nchars:
+                raise ValueError(&#34;Block char size must strictly increase with block byte size.&#34;)
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        max_block_nbytes = ZeropadBaseEncoding.max_block_nbytes(base, block_nchars)
+        max_block_nchars = ZeropadBaseEncoding.max_block_nchars(base, block_nbytes)
+        if block_nchars &gt; max_block_nchars:
+            raise ValueError(f&#34;Number of characters allowed in largest block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nbytes = {block_nbytes} is &#34;
+                             f&#34;block_nchars = {max_block_nchars}&#34;)
+        if block_nbytes &gt; max_block_nbytes:
+            raise ValueError(f&#34;Number of bytes allowed in largest block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nchars {block_nchars} is &#34;
+                             f&#34;block_nbytes = {max_block_nbytes}&#34;)
+
+    @property
+    def block_encoding(self) -&gt; BaseEncoding:
+        &#34;&#34;&#34;
+            The encoding used for individual blocks.
+        &#34;&#34;&#34;
+        return self._block_encoding
+
+    @property
+    def nbytes2nchars(self) -&gt; Mapping[int, int]:
+        &#34;&#34;&#34;
+            Mapping of bytes block sizes to char block sizes.
+        &#34;&#34;&#34;
+        return self._nbytes2nchars
+
+    @property
+    def nchars2nbytes(self) -&gt; Mapping[int, int]:
+        &#34;&#34;&#34;
+            Mapping of char block sizes to byte block sizes.
+        &#34;&#34;&#34;
+        return self._nchars2nbytes
+
+    @property
+    def block_nbytes(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of bytes in the largest blocks.
+        &#34;&#34;&#34;
+        return self._block_nbytes
+
+    @property
+    def block_nchars(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of characters in the largest blocks.
+        &#34;&#34;&#34;
+        return self._block_nchars
+
+    @property
+    def sep_char(self) -&gt; str:
+        &#34;&#34;&#34;
+            Optional block separation character.
+            It is either the empty string, or a string of length 1.
+        &#34;&#34;&#34;
+        return self._sep_char
+
+    @property
+    def reverse_blocks(self) -&gt; bool:
+        &#34;&#34;&#34;
+            Whether individual char block should be reversed when encoding,
+            e.g. as done by the [base45 spec](https://datatracker.ietf.org/doc/draft-faltstrom-base45/)
+        &#34;&#34;&#34;
+        return self._reverse_blocks
+
+    def canonical_bytes(self, b: bytes) -&gt; bytes:
+        self._validate_bytes(b)
+        return b
+
+    def canonical_string(self, s: str) -&gt; str:
+        self._validate_string(s)
+        return s
+
+    def _validate_bytes(self, b: bytes) -&gt; bytes:
+        b = super()._validate_bytes(b)
+        last_block_nbytes = len(b)%self.block_nbytes
+        if last_block_nbytes &gt; 0 and last_block_nbytes not in self.nbytes2nchars:
+            raise EncodingError(f&#34;Last block of {last_block_nbytes} bytes not allowed.&#34;)
+        return b
+
+    def _validate_string(self, s: str) -&gt; str:
+        sep_char = self.sep_char
+        block_nchars = self.block_nchars
+        if sep_char:
+            char_blocks: List[str] = []
+            for idx in range(0, len(s), block_nchars+1):
+                char_block = s[idx:idx+block_nchars+1]
+                if len(char_block) == block_nchars+1:
+                    # intermediate block, must terminate with separator
+                    if char_block[-1] != sep_char:
+                        raise DecodingError(f&#34;Missing separator at end of block #{idx}&#34;)
+                    char_blocks.append(char_block[:-1])
+                else:
+                    # final block
+                    char_blocks.append(char_block)
+            s = &#34;&#34;.join(char_blocks)
+        s = super()._validate_string(s)
+        last_block_nchars = len(s)%self.block_nchars
+        if last_block_nchars &gt; 0 and last_block_nchars not in self.nchars2nbytes:
+            raise EncodingError(f&#34;Last block of {last_block_nchars} chars not allowed.&#34;)
+        return s
+
+    def _encode(self, b: bytes) -&gt; str:
+        zero_char = self.zero_char
+        block_nbytes = self.block_nbytes
+        nbytes2nchars = self.nbytes2nchars
+        reverse_blocks = self.reverse_blocks
+        # convert byte blocks into char blocks (all but last are block_nbytes long)
+        char_blocks: List[str] = []
+        for idx in range(0, len(b), block_nbytes):
+            # extract next byte block
+            byte_block = b[idx:idx+block_nbytes]
+            # simple encoding of byte block
+            s = self._block_encoding.encode(byte_block.lstrip(b&#34;\x00&#34;))
+            # number of chars in corresponding char block
+            block_nchars = nbytes2nchars[len(byte_block)]
+            if len(s) &gt; block_nchars:
+                raise InvalidByteBlockError(f&#34;Encoded value too large. Block bytes: {list(byte_block)}, encoded chars: {repr(s)}&#34;
+                                            f&#34;expected num of encoded chars: {block_nchars}).&#34;)
+            # pad char block to required number of characters and add to list
+            char_block = zero_char*(block_nchars-len(s))+s
+            if reverse_blocks:
+                char_block = char_block[::-1]
+            char_blocks.append(char_block)
+            print(list(byte_block), repr(char_block))
+        # join character blocks to form encoded string
+        return &#34;&#34;.join(char_blocks)
+
+    def _decode(self, s: str) -&gt; bytes:
+        zero_char = self.zero_char
+        block_nchars = self.block_nchars
+        nchars2nbytes = self.nchars2nbytes
+        reverse_blocks = self.reverse_blocks
+        # convert char blocks into byte blocks (all but last are block_nchars long)
+        byte_blocks: List[bytes] = []
+        for idx in range(0, len(s), block_nchars):
+            # extract next char block
+            char_block = s[idx:idx+block_nchars]
+            if reverse_blocks:
+                char_block = char_block[::-1]
+            # simple decoding of char block
+            b = self._block_encoding.decode(char_block.lstrip(zero_char))
+            # number of bytes in corresponding byte block
+            block_nbytes = nchars2nbytes[len(char_block)]
+            if len(b) &gt; block_nbytes:
+                raise InvalidCharBlockError(f&#34;Decoded value too large. Block chars: {repr(char_block)}, decoded bytes: {list(b)}&#34;
+                                            f&#34;expected num of decoded bytes: {block_nbytes}).&#34;)
+            # pad byte block to required number of bytes and add to list
+            byte_blocks.append(b&#34;\x00&#34;*(block_nbytes-len(b))+b)
+        # join byte blocks to form encoded string
+        return b&#34;&#34;.join(byte_blocks)
+
+    def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        options: Dict[str, Any] = {
+            &#34;block_size&#34;: self._init_block_size,
+        }
+        if not skip_defaults or self.sep_char != &#34;&#34;:
+            options[&#34;sep_char&#34;] = self.sep_char
+        if not skip_defaults or self.reverse_blocks is not False:
+            options[&#34;reverse_blocks&#34;] = self.reverse_blocks
+        return options
+
+    def with_options(self, **options: Any) -&gt; &#34;BlockBaseEncoding&#34;:
+        new_options = {**self.options()}
+        for name in options:
+            if name not in new_options:
+                raise KeyError(f&#34;Unknown option {repr(name)} for {type(self).__name__}&#34;)
+        new_options.update(options)
+        if isinstance(self._init_encoding, BaseEncoding):
+            return type(self)(self._init_encoding, case_sensitive=self._init_case_sensitive, **new_options)
+        return type(self)(self.alphabet, **new_options)
+
+    def __eq__(self, other: Any) -&gt; bool:
+        super_eq = super().__eq__(other)
+        if super_eq in (False, NotImplemented):
+            return super_eq
+        if not isinstance(other, BlockBaseEncoding):
+            return NotImplemented
+        if isinstance(self._init_encoding, BaseEncoding):
+            return self._init_encoding == other._init_encoding and self.case_sensitive == other.case_sensitive
+        return True
+
+    def __hash__(self) -&gt; int:
+        return hash((type(self), self.alphabet, self.block_encoding, tuple(self.options().items())))
+
+    def __repr__(self) -&gt; str:
+        type_name = type(self).__name__
+        if isinstance(self._init_encoding, BaseEncoding):
+            alphabet_str = f&#34;{self._init_encoding}, case_sensitive={self._init_case_sensitive}&#34;
+        else:
+            alphabet_str = repr(self.alphabet)
+        options = self.options(skip_defaults=True)
+        if not options:
+            return f&#34;{type_name}({alphabet_str})&#34;
+        options_str = &#34;, &#34;.join(f&#34;{name}={repr(value)}&#34; for name, value in options.items())
+        return f&#34;{type_name}({alphabet_str}, {options_str})&#34;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="bases.encoding.block.BlockBaseEncoding"><code class="flex name class">
+<span>class <span class="ident">BlockBaseEncoding</span></span>
+<span>(</span><span>encoding: Union[str, range, <a title="bases.alphabet.abstract.Alphabet" href="../alphabet/abstract.html#bases.alphabet.abstract.Alphabet">Alphabet</a>, <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a>], *, case_sensitive: Optional[bool] = None, block_size: Union[int, Mapping[int, int]], sep_char: str = '', reverse_blocks: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Block base encodings. Split the bytestring to encode (resp. string to decode) into blocks,
+then encodes (resp. decodes) each block individually using an underlying encoding.
+By default, the underlying encoding is a <code><a title="bases.encoding.simple.SimpleBaseEncoding" href="simple.html#bases.encoding.simple.SimpleBaseEncoding">SimpleBaseEncoding</a></code>.</p>
+<p>Constructor options:</p>
+<ul>
+<li><code>block_size: Union[int, Mapping[int, int]]</code> cf. below</li>
+<li><code>sep_char: str = ""</code> an optional separator character for encoded string blocks (empty string if unspecified)</li>
+<li><code>reverse_blocks: bool = False</code> an optional flag to reverse individual char blocks in the encoded string</li>
+</ul>
+<p>The <code>block_size</code> option is mandatory and determines the allowed block sizes for encoding and decoding:</p>
+<ul>
+<li>if <code>block_size</code> is a strictly increasing mapping of positive integers to positive integers, its keys are taken
+to be the allowed block byte sizes and its values are taken to be the corresponding block char sizes.</li>
+<li>if <code>block_size</code> is an integer, all block byte sizes in <code>range(1, block_size+1)</code> are allowed, and the coresponding
+block char sizes are computed by:</li>
+</ul>
+<p><code>py
+char_size = int(math.floor(math.log(256**byte_size, base)))+1</code></p>
+<p>The property <code><a title="bases.encoding.block.BlockBaseEncoding.nbytes2nchars" href="#bases.encoding.block.BlockBaseEncoding.nbytes2nchars">BlockBaseEncoding.nbytes2nchars</a></code> has all valid block byte sizes as keys and the corresponding block char sizes as values.
+The property <code><a title="bases.encoding.block.BlockBaseEncoding.nchars2nbytes" href="#bases.encoding.block.BlockBaseEncoding.nchars2nbytes">BlockBaseEncoding.nchars2nbytes</a></code> has all valid block char sizes as keys and the corresponding block byte sizes as values.
+Each pair of corresponding block byte and char sizes is assessed to ensure that encoding and decoding are unambiguous,
+using the static methods <code>ZeropadBaseEncoding.max_block_nchars</code> and <code>ZeropadBaseEncoding.max_block_nbytes</code>.</p>
+<p>The maximum valid block byte (resp. char) size is used on encoding (resp. decoding) for all blocks except at most the last one:
+if the number of bytes (resp. chars) in the last block is not valid, the bytestring (resp. string) is not valid overall.</p>
+<p>As a concrete example, the following is the constructor for the <a href="https://datatracker.ietf.org/doc/draft-faltstrom-base45/">base45 encoding</a>:</p>
+<pre><code class="language-py">base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3})
+</code></pre>
+<p>In this case, encoding uses blocks of 2 bytes, with the final block allowed to be 1 or 2 bytes. Decoding uses blocks of 3 chars, with the
+final block allowed to be 2 or 3 chars (but not 1 char). Because no encoding was explicitly specified, the encoding used is the simple
+encoding for the base45 alphabet.</p>
+<p>Encoding of a bytestring <code>b</code>:</p>
+<ol>
+<li>split <code>b</code> into blocks of size <code><a title="bases.encoding.block.BlockBaseEncoding.block_nbytes" href="#bases.encoding.block.BlockBaseEncoding.block_nbytes">BlockBaseEncoding.block_nbytes</a></code>, with the final block allowed to be any size in <code><a title="bases.encoding.block.BlockBaseEncoding.nbytes2nchars" href="#bases.encoding.block.BlockBaseEncoding.nbytes2nchars">BlockBaseEncoding.nbytes2nchars</a></code>
+(raise <code><a title="bases.encoding.errors.EncodingError" href="errors.html#bases.encoding.errors.EncodingError">EncodingError</a></code> if it isn't)</li>
+<li>encode each block individually using the <code><a title="bases.encoding.block.BlockBaseEncoding.block_encoding" href="#bases.encoding.block.BlockBaseEncoding.block_encoding">BlockBaseEncoding.block_encoding</a></code></li>
+<li>check that no encoded block string exceeds the block char size corresponding to the original block byte size</li>
+<li>prepend zero chars to each encoded block string until it reaches the designated block char size</li>
+<li>if <code>reverse_blocks</code>, reverse each individual char block</li>
+<li>join the blocks into the final encoded string (using the separator character <code><a title="bases.encoding.block.BlockBaseEncoding.sep_char" href="#bases.encoding.block.BlockBaseEncoding.sep_char">BlockBaseEncoding.sep_char</a></code>, if specified)</li>
+</ol>
+<p>Decoding of a string <code>s</code>:</p>
+<ol>
+<li>split <code>s</code> into blocks of size <code><a title="bases.encoding.block.BlockBaseEncoding.block_nchars" href="#bases.encoding.block.BlockBaseEncoding.block_nchars">BlockBaseEncoding.block_nchars</a></code>, with the final block allowed to be any size in <code><a title="bases.encoding.block.BlockBaseEncoding.nchars2nbytes" href="#bases.encoding.block.BlockBaseEncoding.nchars2nbytes">BlockBaseEncoding.nchars2nbytes</a></code>
+(raise <code><a title="bases.encoding.errors.DecodingError" href="errors.html#bases.encoding.errors.DecodingError">DecodingError</a></code> if it isn't)</li>
+<li>if <code>reverse_blocks</code>, reverse each individual char block</li>
+<li>decode each block individually using the <code><a title="bases.encoding.block.BlockBaseEncoding.block_encoding" href="#bases.encoding.block.BlockBaseEncoding.block_encoding">BlockBaseEncoding.block_encoding</a></code></li>
+<li>check that no decode block bytestring exceeds the block byte size corresponding to the original block char size</li>
+<li>prepend zero bytes to each decoded block bytestring until it reaches the designated block byte size</li>
+<li>join the blocks into the final decoded bytestring</li>
+</ol></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BlockBaseEncoding(BaseEncoding):
+    &#34;&#34;&#34;
+        Block base encodings. Split the bytestring to encode (resp. string to decode) into blocks,
+        then encodes (resp. decodes) each block individually using an underlying encoding.
+        By default, the underlying encoding is a `bases.encoding.simple.SimpleBaseEncoding`.
+
+        Constructor options:
+
+        - `block_size: Union[int, Mapping[int, int]]` cf. below
+        - `sep_char: str = &#34;&#34;` an optional separator character for encoded string blocks (empty string if unspecified)
+        - `reverse_blocks: bool = False` an optional flag to reverse individual char blocks in the encoded string
+
+        The `block_size` option is mandatory and determines the allowed block sizes for encoding and decoding:
+
+        - if `block_size` is a strictly increasing mapping of positive integers to positive integers, its keys are taken
+          to be the allowed block byte sizes and its values are taken to be the corresponding block char sizes.
+        - if `block_size` is an integer, all block byte sizes in `range(1, block_size+1)` are allowed, and the coresponding
+          block char sizes are computed by:
+
+          ```py
+          char_size = int(math.floor(math.log(256**byte_size, base)))+1
+          ```
+
+        The property `BlockBaseEncoding.nbytes2nchars` has all valid block byte sizes as keys and the corresponding block char sizes as values.
+        The property `BlockBaseEncoding.nchars2nbytes` has all valid block char sizes as keys and the corresponding block byte sizes as values.
+        Each pair of corresponding block byte and char sizes is assessed to ensure that encoding and decoding are unambiguous,
+        using the static methods `ZeropadBaseEncoding.max_block_nchars` and `ZeropadBaseEncoding.max_block_nbytes`.
+
+        The maximum valid block byte (resp. char) size is used on encoding (resp. decoding) for all blocks except at most the last one:
+        if the number of bytes (resp. chars) in the last block is not valid, the bytestring (resp. string) is not valid overall.
+
+        As a concrete example, the following is the constructor for the [base45 encoding](https://datatracker.ietf.org/doc/draft-faltstrom-base45/):
+
+        ```py
+        base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3})
+        ```
+
+        In this case, encoding uses blocks of 2 bytes, with the final block allowed to be 1 or 2 bytes. Decoding uses blocks of 3 chars, with the
+        final block allowed to be 2 or 3 chars (but not 1 char). Because no encoding was explicitly specified, the encoding used is the simple
+        encoding for the base45 alphabet.
+
+        Encoding of a bytestring `b`:
+
+        1. split `b` into blocks of size `BlockBaseEncoding.block_nbytes`, with the final block allowed to be any size in `BlockBaseEncoding.nbytes2nchars`
+           (raise `bases.encoding.errors.EncodingError` if it isn&#39;t)
+        2. encode each block individually using the `BlockBaseEncoding.block_encoding`
+        3. check that no encoded block string exceeds the block char size corresponding to the original block byte size
+        4. prepend zero chars to each encoded block string until it reaches the designated block char size
+        5. if `reverse_blocks`, reverse each individual char block
+        6. join the blocks into the final encoded string (using the separator character `BlockBaseEncoding.sep_char`, if specified)
+
+        Decoding of a string `s`:
+
+        1. split `s` into blocks of size `BlockBaseEncoding.block_nchars`, with the final block allowed to be any size in `BlockBaseEncoding.nchars2nbytes`
+           (raise `bases.encoding.errors.DecodingError` if it isn&#39;t)
+        2. if `reverse_blocks`, reverse each individual char block
+        3. decode each block individually using the `BlockBaseEncoding.block_encoding`
+        4. check that no decode block bytestring exceeds the block byte size corresponding to the original block char size
+        5. prepend zero bytes to each decoded block bytestring until it reaches the designated block byte size
+        6. join the blocks into the final decoded bytestring
+
+    &#34;&#34;&#34;
+    # pylint: disable = too-many-instance-attributes
+
+    _init_encoding: Union[str, range, Alphabet, BaseEncoding]
+    _init_case_sensitive: Optional[bool]
+    _init_block_size: Union[int, Mapping[int, int]]
+
+    _block_encoding: BaseEncoding
+    _nbytes2nchars: Mapping[int, int]
+    _nchars2nbytes: Mapping[int, int]
+    _block_nbytes: int
+    _sep_char: str = &#34;&#34;
+    _block_nchars: int
+    _reverse_blocks: bool = False
+
+    def __init__(self, encoding: Union[str, range, Alphabet, BaseEncoding], *,
+                 case_sensitive: Optional[bool] = None,
+                 block_size: Union[int, Mapping[int, int]],
+                 sep_char: str = &#34;&#34;,
+                 reverse_blocks: bool = False):
+        self._init_encoding = encoding
+        self._init_case_sensitive = case_sensitive
+        self._init_block_size = block_size
+
+        if isinstance(encoding, BaseEncoding):
+            alphabet: Union[str, range, Alphabet] = encoding.alphabet
+        else:
+            alphabet = encoding
+            encoding = SimpleBaseEncoding(alphabet)
+            print(alphabet, encoding)
+        super().__init__(alphabet, case_sensitive=case_sensitive)
+        self._block_encoding = encoding
+        self._sep_char = sep_char
+        self._reverse_blocks = reverse_blocks
+        if isinstance(block_size, int):
+            base = self.base
+            block_sizes: Mapping[int, int] = {
+                i: int(math.floor(math.log(256**i, base)))+1
+                for i in range(1, block_size+1)
+            }
+        else:
+            block_sizes = block_size
+        self._nbytes2nchars = MappingProxyType({
+            nbytes: block_sizes[nbytes]
+            for nbytes in sorted(block_sizes)
+        })
+        _nchars2nbytes = {
+            nchars: nbytes for nbytes, nchars in block_sizes.items()
+        }
+        self._nchars2nbytes = MappingProxyType({
+            nchars: _nchars2nbytes[nchars]
+            for nchars in sorted(_nchars2nbytes)
+        })
+        self._block_nbytes = max(self.nbytes2nchars)
+        self._block_nchars = max(self.nchars2nbytes)
+        self.__validate_init()
+
+    def __validate_init(self) -&gt; None:
+        base = self.base
+        sep_char = self.sep_char
+        nbytes2nchars = self.nbytes2nchars
+        if len(sep_char) not in (0, 1):
+            raise ValueError(&#34;Separator character must be empty string or length 1 string.&#34;)
+        prev_nchars: Optional[int] = None
+        for _, nchars in nbytes2nchars.items():
+            if prev_nchars is None:
+                prev_nchars = nchars
+            elif prev_nchars &gt;= nchars:
+                raise ValueError(&#34;Block char size must strictly increase with block byte size.&#34;)
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        max_block_nbytes = ZeropadBaseEncoding.max_block_nbytes(base, block_nchars)
+        max_block_nchars = ZeropadBaseEncoding.max_block_nchars(base, block_nbytes)
+        if block_nchars &gt; max_block_nchars:
+            raise ValueError(f&#34;Number of characters allowed in largest block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nbytes = {block_nbytes} is &#34;
+                             f&#34;block_nchars = {max_block_nchars}&#34;)
+        if block_nbytes &gt; max_block_nbytes:
+            raise ValueError(f&#34;Number of bytes allowed in largest block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nchars {block_nchars} is &#34;
+                             f&#34;block_nbytes = {max_block_nbytes}&#34;)
+
+    @property
+    def block_encoding(self) -&gt; BaseEncoding:
+        &#34;&#34;&#34;
+            The encoding used for individual blocks.
+        &#34;&#34;&#34;
+        return self._block_encoding
+
+    @property
+    def nbytes2nchars(self) -&gt; Mapping[int, int]:
+        &#34;&#34;&#34;
+            Mapping of bytes block sizes to char block sizes.
+        &#34;&#34;&#34;
+        return self._nbytes2nchars
+
+    @property
+    def nchars2nbytes(self) -&gt; Mapping[int, int]:
+        &#34;&#34;&#34;
+            Mapping of char block sizes to byte block sizes.
+        &#34;&#34;&#34;
+        return self._nchars2nbytes
+
+    @property
+    def block_nbytes(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of bytes in the largest blocks.
+        &#34;&#34;&#34;
+        return self._block_nbytes
+
+    @property
+    def block_nchars(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of characters in the largest blocks.
+        &#34;&#34;&#34;
+        return self._block_nchars
+
+    @property
+    def sep_char(self) -&gt; str:
+        &#34;&#34;&#34;
+            Optional block separation character.
+            It is either the empty string, or a string of length 1.
+        &#34;&#34;&#34;
+        return self._sep_char
+
+    @property
+    def reverse_blocks(self) -&gt; bool:
+        &#34;&#34;&#34;
+            Whether individual char block should be reversed when encoding,
+            e.g. as done by the [base45 spec](https://datatracker.ietf.org/doc/draft-faltstrom-base45/)
+        &#34;&#34;&#34;
+        return self._reverse_blocks
+
+    def canonical_bytes(self, b: bytes) -&gt; bytes:
+        self._validate_bytes(b)
+        return b
+
+    def canonical_string(self, s: str) -&gt; str:
+        self._validate_string(s)
+        return s
+
+    def _validate_bytes(self, b: bytes) -&gt; bytes:
+        b = super()._validate_bytes(b)
+        last_block_nbytes = len(b)%self.block_nbytes
+        if last_block_nbytes &gt; 0 and last_block_nbytes not in self.nbytes2nchars:
+            raise EncodingError(f&#34;Last block of {last_block_nbytes} bytes not allowed.&#34;)
+        return b
+
+    def _validate_string(self, s: str) -&gt; str:
+        sep_char = self.sep_char
+        block_nchars = self.block_nchars
+        if sep_char:
+            char_blocks: List[str] = []
+            for idx in range(0, len(s), block_nchars+1):
+                char_block = s[idx:idx+block_nchars+1]
+                if len(char_block) == block_nchars+1:
+                    # intermediate block, must terminate with separator
+                    if char_block[-1] != sep_char:
+                        raise DecodingError(f&#34;Missing separator at end of block #{idx}&#34;)
+                    char_blocks.append(char_block[:-1])
+                else:
+                    # final block
+                    char_blocks.append(char_block)
+            s = &#34;&#34;.join(char_blocks)
+        s = super()._validate_string(s)
+        last_block_nchars = len(s)%self.block_nchars
+        if last_block_nchars &gt; 0 and last_block_nchars not in self.nchars2nbytes:
+            raise EncodingError(f&#34;Last block of {last_block_nchars} chars not allowed.&#34;)
+        return s
+
+    def _encode(self, b: bytes) -&gt; str:
+        zero_char = self.zero_char
+        block_nbytes = self.block_nbytes
+        nbytes2nchars = self.nbytes2nchars
+        reverse_blocks = self.reverse_blocks
+        # convert byte blocks into char blocks (all but last are block_nbytes long)
+        char_blocks: List[str] = []
+        for idx in range(0, len(b), block_nbytes):
+            # extract next byte block
+            byte_block = b[idx:idx+block_nbytes]
+            # simple encoding of byte block
+            s = self._block_encoding.encode(byte_block.lstrip(b&#34;\x00&#34;))
+            # number of chars in corresponding char block
+            block_nchars = nbytes2nchars[len(byte_block)]
+            if len(s) &gt; block_nchars:
+                raise InvalidByteBlockError(f&#34;Encoded value too large. Block bytes: {list(byte_block)}, encoded chars: {repr(s)}&#34;
+                                            f&#34;expected num of encoded chars: {block_nchars}).&#34;)
+            # pad char block to required number of characters and add to list
+            char_block = zero_char*(block_nchars-len(s))+s
+            if reverse_blocks:
+                char_block = char_block[::-1]
+            char_blocks.append(char_block)
+            print(list(byte_block), repr(char_block))
+        # join character blocks to form encoded string
+        return &#34;&#34;.join(char_blocks)
+
+    def _decode(self, s: str) -&gt; bytes:
+        zero_char = self.zero_char
+        block_nchars = self.block_nchars
+        nchars2nbytes = self.nchars2nbytes
+        reverse_blocks = self.reverse_blocks
+        # convert char blocks into byte blocks (all but last are block_nchars long)
+        byte_blocks: List[bytes] = []
+        for idx in range(0, len(s), block_nchars):
+            # extract next char block
+            char_block = s[idx:idx+block_nchars]
+            if reverse_blocks:
+                char_block = char_block[::-1]
+            # simple decoding of char block
+            b = self._block_encoding.decode(char_block.lstrip(zero_char))
+            # number of bytes in corresponding byte block
+            block_nbytes = nchars2nbytes[len(char_block)]
+            if len(b) &gt; block_nbytes:
+                raise InvalidCharBlockError(f&#34;Decoded value too large. Block chars: {repr(char_block)}, decoded bytes: {list(b)}&#34;
+                                            f&#34;expected num of decoded bytes: {block_nbytes}).&#34;)
+            # pad byte block to required number of bytes and add to list
+            byte_blocks.append(b&#34;\x00&#34;*(block_nbytes-len(b))+b)
+        # join byte blocks to form encoded string
+        return b&#34;&#34;.join(byte_blocks)
+
+    def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        options: Dict[str, Any] = {
+            &#34;block_size&#34;: self._init_block_size,
+        }
+        if not skip_defaults or self.sep_char != &#34;&#34;:
+            options[&#34;sep_char&#34;] = self.sep_char
+        if not skip_defaults or self.reverse_blocks is not False:
+            options[&#34;reverse_blocks&#34;] = self.reverse_blocks
+        return options
+
+    def with_options(self, **options: Any) -&gt; &#34;BlockBaseEncoding&#34;:
+        new_options = {**self.options()}
+        for name in options:
+            if name not in new_options:
+                raise KeyError(f&#34;Unknown option {repr(name)} for {type(self).__name__}&#34;)
+        new_options.update(options)
+        if isinstance(self._init_encoding, BaseEncoding):
+            return type(self)(self._init_encoding, case_sensitive=self._init_case_sensitive, **new_options)
+        return type(self)(self.alphabet, **new_options)
+
+    def __eq__(self, other: Any) -&gt; bool:
+        super_eq = super().__eq__(other)
+        if super_eq in (False, NotImplemented):
+            return super_eq
+        if not isinstance(other, BlockBaseEncoding):
+            return NotImplemented
+        if isinstance(self._init_encoding, BaseEncoding):
+            return self._init_encoding == other._init_encoding and self.case_sensitive == other.case_sensitive
+        return True
+
+    def __hash__(self) -&gt; int:
+        return hash((type(self), self.alphabet, self.block_encoding, tuple(self.options().items())))
+
+    def __repr__(self) -&gt; str:
+        type_name = type(self).__name__
+        if isinstance(self._init_encoding, BaseEncoding):
+            alphabet_str = f&#34;{self._init_encoding}, case_sensitive={self._init_case_sensitive}&#34;
+        else:
+            alphabet_str = repr(self.alphabet)
+        options = self.options(skip_defaults=True)
+        if not options:
+            return f&#34;{type_name}({alphabet_str})&#34;
+        options_str = &#34;, &#34;.join(f&#34;{name}={repr(value)}&#34; for name, value in options.items())
+        return f&#34;{type_name}({alphabet_str}, {options_str})&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="bases.encoding.block.BlockBaseEncoding.block_encoding"><code class="name">var <span class="ident">block_encoding</span> : <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></code></dt>
+<dd>
+<div class="desc"><p>The encoding used for individual blocks.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def block_encoding(self) -&gt; BaseEncoding:
+    &#34;&#34;&#34;
+        The encoding used for individual blocks.
+    &#34;&#34;&#34;
+    return self._block_encoding</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.block.BlockBaseEncoding.block_nbytes"><code class="name">var <span class="ident">block_nbytes</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Number of bytes in the largest blocks.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def block_nbytes(self) -&gt; int:
+    &#34;&#34;&#34;
+        Number of bytes in the largest blocks.
+    &#34;&#34;&#34;
+    return self._block_nbytes</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.block.BlockBaseEncoding.block_nchars"><code class="name">var <span class="ident">block_nchars</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Number of characters in the largest blocks.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def block_nchars(self) -&gt; int:
+    &#34;&#34;&#34;
+        Number of characters in the largest blocks.
+    &#34;&#34;&#34;
+    return self._block_nchars</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.block.BlockBaseEncoding.nbytes2nchars"><code class="name">var <span class="ident">nbytes2nchars</span> : Mapping[int, int]</code></dt>
+<dd>
+<div class="desc"><p>Mapping of bytes block sizes to char block sizes.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def nbytes2nchars(self) -&gt; Mapping[int, int]:
+    &#34;&#34;&#34;
+        Mapping of bytes block sizes to char block sizes.
+    &#34;&#34;&#34;
+    return self._nbytes2nchars</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.block.BlockBaseEncoding.nchars2nbytes"><code class="name">var <span class="ident">nchars2nbytes</span> : Mapping[int, int]</code></dt>
+<dd>
+<div class="desc"><p>Mapping of char block sizes to byte block sizes.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def nchars2nbytes(self) -&gt; Mapping[int, int]:
+    &#34;&#34;&#34;
+        Mapping of char block sizes to byte block sizes.
+    &#34;&#34;&#34;
+    return self._nchars2nbytes</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.block.BlockBaseEncoding.reverse_blocks"><code class="name">var <span class="ident">reverse_blocks</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Whether individual char block should be reversed when encoding,
+e.g. as done by the <a href="https://datatracker.ietf.org/doc/draft-faltstrom-base45/">base45 spec</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def reverse_blocks(self) -&gt; bool:
+    &#34;&#34;&#34;
+        Whether individual char block should be reversed when encoding,
+        e.g. as done by the [base45 spec](https://datatracker.ietf.org/doc/draft-faltstrom-base45/)
+    &#34;&#34;&#34;
+    return self._reverse_blocks</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.block.BlockBaseEncoding.sep_char"><code class="name">var <span class="ident">sep_char</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Optional block separation character.
+It is either the empty string, or a string of length 1.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def sep_char(self) -&gt; str:
+    &#34;&#34;&#34;
+        Optional block separation character.
+        It is either the empty string, or a string of length 1.
+    &#34;&#34;&#34;
+    return self._sep_char</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></b></code>:
+<ul class="hlist">
+<li><code><a title="bases.encoding.base.BaseEncoding.alphabet" href="base.html#bases.encoding.base.BaseEncoding.alphabet">alphabet</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.base" href="base.html#bases.encoding.base.BaseEncoding.base">base</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.canonical_bytes" href="base.html#bases.encoding.base.BaseEncoding.canonical_bytes">canonical_bytes</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.canonical_string" href="base.html#bases.encoding.base.BaseEncoding.canonical_string">canonical_string</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.case_sensitive" href="base.html#bases.encoding.base.BaseEncoding.case_sensitive">case_sensitive</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.decode" href="base.html#bases.encoding.base.BaseEncoding.decode">decode</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.encode" href="base.html#bases.encoding.base.BaseEncoding.encode">encode</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.lower" href="base.html#bases.encoding.base.BaseEncoding.lower">lower</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.options" href="base.html#bases.encoding.base.BaseEncoding.options">options</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.upper" href="base.html#bases.encoding.base.BaseEncoding.upper">upper</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_alphabet" href="base.html#bases.encoding.base.BaseEncoding.with_alphabet">with_alphabet</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_case_sensitivity" href="base.html#bases.encoding.base.BaseEncoding.with_case_sensitivity">with_case_sensitivity</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_options" href="base.html#bases.encoding.base.BaseEncoding.with_options">with_options</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.zero_char" href="base.html#bases.encoding.base.BaseEncoding.zero_char">zero_char</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="bases.encoding" href="index.html">bases.encoding</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="bases.encoding.block.BlockBaseEncoding" href="#bases.encoding.block.BlockBaseEncoding">BlockBaseEncoding</a></code></h4>
+<ul class="two-column">
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.block_encoding" href="#bases.encoding.block.BlockBaseEncoding.block_encoding">block_encoding</a></code></li>
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.block_nbytes" href="#bases.encoding.block.BlockBaseEncoding.block_nbytes">block_nbytes</a></code></li>
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.block_nchars" href="#bases.encoding.block.BlockBaseEncoding.block_nchars">block_nchars</a></code></li>
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.nbytes2nchars" href="#bases.encoding.block.BlockBaseEncoding.nbytes2nchars">nbytes2nchars</a></code></li>
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.nchars2nbytes" href="#bases.encoding.block.BlockBaseEncoding.nchars2nbytes">nchars2nbytes</a></code></li>
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.reverse_blocks" href="#bases.encoding.block.BlockBaseEncoding.reverse_blocks">reverse_blocks</a></code></li>
+<li><code><a title="bases.encoding.block.BlockBaseEncoding.sep_char" href="#bases.encoding.block.BlockBaseEncoding.sep_char">sep_char</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

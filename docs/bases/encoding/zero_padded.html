@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>bases.encoding.zero_padded API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>bases.encoding.zero_padded</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import math
+from typing import Any, Dict, Mapping, Optional, Union
+
+from bases.alphabet import Alphabet
+from .base import BaseEncoding
+from .simple import SimpleBaseEncoding
+
+class ZeroPaddedBaseEncoding(BaseEncoding):
+
+    _simple_encoding: SimpleBaseEncoding
+    _block_nbytes: int
+    _block_nchars: int
+
+    def __init__(self, alphabet: Union[str, range, Alphabet], *,
+                 case_sensitive: Optional[bool] = None,
+                 block_nbytes: int = 1,
+                 block_nchars: int = 1):
+        super().__init__(alphabet, case_sensitive=case_sensitive)
+        self._simple_encoding = SimpleBaseEncoding(self.alphabet)
+        self._block_nbytes = block_nbytes
+        self._block_nchars = block_nchars
+        self.__validate_init()
+
+    def __validate_init(self) -&gt; None:
+        base = self.base
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        max_block_nbytes = ZeroPaddedBaseEncoding.max_block_nbytes(base, block_nchars)
+        max_block_nchars = ZeroPaddedBaseEncoding.max_block_nchars(base, block_nbytes)
+        if block_nchars &gt; max_block_nchars:
+            raise ValueError(f&#34;Number of characters allowed per zero-padding block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nbytes = {block_nbytes} is &#34;
+                             f&#34;block_nchars = {max_block_nchars}&#34;)
+        if block_nbytes &gt; max_block_nbytes:
+            raise ValueError(f&#34;Number of bytes allowed per zero-padding block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nchars {block_nchars} is &#34;
+                             f&#34;block_nbytes = {max_block_nbytes}&#34;)
+
+    @staticmethod
+    def max_block_nchars(base: int, block_nbytes: int) -&gt; int:
+        &#34;&#34;&#34;
+            Returns the maximum integer value for `block_chars` such that:
+
+            ```py
+                256**block_nbytes &gt; base**(block_nchars-1)
+            ```
+        &#34;&#34;&#34;
+        if base &lt;= 1:
+            raise ValueError(&#34;Base must be &gt;= 2.&#34;)
+        if block_nbytes &lt;= 0:
+            raise ValueError(&#34;Number of bytes per zero-padding block must be positive.&#34;)
+        _max_nc = block_nbytes/math.log(base, 256)+1
+        _max_nc_floor = int(math.floor(_max_nc))
+        return _max_nc_floor if _max_nc &gt; _max_nc_floor else _max_nc_floor-1
+
+
+    @staticmethod
+    def max_block_nbytes(base: int, block_nchars: int) -&gt; int:
+        &#34;&#34;&#34;
+            Returns the maximum integer value for `block_nbytes` such that:
+
+            ```py
+                base**block_nchars &gt; 256**(block_nbytes-1)
+            ```
+        &#34;&#34;&#34;
+        if base &lt;= 1:
+            raise ValueError(&#34;Base must be &gt;= 2.&#34;)
+        if block_nchars &lt;= 0:
+            raise ValueError(&#34;Number of chars per zero-padding block must be positive.&#34;)
+        _max_nb = block_nchars/math.log(256, base)+1
+        _max_nb_floor = int(math.floor(_max_nb))
+        return _max_nb_floor if _max_nb &gt; _max_nb_floor else _max_nb_floor-1
+
+
+    @property
+    def block_nbytes(self) -&gt; int:
+        return self._block_nbytes
+
+    @property
+    def block_nchars(self) -&gt; int:
+        return self._block_nchars
+
+    def _canonical_bytes(self, b: bytes) -&gt; bytes:
+        self._validate_bytes(b)
+        block_nbytes = self.block_nbytes
+        extra_bytes = len(b)%block_nbytes
+        if extra_bytes == 0:
+            return b
+        return b&#34;\x00&#34;*(block_nbytes-extra_bytes)+b
+
+    def _canonical_string(self, s: str) -&gt; str:
+        self._validate_string(s)
+        block_nchars = self.block_nchars
+        extra_chars = len(s)%block_nchars
+        if extra_chars == 0:
+            return s
+        return self.zero_char*(block_nchars-extra_chars)+s
+
+    def _encode(self, b: bytes) -&gt; str:
+        b = self._canonical_bytes(b)
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        zero_char = self.zero_char
+        # strip leading zero bytes
+        b_stripped = b.lstrip(b&#34;\x00&#34;)
+        # compute simple base encoding
+        s = self._simple_encoding.encode(b_stripped)
+        # pad simple base encoding to integral multiple of block char size
+        extra_chars = len(s)%block_nchars
+        if extra_chars != 0:
+            s = zero_char*(block_nchars-extra_chars)+s
+        # count leading zero blocks
+        num_zero_blocks = (len(b)-len(b_stripped))//block_nbytes
+        # return zero-padded base encoding
+        s = zero_char*num_zero_blocks*block_nchars+s
+        return s
+
+    def _decode(self, s: str) -&gt; bytes:
+        s = self._canonical_string(s)
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        # strip leading zero chars
+        s_stripped = s.lstrip(self.zero_char)
+        # compute simple base decoding
+        b = self._simple_encoding.decode(s_stripped)
+        # pad simple base decoding to integral multiple of block byte size
+        extra_bytes = len(b)%block_nbytes
+        if extra_bytes != 0:
+            b = b&#34;\x00&#34;*(block_nbytes-extra_bytes)+b
+        # compute leading zero blocks
+        num_zero_blocks = (len(s)-len(s_stripped))//block_nchars
+        # return zero-padded base decoding
+        b = b&#34;\x00&#34;*num_zero_blocks*block_nbytes+b
+        return b
+
+    def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        options: Dict[str, Any] = {}
+        if not skip_defaults or self.block_nbytes != 1:
+            options[&#34;block_nbytes&#34;] = self.block_nbytes
+        if not skip_defaults or self.block_nchars != 1:
+            options[&#34;block_nchars&#34;] = self.block_nchars
+        return options</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="bases.encoding.zero_padded.ZeroPaddedBaseEncoding"><code class="flex name class">
+<span>class <span class="ident">ZeroPaddedBaseEncoding</span></span>
+<span>(</span><span>alphabet: Union[str, range, <a title="bases.alphabet.abstract.Alphabet" href="../alphabet/abstract.html#bases.alphabet.abstract.Alphabet">Alphabet</a>], *, case_sensitive: Optional[bool] = None, block_nbytes: int = 1, block_nchars: int = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ZeroPaddedBaseEncoding(BaseEncoding):
+
+    _simple_encoding: SimpleBaseEncoding
+    _block_nbytes: int
+    _block_nchars: int
+
+    def __init__(self, alphabet: Union[str, range, Alphabet], *,
+                 case_sensitive: Optional[bool] = None,
+                 block_nbytes: int = 1,
+                 block_nchars: int = 1):
+        super().__init__(alphabet, case_sensitive=case_sensitive)
+        self._simple_encoding = SimpleBaseEncoding(self.alphabet)
+        self._block_nbytes = block_nbytes
+        self._block_nchars = block_nchars
+        self.__validate_init()
+
+    def __validate_init(self) -&gt; None:
+        base = self.base
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        max_block_nbytes = ZeroPaddedBaseEncoding.max_block_nbytes(base, block_nchars)
+        max_block_nchars = ZeroPaddedBaseEncoding.max_block_nchars(base, block_nbytes)
+        if block_nchars &gt; max_block_nchars:
+            raise ValueError(f&#34;Number of characters allowed per zero-padding block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nbytes = {block_nbytes} is &#34;
+                             f&#34;block_nchars = {max_block_nchars}&#34;)
+        if block_nbytes &gt; max_block_nbytes:
+            raise ValueError(f&#34;Number of bytes allowed per zero-padding block is too large: &#34;
+                             f&#34;the maximum for base = {base} and block_nchars {block_nchars} is &#34;
+                             f&#34;block_nbytes = {max_block_nbytes}&#34;)
+
+    @staticmethod
+    def max_block_nchars(base: int, block_nbytes: int) -&gt; int:
+        &#34;&#34;&#34;
+            Returns the maximum integer value for `block_chars` such that:
+
+            ```py
+                256**block_nbytes &gt; base**(block_nchars-1)
+            ```
+        &#34;&#34;&#34;
+        if base &lt;= 1:
+            raise ValueError(&#34;Base must be &gt;= 2.&#34;)
+        if block_nbytes &lt;= 0:
+            raise ValueError(&#34;Number of bytes per zero-padding block must be positive.&#34;)
+        _max_nc = block_nbytes/math.log(base, 256)+1
+        _max_nc_floor = int(math.floor(_max_nc))
+        return _max_nc_floor if _max_nc &gt; _max_nc_floor else _max_nc_floor-1
+
+
+    @staticmethod
+    def max_block_nbytes(base: int, block_nchars: int) -&gt; int:
+        &#34;&#34;&#34;
+            Returns the maximum integer value for `block_nbytes` such that:
+
+            ```py
+                base**block_nchars &gt; 256**(block_nbytes-1)
+            ```
+        &#34;&#34;&#34;
+        if base &lt;= 1:
+            raise ValueError(&#34;Base must be &gt;= 2.&#34;)
+        if block_nchars &lt;= 0:
+            raise ValueError(&#34;Number of chars per zero-padding block must be positive.&#34;)
+        _max_nb = block_nchars/math.log(256, base)+1
+        _max_nb_floor = int(math.floor(_max_nb))
+        return _max_nb_floor if _max_nb &gt; _max_nb_floor else _max_nb_floor-1
+
+
+    @property
+    def block_nbytes(self) -&gt; int:
+        return self._block_nbytes
+
+    @property
+    def block_nchars(self) -&gt; int:
+        return self._block_nchars
+
+    def _canonical_bytes(self, b: bytes) -&gt; bytes:
+        self._validate_bytes(b)
+        block_nbytes = self.block_nbytes
+        extra_bytes = len(b)%block_nbytes
+        if extra_bytes == 0:
+            return b
+        return b&#34;\x00&#34;*(block_nbytes-extra_bytes)+b
+
+    def _canonical_string(self, s: str) -&gt; str:
+        self._validate_string(s)
+        block_nchars = self.block_nchars
+        extra_chars = len(s)%block_nchars
+        if extra_chars == 0:
+            return s
+        return self.zero_char*(block_nchars-extra_chars)+s
+
+    def _encode(self, b: bytes) -&gt; str:
+        b = self._canonical_bytes(b)
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        zero_char = self.zero_char
+        # strip leading zero bytes
+        b_stripped = b.lstrip(b&#34;\x00&#34;)
+        # compute simple base encoding
+        s = self._simple_encoding.encode(b_stripped)
+        # pad simple base encoding to integral multiple of block char size
+        extra_chars = len(s)%block_nchars
+        if extra_chars != 0:
+            s = zero_char*(block_nchars-extra_chars)+s
+        # count leading zero blocks
+        num_zero_blocks = (len(b)-len(b_stripped))//block_nbytes
+        # return zero-padded base encoding
+        s = zero_char*num_zero_blocks*block_nchars+s
+        return s
+
+    def _decode(self, s: str) -&gt; bytes:
+        s = self._canonical_string(s)
+        block_nbytes = self.block_nbytes
+        block_nchars = self.block_nchars
+        # strip leading zero chars
+        s_stripped = s.lstrip(self.zero_char)
+        # compute simple base decoding
+        b = self._simple_encoding.decode(s_stripped)
+        # pad simple base decoding to integral multiple of block byte size
+        extra_bytes = len(b)%block_nbytes
+        if extra_bytes != 0:
+            b = b&#34;\x00&#34;*(block_nbytes-extra_bytes)+b
+        # compute leading zero blocks
+        num_zero_blocks = (len(s)-len(s_stripped))//block_nchars
+        # return zero-padded base decoding
+        b = b&#34;\x00&#34;*num_zero_blocks*block_nbytes+b
+        return b
+
+    def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        options: Dict[str, Any] = {}
+        if not skip_defaults or self.block_nbytes != 1:
+            options[&#34;block_nbytes&#34;] = self.block_nbytes
+        if not skip_defaults or self.block_nchars != 1:
+            options[&#34;block_nchars&#34;] = self.block_nchars
+        return options</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.max_block_nbytes"><code class="name flex">
+<span>def <span class="ident">max_block_nbytes</span></span>(<span>base: int, block_nchars: int) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the maximum integer value for <code>block_nbytes</code> such that:</p>
+<pre><code class="language-py">    base**block_nchars &gt; 256**(block_nbytes-1)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def max_block_nbytes(base: int, block_nchars: int) -&gt; int:
+    &#34;&#34;&#34;
+        Returns the maximum integer value for `block_nbytes` such that:
+
+        ```py
+            base**block_nchars &gt; 256**(block_nbytes-1)
+        ```
+    &#34;&#34;&#34;
+    if base &lt;= 1:
+        raise ValueError(&#34;Base must be &gt;= 2.&#34;)
+    if block_nchars &lt;= 0:
+        raise ValueError(&#34;Number of chars per zero-padding block must be positive.&#34;)
+    _max_nb = block_nchars/math.log(256, base)+1
+    _max_nb_floor = int(math.floor(_max_nb))
+    return _max_nb_floor if _max_nb &gt; _max_nb_floor else _max_nb_floor-1</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.max_block_nchars"><code class="name flex">
+<span>def <span class="ident">max_block_nchars</span></span>(<span>base: int, block_nbytes: int) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the maximum integer value for <code>block_chars</code> such that:</p>
+<pre><code class="language-py">    256**block_nbytes &gt; base**(block_nchars-1)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def max_block_nchars(base: int, block_nbytes: int) -&gt; int:
+    &#34;&#34;&#34;
+        Returns the maximum integer value for `block_chars` such that:
+
+        ```py
+            256**block_nbytes &gt; base**(block_nchars-1)
+        ```
+    &#34;&#34;&#34;
+    if base &lt;= 1:
+        raise ValueError(&#34;Base must be &gt;= 2.&#34;)
+    if block_nbytes &lt;= 0:
+        raise ValueError(&#34;Number of bytes per zero-padding block must be positive.&#34;)
+    _max_nc = block_nbytes/math.log(base, 256)+1
+    _max_nc_floor = int(math.floor(_max_nc))
+    return _max_nc_floor if _max_nc &gt; _max_nc_floor else _max_nc_floor-1</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.block_nbytes"><code class="name">var <span class="ident">block_nbytes</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def block_nbytes(self) -&gt; int:
+    return self._block_nbytes</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.block_nchars"><code class="name">var <span class="ident">block_nchars</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def block_nchars(self) -&gt; int:
+    return self._block_nchars</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.options"><code class="name flex">
+<span>def <span class="ident">options</span></span>(<span>self, skip_defaults: bool = False) ‑> Mapping[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+    options: Dict[str, Any] = {}
+    if not skip_defaults or self.block_nbytes != 1:
+        options[&#34;block_nbytes&#34;] = self.block_nbytes
+    if not skip_defaults or self.block_nchars != 1:
+        options[&#34;block_nchars&#34;] = self.block_nchars
+    return options</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></b></code>:
+<ul class="hlist">
+<li><code><a title="bases.encoding.base.BaseEncoding.alphabet" href="base.html#bases.encoding.base.BaseEncoding.alphabet">alphabet</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.base" href="base.html#bases.encoding.base.BaseEncoding.base">base</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.case_sensitive" href="base.html#bases.encoding.base.BaseEncoding.case_sensitive">case_sensitive</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.lower" href="base.html#bases.encoding.base.BaseEncoding.lower">lower</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.upper" href="base.html#bases.encoding.base.BaseEncoding.upper">upper</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_case_sensitivity" href="base.html#bases.encoding.base.BaseEncoding.with_case_sensitivity">with_case_sensitivity</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.zero_char" href="base.html#bases.encoding.base.BaseEncoding.zero_char">zero_char</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="bases.encoding" href="index.html">bases.encoding</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="bases.encoding.zero_padded.ZeroPaddedBaseEncoding" href="#bases.encoding.zero_padded.ZeroPaddedBaseEncoding">ZeroPaddedBaseEncoding</a></code></h4>
+<ul class="">
+<li><code><a title="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.block_nbytes" href="#bases.encoding.zero_padded.ZeroPaddedBaseEncoding.block_nbytes">block_nbytes</a></code></li>
+<li><code><a title="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.block_nchars" href="#bases.encoding.zero_padded.ZeroPaddedBaseEncoding.block_nchars">block_nchars</a></code></li>
+<li><code><a title="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.max_block_nbytes" href="#bases.encoding.zero_padded.ZeroPaddedBaseEncoding.max_block_nbytes">max_block_nbytes</a></code></li>
+<li><code><a title="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.max_block_nchars" href="#bases.encoding.zero_padded.ZeroPaddedBaseEncoding.max_block_nchars">max_block_nchars</a></code></li>
+<li><code><a title="bases.encoding.zero_padded.ZeroPaddedBaseEncoding.options" href="#bases.encoding.zero_padded.ZeroPaddedBaseEncoding.options">options</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

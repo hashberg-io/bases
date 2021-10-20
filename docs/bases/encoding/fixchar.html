@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>bases.encoding.fixchar API documentation</title>
+<meta name="description" content="Fixed-character base encodings." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>bases.encoding.fixchar</code></h1>
+</header>
+<section id="section-intro">
+<p>Fixed-character base encodings.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+    Fixed-character base encodings.
+&#34;&#34;&#34;
+
+import math
+from typing import Any, Dict, List, Mapping, Optional, Union
+from typing_extensions import Literal
+
+from bases.alphabet import Alphabet
+from .base import BaseEncoding
+from .errors import DecodingError, InvalidDigitError, PaddingError
+
+PaddingOptions = Literal[&#34;ignore&#34;, &#34;include&#34;, &#34;require&#34;]
+&#34;&#34;&#34;
+    Type of allowed padding options for fixed-character encoding:
+
+    ```py
+    PaddingOptions = Literal[&#34;ignore&#34;, &#34;include&#34;, &#34;require&#34;]
+    ```
+
+    See `FixcharBaseEncoding.padding`.
+&#34;&#34;&#34;
+
+def _lcm(a: int, b: int) -&gt; int:
+    # math.lcm only available in Python 3.8+
+    return a*b//math.gcd(a, b)
+
+class FixcharBaseEncoding(BaseEncoding):
+    &#34;&#34;&#34;
+        Fixed-character encodings, generalising those described by [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html).
+
+        Constructor options:
+
+        - `char_nbits: Union[int, Literal[&#34;auto&#34;]] = &#34;auto&#34;`, number of bits per character
+        - `pad_char: Optional[str] = None`, optional padding character
+        - `padding: PaddingOptions = &#34;ignore&#34;`, padding style
+
+        If `char_nbits` is set to `&#34;auto&#34;` (by default), it is automatically computed as:
+
+        ```py
+        int(math.ceil(math.log2(base)))
+        ```
+
+        From `char_nbits`, size of a block (in bytes and chars) is computed as:
+
+        ```py
+        block_nbytes = lcm(char_nbits, 8)//8
+        block_nchars = lcm(char_nbits, 8)//char_nbits
+        ```
+
+        The value `block_nbytes` is presently not used, while the `block_nchars` is used for padding.
+
+        The `padding` option must be set to `&#34;ignore&#34;` if a padding character is not specified (i.e. if `pad_char` is `None`).
+        If a padding character is specified, it must be a character (string of length 1) not in the encoding alphabet:
+        it is allowed in decoding strings, but only at then end (so that `s.rstrip(pad_char)` removes all padding).
+
+        The padding behaviour is determined by the value of `padding`:
+
+        - `&#34;ignore&#34;`: no padding included on encoding, no padding required on decoding
+        - `&#34;include&#34;`: padding included on encoding, no padding required on decoding
+        - `&#34;require&#34;`: padding included on encoding, padding required on decoding
+
+        Encoding of a bytestring `b`:
+
+        1. compute the minimum number `extra_nbits` of additional bits necessary to make `8*len(b)` an integral multiple of `char_nbits`
+        2. convert `b` to an unsigned integer `i` (big-endian)
+        3. left-shift `i` by `extra_nbits` bits, introducing the necessary zero _pad bits_
+        4. converts `i` to the encoding base, using the encoding alphabet for digits
+        5. if `padding` is `&#34;include&#34;` or `&#34;require&#34;`, append the minimum number of padding characters necessary to make the encoded
+           string length an integral multiple of `block_nchars`
+
+        Decoding of a string `s`:
+
+        1. if `pad_char` is not `None`, count the number N of contiguous padding characters at the end of `s` and strip them, obtaining `s_stripped`
+        2. if `padding` is `&#34;require&#34;`, ensure that N is exactly the minimum number of padding characters that must be appended to `s_stripped`
+           to make its length an integral multiple of `block_nchars`
+        3. converts `s` to an unsigned integer `i`, using the encoding alphabet for digits of the encoding base
+        4. compute the number `extra_nbits = (char_nbits*len(s))%8` of pad bits: if this is not smaller than `char_nbits`,
+           raise `bases.encoding.errors.DecodingError`
+        5. extract the value `i%(2**extra_nbits)` of the pad bits: if this is not zero, raise `bases.encoding.errors.DecodingError`
+        6. compute the number of bytes in the decoded bytestring as `original_nbytes = (char_nbits*len(s))//8`
+        7. right-shift `i` by `extra_nbits` bits, removing the zero pad bits
+        8. converts `i` to its minimal byte representation (big-endian), then zero-pad on the left to reach `original_nbytes` bytes
+    &#34;&#34;&#34;
+
+    _char_nbits: int
+    _init_char_nbits: Union[int, Literal[&#34;auto&#34;]]
+    _pad_char: Optional[str] = None
+    _padding: PaddingOptions = &#34;ignore&#34;
+    _block_nbytes: int
+    _block_nchars: int
+
+    def __init__(self, alphabet: Union[str, range, Alphabet], *,
+                 case_sensitive: Optional[bool] = None,
+                 char_nbits: Union[int, Literal[&#34;auto&#34;]] = &#34;auto&#34;,
+                 pad_char: Optional[str] = None,
+                 padding: PaddingOptions = &#34;ignore&#34;):
+        if padding not in (&#34;ignore&#34;, &#34;include&#34;, &#34;require&#34;):
+            raise TypeError(&#34;Allowed padding options are: &#39;ignore&#39;, &#39;include&#39; and &#39;require&#39;.&#34;)
+        super().__init__(alphabet, case_sensitive=case_sensitive)
+        self._init_char_nbits = char_nbits
+        if char_nbits == &#34;auto&#34;:
+            char_nbits = int(math.ceil(math.log2(self.base)))
+        self._char_nbits = char_nbits
+        self._pad_char = pad_char
+        self._padding = padding
+        self.__validate_init()
+        l = _lcm(char_nbits, 8)
+        self._block_nbytes = l//8
+        self._block_nchars = l//char_nbits
+
+    def __validate_init(self) -&gt; None:
+        alphabet = self.alphabet
+        pad_char = self.pad_char
+        if pad_char is None:
+            if self.padding != &#34;ignore&#34;:
+                raise ValueError(&#34;If padding is not &#39;ignore&#39;, a padding character must be specified.&#34;)
+        else:
+            if len(pad_char) != 1:
+                raise ValueError(&#34;If specified, padding character must have length 1.&#34;)
+            if pad_char in alphabet:
+                raise ValueError(&#34;Padding character cannot be in the alphabet.&#34;)
+        char_nbits = self.char_nbits
+        if char_nbits is not None:
+            if char_nbits &lt;= 0:
+                raise ValueError(&#34;If specified, number of bits per character must be positive.&#34;)
+            if 2**char_nbits &lt; self.base:
+                raise ValueError(f&#34;Number of bits per character is insufficient to cover the whole alphabet. This is likely a mistake. &#34;
+                                 f&#34;If it isn&#39;t, please truncate the alphabet to {2**char_nbits} characters (or less).&#34;)
+
+    @property
+    def char_nbits(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of bits per character.
+        &#34;&#34;&#34;
+        return self._char_nbits
+
+    @property
+    def block_nchars(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of characters in a block.
+        &#34;&#34;&#34;
+        return self._block_nchars
+
+    @property
+    def effective_base(self) -&gt; int:
+        &#34;&#34;&#34;
+            Effective base used when decoding is `2**char_nbits`.
+        &#34;&#34;&#34;
+        effective_base: int = 2**self.char_nbits
+        return effective_base
+
+    @property
+    def padding(self) -&gt; PaddingOptions:
+        &#34;&#34;&#34;
+            Padding style:
+
+            - `&#34;ignore&#34;`: no padding included on encoding, no padding required on decoding
+            - `&#34;include&#34;`: padding included on encoding, no padding required on decoding
+            - `&#34;require&#34;`: padding included on encoding, padding required on decoding
+        &#34;&#34;&#34;
+        return self._padding
+
+    @property
+    def include_padding(self) -&gt; bool:
+        &#34;&#34;&#34;
+            Whether padding is included on encoding (derived from `FixcharBaseEncoding.padding`).
+        &#34;&#34;&#34;
+        return self.padding in (&#34;include&#34;, &#34;require&#34;)
+
+    @property
+    def require_padding(self) -&gt; bool:
+        &#34;&#34;&#34;
+            Whether padding is required on decoding (derived from `FixcharBaseEncoding.padding`).
+        &#34;&#34;&#34;
+        return self.padding == &#34;require&#34;
+
+    @property
+    def pad_char(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+            An optional character to be used for padding of encoded strings.
+            In [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html), this is `&#34;=&#34;` for both base64 and base32.
+        &#34;&#34;&#34;
+        return self._pad_char
+
+    def pad(self, require: bool = False) -&gt; &#34;FixcharBaseEncoding&#34;:
+        &#34;&#34;&#34;
+            Returns a copy of this encoding which includes paddding (and optionally requires it).
+
+            Example usage, from `&#34;include&#34;` to `&#34;require&#34;`:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            &gt;&gt;&gt; encoding.base32.pad(require=True)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;require&#39;)
+            ```
+
+            Example usage, from `&#34;ignore&#34;` to `&#34;include&#34;`:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32z
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                               case_sensitive=False))
+            &gt;&gt;&gt; encoding.base32z.with_pad_char(&#34;=&#34;)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;)
+            &gt;&gt;&gt; encoding.base32z.with_pad_char(&#34;=&#34;).pad()
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            ```
+        &#34;&#34;&#34;
+        options = dict(padding=&#34;require&#34; if require else &#34;include&#34;)
+        return self.with_options(**options)
+
+    def nopad(self, allow: bool = True) -&gt; &#34;FixcharBaseEncoding&#34;:
+        &#34;&#34;&#34;
+            Returns a copy of this encoding which does not include/require paddding
+            (and optionally disallows it by removing the padding character).
+
+            Example usage:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            &gt;&gt;&gt; encoding.base32.nopad()
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;)
+            &gt;&gt;&gt; encoding.base32.nopad(allow=False)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False))
+            ```
+        &#34;&#34;&#34;
+        options = dict(padding=&#34;ignore&#34;, pad_char=self.pad_char if allow else None)
+        return self.with_options(**options)
+
+    def with_pad_char(self, pad_char: Optional[str]) -&gt; &#34;FixcharBaseEncoding&#34;:
+        &#34;&#34;&#34;
+            Returns a copy of this encoding with a different padding character
+            (or without a padding character if `pad_char` is `None`).
+
+            Example usage:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            &gt;&gt;&gt; encoding.base32.with_pad_char(&#34;~&#34;)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;~&#39;, padding=&#39;include&#39;)
+            ```
+
+        &#34;&#34;&#34;
+        options: Dict[str, Any] = dict(pad_char=pad_char)
+        if pad_char is None:
+            options[&#34;padding&#34;] = &#34;ignore&#34;
+        return self.with_options(**options)
+
+    def pad_string(self, s: str) -&gt; str:
+        &#34;&#34;&#34;
+            If no padding character is specified for this encoding, returns the input string unchanged.
+            If a padding character is specified for this encoding, pads the input string by appending the
+            minimum number of padding characters necessary to make its length an integral multiple of the
+            block char size (given by `FixcharBaseEncoding.block_nchars`).
+
+            The value of `FixcharBaseEncoding.padding` is irrelevant to this method.
+        &#34;&#34;&#34;
+        if not isinstance(s, str):
+            raise TypeError()
+        pad_char = self.pad_char
+        block_nchars = self._block_nchars
+        # no padding available for this encoding scheme
+        if pad_char is None:
+            return s
+        # padding available, but no need for padding
+        if len(s)%block_nchars == 0:
+            return s
+        # compute require padding length
+        pad_len = block_nchars-(len(s)%block_nchars)
+        # return padded string
+        return s+pad_char*pad_len
+
+    def strip_string(self, s: str) -&gt; str:
+        &#34;&#34;&#34;
+            If no padding character is specified for this encoding, returns the input string unchanged.
+            If a padding character is specified for this encoding, strips the input string of any padding
+            characters it might have to the right.
+            If `FixcharBaseEncoding.padding` is set to `&#34;require&#34;`, checks that the correct number of
+            padding characters were included and raises `bases.encoding.errors.PaddingError` if not.
+        &#34;&#34;&#34;
+        if not isinstance(s, str):
+            raise TypeError()
+        pad_char = self.pad_char
+        case_sensitive = self.case_sensitive
+        block_nchars = self._block_nchars
+        # no padding available for this encoding scheme
+        if pad_char is None:
+            return s
+        # padding character(s) to strip from the right of the string
+        pad_chars = pad_char
+        if not case_sensitive:
+            pad_chars += pad_char.lower()+pad_char.upper()
+        # strip padding from string
+        s_stripped = s.rstrip(pad_chars)
+        # if padding is required on decoding, check the correct amount was included
+        if self.require_padding:
+            padding = len(s)-len(s_stripped)
+            extra_nchars = len(s_stripped)%block_nchars
+            expected_padding = 0 if extra_nchars == 0 else block_nchars-extra_nchars
+            if padding != expected_padding:
+                raise PaddingError(padding, expected_padding)
+        return s_stripped
+
+    def canonical_bytes(self, b: bytes) -&gt; bytes:
+        self._validate_bytes(b)
+        return b
+
+    def canonical_string(self, s: str) -&gt; str:
+        if self.include_padding:
+            return self.pad_string(s)
+        return self.strip_string(s)
+
+    def _validate_string(self, s: str) -&gt; str:
+        s = self.strip_string(s)
+        return super()._validate_string(s)
+
+    def _encode(self, b: bytes) -&gt; str:
+        alphabet = self.alphabet
+        base = self.base
+        char_nbits = self.char_nbits
+        effective_base = self.effective_base
+        # bytes as unsigned integer
+        i = int.from_bytes(b, byteorder=&#34;big&#34;)
+        # add padding bits (align to integral number of characters)
+        nchars, extra_nbits = divmod((8*len(b)), char_nbits)
+        if extra_nbits &gt; 0:
+            i &lt;&lt;= char_nbits-extra_nbits # pad bits set to 0
+            nchars += 1
+        # compute characters in reverse order
+        revchars: List[str] = []
+        for _ in range(nchars):
+            # extract next digit by consuming rightmost char_nbits
+            # Same as: d = i % (2**char_nbits); i &gt;&gt;= char_nbits
+            i, d = divmod(i, effective_base)
+            # ensure digit is valid for actual base (number of characters in the alphabet)
+            if not d &lt; base:
+                raise InvalidDigitError(d, base)
+            # add the next character to the list
+            revchars.append(alphabet[d])
+        # join characters, pad string (if padding is to be included) and return
+        s = &#34;&#34;.join(reversed(revchars))
+        if not self.include_padding:
+            return s
+        return self.pad_string(s)
+
+    def _decode(self, s: str) -&gt; bytes:
+        base = self.base
+        char_nbits = self.char_nbits
+        alphabet_revdir = self.alphabet.revdir
+        # decode string into unsigned integer
+        i = 0
+        for c in s:
+            d = alphabet_revdir[c]
+            i = i*base + d
+        # remove padding bits (ensure that there are not too many and that they are all set to zero)
+        original_nbytes, extra_nbits = divmod((char_nbits*len(s)), 8)
+        if extra_nbits &gt;= char_nbits:
+            raise DecodingError(f&#34;More pad bits found ({extra_nbits}) than bits per character ({char_nbits}).&#34;)
+        if extra_nbits &gt; 0:
+            i, pad_bits = divmod(i, 2**extra_nbits)
+            if pad_bits != 0:
+                raise DecodingError(&#34;Pad bits must be zero.&#34;)
+        # convert unsigned integer into the required number of bytes (zero-pad to the left)
+        return i.to_bytes(length=original_nbytes, byteorder=&#34;big&#34;)
+
+    def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        options: Dict[str, Any] = {}
+        if not skip_defaults or self._init_char_nbits != &#34;auto&#34;:
+            options[&#34;char_nbits&#34;] = self._init_char_nbits
+        if not skip_defaults or self.pad_char is not None:
+            options[&#34;pad_char&#34;] = self.pad_char
+        if not skip_defaults or self.padding != &#34;ignore&#34;:
+            options[&#34;padding&#34;] = self.padding
+        return options</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="bases.encoding.fixchar.PaddingOptions"><code class="name">var <span class="ident">PaddingOptions</span></code></dt>
+<dd>
+<div class="desc"><p>Type of allowed padding options for fixed-character encoding:</p>
+<pre><code class="language-py">PaddingOptions = Literal[&quot;ignore&quot;, &quot;include&quot;, &quot;require&quot;]
+</code></pre>
+<p>See <code><a title="bases.encoding.fixchar.FixcharBaseEncoding.padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.padding">FixcharBaseEncoding.padding</a></code>.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding"><code class="flex name class">
+<span>class <span class="ident">FixcharBaseEncoding</span></span>
+<span>(</span><span>alphabet: Union[str, range, <a title="bases.alphabet.abstract.Alphabet" href="../alphabet/abstract.html#bases.alphabet.abstract.Alphabet">Alphabet</a>], *, case_sensitive: Optional[bool] = None, char_nbits: Union[int, Literal['auto']] = 'auto', pad_char: Optional[str] = None, padding: Literal['ignore', 'include', 'require'] = 'ignore')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fixed-character encodings, generalising those described by <a href="https://datatracker.ietf.org/doc/html/rfc4648.html">rfc4648</a>.</p>
+<p>Constructor options:</p>
+<ul>
+<li><code>char_nbits: Union[int, Literal["auto"]] = "auto"</code>, number of bits per character</li>
+<li><code>pad_char: Optional[str] = None</code>, optional padding character</li>
+<li><code>padding: PaddingOptions = "ignore"</code>, padding style</li>
+</ul>
+<p>If <code>char_nbits</code> is set to <code>"auto"</code> (by default), it is automatically computed as:</p>
+<pre><code class="language-py">int(math.ceil(math.log2(base)))
+</code></pre>
+<p>From <code>char_nbits</code>, size of a block (in bytes and chars) is computed as:</p>
+<pre><code class="language-py">block_nbytes = lcm(char_nbits, 8)//8
+block_nchars = lcm(char_nbits, 8)//char_nbits
+</code></pre>
+<p>The value <code>block_nbytes</code> is presently not used, while the <code>block_nchars</code> is used for padding.</p>
+<p>The <code>padding</code> option must be set to <code>"ignore"</code> if a padding character is not specified (i.e. if <code>pad_char</code> is <code>None</code>).
+If a padding character is specified, it must be a character (string of length 1) not in the encoding alphabet:
+it is allowed in decoding strings, but only at then end (so that <code>s.rstrip(pad_char)</code> removes all padding).</p>
+<p>The padding behaviour is determined by the value of <code>padding</code>:</p>
+<ul>
+<li><code>"ignore"</code>: no padding included on encoding, no padding required on decoding</li>
+<li><code>"include"</code>: padding included on encoding, no padding required on decoding</li>
+<li><code>"require"</code>: padding included on encoding, padding required on decoding</li>
+</ul>
+<p>Encoding of a bytestring <code>b</code>:</p>
+<ol>
+<li>compute the minimum number <code>extra_nbits</code> of additional bits necessary to make <code>8*len(b)</code> an integral multiple of <code>char_nbits</code></li>
+<li>convert <code>b</code> to an unsigned integer <code>i</code> (big-endian)</li>
+<li>left-shift <code>i</code> by <code>extra_nbits</code> bits, introducing the necessary zero <em>pad bits</em></li>
+<li>converts <code>i</code> to the encoding base, using the encoding alphabet for digits</li>
+<li>if <code>padding</code> is <code>"include"</code> or <code>"require"</code>, append the minimum number of padding characters necessary to make the encoded
+string length an integral multiple of <code>block_nchars</code></li>
+</ol>
+<p>Decoding of a string <code>s</code>:</p>
+<ol>
+<li>if <code>pad_char</code> is not <code>None</code>, count the number N of contiguous padding characters at the end of <code>s</code> and strip them, obtaining <code>s_stripped</code></li>
+<li>if <code>padding</code> is <code>"require"</code>, ensure that N is exactly the minimum number of padding characters that must be appended to <code>s_stripped</code>
+to make its length an integral multiple of <code>block_nchars</code></li>
+<li>converts <code>s</code> to an unsigned integer <code>i</code>, using the encoding alphabet for digits of the encoding base</li>
+<li>compute the number <code>extra_nbits = (char_nbits*len(s))%8</code> of pad bits: if this is not smaller than <code>char_nbits</code>,
+raise <code><a title="bases.encoding.errors.DecodingError" href="errors.html#bases.encoding.errors.DecodingError">DecodingError</a></code></li>
+<li>extract the value <code>i%(2**extra_nbits)</code> of the pad bits: if this is not zero, raise <code><a title="bases.encoding.errors.DecodingError" href="errors.html#bases.encoding.errors.DecodingError">DecodingError</a></code></li>
+<li>compute the number of bytes in the decoded bytestring as <code>original_nbytes = (char_nbits*len(s))//8</code></li>
+<li>right-shift <code>i</code> by <code>extra_nbits</code> bits, removing the zero pad bits</li>
+<li>converts <code>i</code> to its minimal byte representation (big-endian), then zero-pad on the left to reach <code>original_nbytes</code> bytes</li>
+</ol></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FixcharBaseEncoding(BaseEncoding):
+    &#34;&#34;&#34;
+        Fixed-character encodings, generalising those described by [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html).
+
+        Constructor options:
+
+        - `char_nbits: Union[int, Literal[&#34;auto&#34;]] = &#34;auto&#34;`, number of bits per character
+        - `pad_char: Optional[str] = None`, optional padding character
+        - `padding: PaddingOptions = &#34;ignore&#34;`, padding style
+
+        If `char_nbits` is set to `&#34;auto&#34;` (by default), it is automatically computed as:
+
+        ```py
+        int(math.ceil(math.log2(base)))
+        ```
+
+        From `char_nbits`, size of a block (in bytes and chars) is computed as:
+
+        ```py
+        block_nbytes = lcm(char_nbits, 8)//8
+        block_nchars = lcm(char_nbits, 8)//char_nbits
+        ```
+
+        The value `block_nbytes` is presently not used, while the `block_nchars` is used for padding.
+
+        The `padding` option must be set to `&#34;ignore&#34;` if a padding character is not specified (i.e. if `pad_char` is `None`).
+        If a padding character is specified, it must be a character (string of length 1) not in the encoding alphabet:
+        it is allowed in decoding strings, but only at then end (so that `s.rstrip(pad_char)` removes all padding).
+
+        The padding behaviour is determined by the value of `padding`:
+
+        - `&#34;ignore&#34;`: no padding included on encoding, no padding required on decoding
+        - `&#34;include&#34;`: padding included on encoding, no padding required on decoding
+        - `&#34;require&#34;`: padding included on encoding, padding required on decoding
+
+        Encoding of a bytestring `b`:
+
+        1. compute the minimum number `extra_nbits` of additional bits necessary to make `8*len(b)` an integral multiple of `char_nbits`
+        2. convert `b` to an unsigned integer `i` (big-endian)
+        3. left-shift `i` by `extra_nbits` bits, introducing the necessary zero _pad bits_
+        4. converts `i` to the encoding base, using the encoding alphabet for digits
+        5. if `padding` is `&#34;include&#34;` or `&#34;require&#34;`, append the minimum number of padding characters necessary to make the encoded
+           string length an integral multiple of `block_nchars`
+
+        Decoding of a string `s`:
+
+        1. if `pad_char` is not `None`, count the number N of contiguous padding characters at the end of `s` and strip them, obtaining `s_stripped`
+        2. if `padding` is `&#34;require&#34;`, ensure that N is exactly the minimum number of padding characters that must be appended to `s_stripped`
+           to make its length an integral multiple of `block_nchars`
+        3. converts `s` to an unsigned integer `i`, using the encoding alphabet for digits of the encoding base
+        4. compute the number `extra_nbits = (char_nbits*len(s))%8` of pad bits: if this is not smaller than `char_nbits`,
+           raise `bases.encoding.errors.DecodingError`
+        5. extract the value `i%(2**extra_nbits)` of the pad bits: if this is not zero, raise `bases.encoding.errors.DecodingError`
+        6. compute the number of bytes in the decoded bytestring as `original_nbytes = (char_nbits*len(s))//8`
+        7. right-shift `i` by `extra_nbits` bits, removing the zero pad bits
+        8. converts `i` to its minimal byte representation (big-endian), then zero-pad on the left to reach `original_nbytes` bytes
+    &#34;&#34;&#34;
+
+    _char_nbits: int
+    _init_char_nbits: Union[int, Literal[&#34;auto&#34;]]
+    _pad_char: Optional[str] = None
+    _padding: PaddingOptions = &#34;ignore&#34;
+    _block_nbytes: int
+    _block_nchars: int
+
+    def __init__(self, alphabet: Union[str, range, Alphabet], *,
+                 case_sensitive: Optional[bool] = None,
+                 char_nbits: Union[int, Literal[&#34;auto&#34;]] = &#34;auto&#34;,
+                 pad_char: Optional[str] = None,
+                 padding: PaddingOptions = &#34;ignore&#34;):
+        if padding not in (&#34;ignore&#34;, &#34;include&#34;, &#34;require&#34;):
+            raise TypeError(&#34;Allowed padding options are: &#39;ignore&#39;, &#39;include&#39; and &#39;require&#39;.&#34;)
+        super().__init__(alphabet, case_sensitive=case_sensitive)
+        self._init_char_nbits = char_nbits
+        if char_nbits == &#34;auto&#34;:
+            char_nbits = int(math.ceil(math.log2(self.base)))
+        self._char_nbits = char_nbits
+        self._pad_char = pad_char
+        self._padding = padding
+        self.__validate_init()
+        l = _lcm(char_nbits, 8)
+        self._block_nbytes = l//8
+        self._block_nchars = l//char_nbits
+
+    def __validate_init(self) -&gt; None:
+        alphabet = self.alphabet
+        pad_char = self.pad_char
+        if pad_char is None:
+            if self.padding != &#34;ignore&#34;:
+                raise ValueError(&#34;If padding is not &#39;ignore&#39;, a padding character must be specified.&#34;)
+        else:
+            if len(pad_char) != 1:
+                raise ValueError(&#34;If specified, padding character must have length 1.&#34;)
+            if pad_char in alphabet:
+                raise ValueError(&#34;Padding character cannot be in the alphabet.&#34;)
+        char_nbits = self.char_nbits
+        if char_nbits is not None:
+            if char_nbits &lt;= 0:
+                raise ValueError(&#34;If specified, number of bits per character must be positive.&#34;)
+            if 2**char_nbits &lt; self.base:
+                raise ValueError(f&#34;Number of bits per character is insufficient to cover the whole alphabet. This is likely a mistake. &#34;
+                                 f&#34;If it isn&#39;t, please truncate the alphabet to {2**char_nbits} characters (or less).&#34;)
+
+    @property
+    def char_nbits(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of bits per character.
+        &#34;&#34;&#34;
+        return self._char_nbits
+
+    @property
+    def block_nchars(self) -&gt; int:
+        &#34;&#34;&#34;
+            Number of characters in a block.
+        &#34;&#34;&#34;
+        return self._block_nchars
+
+    @property
+    def effective_base(self) -&gt; int:
+        &#34;&#34;&#34;
+            Effective base used when decoding is `2**char_nbits`.
+        &#34;&#34;&#34;
+        effective_base: int = 2**self.char_nbits
+        return effective_base
+
+    @property
+    def padding(self) -&gt; PaddingOptions:
+        &#34;&#34;&#34;
+            Padding style:
+
+            - `&#34;ignore&#34;`: no padding included on encoding, no padding required on decoding
+            - `&#34;include&#34;`: padding included on encoding, no padding required on decoding
+            - `&#34;require&#34;`: padding included on encoding, padding required on decoding
+        &#34;&#34;&#34;
+        return self._padding
+
+    @property
+    def include_padding(self) -&gt; bool:
+        &#34;&#34;&#34;
+            Whether padding is included on encoding (derived from `FixcharBaseEncoding.padding`).
+        &#34;&#34;&#34;
+        return self.padding in (&#34;include&#34;, &#34;require&#34;)
+
+    @property
+    def require_padding(self) -&gt; bool:
+        &#34;&#34;&#34;
+            Whether padding is required on decoding (derived from `FixcharBaseEncoding.padding`).
+        &#34;&#34;&#34;
+        return self.padding == &#34;require&#34;
+
+    @property
+    def pad_char(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+            An optional character to be used for padding of encoded strings.
+            In [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html), this is `&#34;=&#34;` for both base64 and base32.
+        &#34;&#34;&#34;
+        return self._pad_char
+
+    def pad(self, require: bool = False) -&gt; &#34;FixcharBaseEncoding&#34;:
+        &#34;&#34;&#34;
+            Returns a copy of this encoding which includes paddding (and optionally requires it).
+
+            Example usage, from `&#34;include&#34;` to `&#34;require&#34;`:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            &gt;&gt;&gt; encoding.base32.pad(require=True)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;require&#39;)
+            ```
+
+            Example usage, from `&#34;ignore&#34;` to `&#34;include&#34;`:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32z
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                               case_sensitive=False))
+            &gt;&gt;&gt; encoding.base32z.with_pad_char(&#34;=&#34;)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;)
+            &gt;&gt;&gt; encoding.base32z.with_pad_char(&#34;=&#34;).pad()
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            ```
+        &#34;&#34;&#34;
+        options = dict(padding=&#34;require&#34; if require else &#34;include&#34;)
+        return self.with_options(**options)
+
+    def nopad(self, allow: bool = True) -&gt; &#34;FixcharBaseEncoding&#34;:
+        &#34;&#34;&#34;
+            Returns a copy of this encoding which does not include/require paddding
+            (and optionally disallows it by removing the padding character).
+
+            Example usage:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            &gt;&gt;&gt; encoding.base32.nopad()
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;)
+            &gt;&gt;&gt; encoding.base32.nopad(allow=False)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False))
+            ```
+        &#34;&#34;&#34;
+        options = dict(padding=&#34;ignore&#34;, pad_char=self.pad_char if allow else None)
+        return self.with_options(**options)
+
+    def with_pad_char(self, pad_char: Optional[str]) -&gt; &#34;FixcharBaseEncoding&#34;:
+        &#34;&#34;&#34;
+            Returns a copy of this encoding with a different padding character
+            (or without a padding character if `pad_char` is `None`).
+
+            Example usage:
+
+            ```py
+            &gt;&gt;&gt; encoding.base32
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+            &gt;&gt;&gt; encoding.base32.with_pad_char(&#34;~&#34;)
+            FixcharBaseEncoding(
+                StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                               case_sensitive=False),
+                pad_char=&#39;~&#39;, padding=&#39;include&#39;)
+            ```
+
+        &#34;&#34;&#34;
+        options: Dict[str, Any] = dict(pad_char=pad_char)
+        if pad_char is None:
+            options[&#34;padding&#34;] = &#34;ignore&#34;
+        return self.with_options(**options)
+
+    def pad_string(self, s: str) -&gt; str:
+        &#34;&#34;&#34;
+            If no padding character is specified for this encoding, returns the input string unchanged.
+            If a padding character is specified for this encoding, pads the input string by appending the
+            minimum number of padding characters necessary to make its length an integral multiple of the
+            block char size (given by `FixcharBaseEncoding.block_nchars`).
+
+            The value of `FixcharBaseEncoding.padding` is irrelevant to this method.
+        &#34;&#34;&#34;
+        if not isinstance(s, str):
+            raise TypeError()
+        pad_char = self.pad_char
+        block_nchars = self._block_nchars
+        # no padding available for this encoding scheme
+        if pad_char is None:
+            return s
+        # padding available, but no need for padding
+        if len(s)%block_nchars == 0:
+            return s
+        # compute require padding length
+        pad_len = block_nchars-(len(s)%block_nchars)
+        # return padded string
+        return s+pad_char*pad_len
+
+    def strip_string(self, s: str) -&gt; str:
+        &#34;&#34;&#34;
+            If no padding character is specified for this encoding, returns the input string unchanged.
+            If a padding character is specified for this encoding, strips the input string of any padding
+            characters it might have to the right.
+            If `FixcharBaseEncoding.padding` is set to `&#34;require&#34;`, checks that the correct number of
+            padding characters were included and raises `bases.encoding.errors.PaddingError` if not.
+        &#34;&#34;&#34;
+        if not isinstance(s, str):
+            raise TypeError()
+        pad_char = self.pad_char
+        case_sensitive = self.case_sensitive
+        block_nchars = self._block_nchars
+        # no padding available for this encoding scheme
+        if pad_char is None:
+            return s
+        # padding character(s) to strip from the right of the string
+        pad_chars = pad_char
+        if not case_sensitive:
+            pad_chars += pad_char.lower()+pad_char.upper()
+        # strip padding from string
+        s_stripped = s.rstrip(pad_chars)
+        # if padding is required on decoding, check the correct amount was included
+        if self.require_padding:
+            padding = len(s)-len(s_stripped)
+            extra_nchars = len(s_stripped)%block_nchars
+            expected_padding = 0 if extra_nchars == 0 else block_nchars-extra_nchars
+            if padding != expected_padding:
+                raise PaddingError(padding, expected_padding)
+        return s_stripped
+
+    def canonical_bytes(self, b: bytes) -&gt; bytes:
+        self._validate_bytes(b)
+        return b
+
+    def canonical_string(self, s: str) -&gt; str:
+        if self.include_padding:
+            return self.pad_string(s)
+        return self.strip_string(s)
+
+    def _validate_string(self, s: str) -&gt; str:
+        s = self.strip_string(s)
+        return super()._validate_string(s)
+
+    def _encode(self, b: bytes) -&gt; str:
+        alphabet = self.alphabet
+        base = self.base
+        char_nbits = self.char_nbits
+        effective_base = self.effective_base
+        # bytes as unsigned integer
+        i = int.from_bytes(b, byteorder=&#34;big&#34;)
+        # add padding bits (align to integral number of characters)
+        nchars, extra_nbits = divmod((8*len(b)), char_nbits)
+        if extra_nbits &gt; 0:
+            i &lt;&lt;= char_nbits-extra_nbits # pad bits set to 0
+            nchars += 1
+        # compute characters in reverse order
+        revchars: List[str] = []
+        for _ in range(nchars):
+            # extract next digit by consuming rightmost char_nbits
+            # Same as: d = i % (2**char_nbits); i &gt;&gt;= char_nbits
+            i, d = divmod(i, effective_base)
+            # ensure digit is valid for actual base (number of characters in the alphabet)
+            if not d &lt; base:
+                raise InvalidDigitError(d, base)
+            # add the next character to the list
+            revchars.append(alphabet[d])
+        # join characters, pad string (if padding is to be included) and return
+        s = &#34;&#34;.join(reversed(revchars))
+        if not self.include_padding:
+            return s
+        return self.pad_string(s)
+
+    def _decode(self, s: str) -&gt; bytes:
+        base = self.base
+        char_nbits = self.char_nbits
+        alphabet_revdir = self.alphabet.revdir
+        # decode string into unsigned integer
+        i = 0
+        for c in s:
+            d = alphabet_revdir[c]
+            i = i*base + d
+        # remove padding bits (ensure that there are not too many and that they are all set to zero)
+        original_nbytes, extra_nbits = divmod((char_nbits*len(s)), 8)
+        if extra_nbits &gt;= char_nbits:
+            raise DecodingError(f&#34;More pad bits found ({extra_nbits}) than bits per character ({char_nbits}).&#34;)
+        if extra_nbits &gt; 0:
+            i, pad_bits = divmod(i, 2**extra_nbits)
+            if pad_bits != 0:
+                raise DecodingError(&#34;Pad bits must be zero.&#34;)
+        # convert unsigned integer into the required number of bytes (zero-pad to the left)
+        return i.to_bytes(length=original_nbytes, byteorder=&#34;big&#34;)
+
+    def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        options: Dict[str, Any] = {}
+        if not skip_defaults or self._init_char_nbits != &#34;auto&#34;:
+            options[&#34;char_nbits&#34;] = self._init_char_nbits
+        if not skip_defaults or self.pad_char is not None:
+            options[&#34;pad_char&#34;] = self.pad_char
+        if not skip_defaults or self.padding != &#34;ignore&#34;:
+            options[&#34;padding&#34;] = self.padding
+        return options</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.block_nchars"><code class="name">var <span class="ident">block_nchars</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Number of characters in a block.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def block_nchars(self) -&gt; int:
+    &#34;&#34;&#34;
+        Number of characters in a block.
+    &#34;&#34;&#34;
+    return self._block_nchars</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.char_nbits"><code class="name">var <span class="ident">char_nbits</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Number of bits per character.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def char_nbits(self) -&gt; int:
+    &#34;&#34;&#34;
+        Number of bits per character.
+    &#34;&#34;&#34;
+    return self._char_nbits</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.effective_base"><code class="name">var <span class="ident">effective_base</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Effective base used when decoding is <code>2**char_nbits</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def effective_base(self) -&gt; int:
+    &#34;&#34;&#34;
+        Effective base used when decoding is `2**char_nbits`.
+    &#34;&#34;&#34;
+    effective_base: int = 2**self.char_nbits
+    return effective_base</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.include_padding"><code class="name">var <span class="ident">include_padding</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Whether padding is included on encoding (derived from <code><a title="bases.encoding.fixchar.FixcharBaseEncoding.padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.padding">FixcharBaseEncoding.padding</a></code>).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def include_padding(self) -&gt; bool:
+    &#34;&#34;&#34;
+        Whether padding is included on encoding (derived from `FixcharBaseEncoding.padding`).
+    &#34;&#34;&#34;
+    return self.padding in (&#34;include&#34;, &#34;require&#34;)</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.pad_char"><code class="name">var <span class="ident">pad_char</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>An optional character to be used for padding of encoded strings.
+In <a href="https://datatracker.ietf.org/doc/html/rfc4648.html">rfc4648</a>, this is <code>"="</code> for both base64 and base32.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pad_char(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+        An optional character to be used for padding of encoded strings.
+        In [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html), this is `&#34;=&#34;` for both base64 and base32.
+    &#34;&#34;&#34;
+    return self._pad_char</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.padding"><code class="name">var <span class="ident">padding</span> : Literal['ignore', 'include', 'require']</code></dt>
+<dd>
+<div class="desc"><p>Padding style:</p>
+<ul>
+<li><code>"ignore"</code>: no padding included on encoding, no padding required on decoding</li>
+<li><code>"include"</code>: padding included on encoding, no padding required on decoding</li>
+<li><code>"require"</code>: padding included on encoding, padding required on decoding</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def padding(self) -&gt; PaddingOptions:
+    &#34;&#34;&#34;
+        Padding style:
+
+        - `&#34;ignore&#34;`: no padding included on encoding, no padding required on decoding
+        - `&#34;include&#34;`: padding included on encoding, no padding required on decoding
+        - `&#34;require&#34;`: padding included on encoding, padding required on decoding
+    &#34;&#34;&#34;
+    return self._padding</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.require_padding"><code class="name">var <span class="ident">require_padding</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Whether padding is required on decoding (derived from <code><a title="bases.encoding.fixchar.FixcharBaseEncoding.padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.padding">FixcharBaseEncoding.padding</a></code>).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def require_padding(self) -&gt; bool:
+    &#34;&#34;&#34;
+        Whether padding is required on decoding (derived from `FixcharBaseEncoding.padding`).
+    &#34;&#34;&#34;
+    return self.padding == &#34;require&#34;</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.nopad"><code class="name flex">
+<span>def <span class="ident">nopad</span></span>(<span>self, allow: bool = True) ‑> <a title="bases.encoding.fixchar.FixcharBaseEncoding" href="#bases.encoding.fixchar.FixcharBaseEncoding">FixcharBaseEncoding</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a copy of this encoding which does not include/require paddding
+(and optionally disallows it by removing the padding character).</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; encoding.base32
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False),
+    pad_char='=', padding='include')
+&gt;&gt;&gt; encoding.base32.nopad()
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False),
+    pad_char='=')
+&gt;&gt;&gt; encoding.base32.nopad(allow=False)
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False))
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def nopad(self, allow: bool = True) -&gt; &#34;FixcharBaseEncoding&#34;:
+    &#34;&#34;&#34;
+        Returns a copy of this encoding which does not include/require paddding
+        (and optionally disallows it by removing the padding character).
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; encoding.base32
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+        &gt;&gt;&gt; encoding.base32.nopad()
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;)
+        &gt;&gt;&gt; encoding.base32.nopad(allow=False)
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False))
+        ```
+    &#34;&#34;&#34;
+    options = dict(padding=&#34;ignore&#34;, pad_char=self.pad_char if allow else None)
+    return self.with_options(**options)</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.pad"><code class="name flex">
+<span>def <span class="ident">pad</span></span>(<span>self, require: bool = False) ‑> <a title="bases.encoding.fixchar.FixcharBaseEncoding" href="#bases.encoding.fixchar.FixcharBaseEncoding">FixcharBaseEncoding</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a copy of this encoding which includes paddding (and optionally requires it).</p>
+<p>Example usage, from <code>"include"</code> to <code>"require"</code>:</p>
+<pre><code class="language-py">&gt;&gt;&gt; encoding.base32
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False),
+    pad_char='=', padding='include')
+&gt;&gt;&gt; encoding.base32.pad(require=True)
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False),
+    pad_char='=', padding='require')
+</code></pre>
+<p>Example usage, from <code>"ignore"</code> to <code>"include"</code>:</p>
+<pre><code class="language-py">&gt;&gt;&gt; encoding.base32z
+FixcharBaseEncoding(
+    StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
+                   case_sensitive=False))
+&gt;&gt;&gt; encoding.base32z.with_pad_char(&quot;=&quot;)
+FixcharBaseEncoding(
+    StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
+                   case_sensitive=False),
+    pad_char='=')
+&gt;&gt;&gt; encoding.base32z.with_pad_char(&quot;=&quot;).pad()
+FixcharBaseEncoding(
+    StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
+                   case_sensitive=False),
+    pad_char='=', padding='include')
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pad(self, require: bool = False) -&gt; &#34;FixcharBaseEncoding&#34;:
+    &#34;&#34;&#34;
+        Returns a copy of this encoding which includes paddding (and optionally requires it).
+
+        Example usage, from `&#34;include&#34;` to `&#34;require&#34;`:
+
+        ```py
+        &gt;&gt;&gt; encoding.base32
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+        &gt;&gt;&gt; encoding.base32.pad(require=True)
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;, padding=&#39;require&#39;)
+        ```
+
+        Example usage, from `&#34;ignore&#34;` to `&#34;include&#34;`:
+
+        ```py
+        &gt;&gt;&gt; encoding.base32z
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                           case_sensitive=False))
+        &gt;&gt;&gt; encoding.base32z.with_pad_char(&#34;=&#34;)
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;)
+        &gt;&gt;&gt; encoding.base32z.with_pad_char(&#34;=&#34;).pad()
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+        ```
+    &#34;&#34;&#34;
+    options = dict(padding=&#34;require&#34; if require else &#34;include&#34;)
+    return self.with_options(**options)</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.pad_string"><code class="name flex">
+<span>def <span class="ident">pad_string</span></span>(<span>self, s: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>If no padding character is specified for this encoding, returns the input string unchanged.
+If a padding character is specified for this encoding, pads the input string by appending the
+minimum number of padding characters necessary to make its length an integral multiple of the
+block char size (given by <code><a title="bases.encoding.fixchar.FixcharBaseEncoding.block_nchars" href="#bases.encoding.fixchar.FixcharBaseEncoding.block_nchars">FixcharBaseEncoding.block_nchars</a></code>).</p>
+<p>The value of <code><a title="bases.encoding.fixchar.FixcharBaseEncoding.padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.padding">FixcharBaseEncoding.padding</a></code> is irrelevant to this method.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pad_string(self, s: str) -&gt; str:
+    &#34;&#34;&#34;
+        If no padding character is specified for this encoding, returns the input string unchanged.
+        If a padding character is specified for this encoding, pads the input string by appending the
+        minimum number of padding characters necessary to make its length an integral multiple of the
+        block char size (given by `FixcharBaseEncoding.block_nchars`).
+
+        The value of `FixcharBaseEncoding.padding` is irrelevant to this method.
+    &#34;&#34;&#34;
+    if not isinstance(s, str):
+        raise TypeError()
+    pad_char = self.pad_char
+    block_nchars = self._block_nchars
+    # no padding available for this encoding scheme
+    if pad_char is None:
+        return s
+    # padding available, but no need for padding
+    if len(s)%block_nchars == 0:
+        return s
+    # compute require padding length
+    pad_len = block_nchars-(len(s)%block_nchars)
+    # return padded string
+    return s+pad_char*pad_len</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.strip_string"><code class="name flex">
+<span>def <span class="ident">strip_string</span></span>(<span>self, s: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>If no padding character is specified for this encoding, returns the input string unchanged.
+If a padding character is specified for this encoding, strips the input string of any padding
+characters it might have to the right.
+If <code><a title="bases.encoding.fixchar.FixcharBaseEncoding.padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.padding">FixcharBaseEncoding.padding</a></code> is set to <code>"require"</code>, checks that the correct number of
+padding characters were included and raises <code><a title="bases.encoding.errors.PaddingError" href="errors.html#bases.encoding.errors.PaddingError">PaddingError</a></code> if not.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def strip_string(self, s: str) -&gt; str:
+    &#34;&#34;&#34;
+        If no padding character is specified for this encoding, returns the input string unchanged.
+        If a padding character is specified for this encoding, strips the input string of any padding
+        characters it might have to the right.
+        If `FixcharBaseEncoding.padding` is set to `&#34;require&#34;`, checks that the correct number of
+        padding characters were included and raises `bases.encoding.errors.PaddingError` if not.
+    &#34;&#34;&#34;
+    if not isinstance(s, str):
+        raise TypeError()
+    pad_char = self.pad_char
+    case_sensitive = self.case_sensitive
+    block_nchars = self._block_nchars
+    # no padding available for this encoding scheme
+    if pad_char is None:
+        return s
+    # padding character(s) to strip from the right of the string
+    pad_chars = pad_char
+    if not case_sensitive:
+        pad_chars += pad_char.lower()+pad_char.upper()
+    # strip padding from string
+    s_stripped = s.rstrip(pad_chars)
+    # if padding is required on decoding, check the correct amount was included
+    if self.require_padding:
+        padding = len(s)-len(s_stripped)
+        extra_nchars = len(s_stripped)%block_nchars
+        expected_padding = 0 if extra_nchars == 0 else block_nchars-extra_nchars
+        if padding != expected_padding:
+            raise PaddingError(padding, expected_padding)
+    return s_stripped</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.fixchar.FixcharBaseEncoding.with_pad_char"><code class="name flex">
+<span>def <span class="ident">with_pad_char</span></span>(<span>self, pad_char: Optional[str]) ‑> <a title="bases.encoding.fixchar.FixcharBaseEncoding" href="#bases.encoding.fixchar.FixcharBaseEncoding">FixcharBaseEncoding</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a copy of this encoding with a different padding character
+(or without a padding character if <code>pad_char</code> is <code>None</code>).</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; encoding.base32
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False),
+    pad_char='=', padding='include')
+&gt;&gt;&gt; encoding.base32.with_pad_char(&quot;~&quot;)
+FixcharBaseEncoding(
+    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                   case_sensitive=False),
+    pad_char='~', padding='include')
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_pad_char(self, pad_char: Optional[str]) -&gt; &#34;FixcharBaseEncoding&#34;:
+    &#34;&#34;&#34;
+        Returns a copy of this encoding with a different padding character
+        (or without a padding character if `pad_char` is `None`).
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; encoding.base32
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+        &gt;&gt;&gt; encoding.base32.with_pad_char(&#34;~&#34;)
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;~&#39;, padding=&#39;include&#39;)
+        ```
+
+    &#34;&#34;&#34;
+    options: Dict[str, Any] = dict(pad_char=pad_char)
+    if pad_char is None:
+        options[&#34;padding&#34;] = &#34;ignore&#34;
+    return self.with_options(**options)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></b></code>:
+<ul class="hlist">
+<li><code><a title="bases.encoding.base.BaseEncoding.alphabet" href="base.html#bases.encoding.base.BaseEncoding.alphabet">alphabet</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.base" href="base.html#bases.encoding.base.BaseEncoding.base">base</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.canonical_bytes" href="base.html#bases.encoding.base.BaseEncoding.canonical_bytes">canonical_bytes</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.canonical_string" href="base.html#bases.encoding.base.BaseEncoding.canonical_string">canonical_string</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.case_sensitive" href="base.html#bases.encoding.base.BaseEncoding.case_sensitive">case_sensitive</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.decode" href="base.html#bases.encoding.base.BaseEncoding.decode">decode</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.encode" href="base.html#bases.encoding.base.BaseEncoding.encode">encode</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.lower" href="base.html#bases.encoding.base.BaseEncoding.lower">lower</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.options" href="base.html#bases.encoding.base.BaseEncoding.options">options</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.upper" href="base.html#bases.encoding.base.BaseEncoding.upper">upper</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_alphabet" href="base.html#bases.encoding.base.BaseEncoding.with_alphabet">with_alphabet</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_case_sensitivity" href="base.html#bases.encoding.base.BaseEncoding.with_case_sensitivity">with_case_sensitivity</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.with_options" href="base.html#bases.encoding.base.BaseEncoding.with_options">with_options</a></code></li>
+<li><code><a title="bases.encoding.base.BaseEncoding.zero_char" href="base.html#bases.encoding.base.BaseEncoding.zero_char">zero_char</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="bases.encoding" href="index.html">bases.encoding</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="bases.encoding.fixchar.PaddingOptions" href="#bases.encoding.fixchar.PaddingOptions">PaddingOptions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="bases.encoding.fixchar.FixcharBaseEncoding" href="#bases.encoding.fixchar.FixcharBaseEncoding">FixcharBaseEncoding</a></code></h4>
+<ul class="two-column">
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.block_nchars" href="#bases.encoding.fixchar.FixcharBaseEncoding.block_nchars">block_nchars</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.char_nbits" href="#bases.encoding.fixchar.FixcharBaseEncoding.char_nbits">char_nbits</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.effective_base" href="#bases.encoding.fixchar.FixcharBaseEncoding.effective_base">effective_base</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.include_padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.include_padding">include_padding</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.nopad" href="#bases.encoding.fixchar.FixcharBaseEncoding.nopad">nopad</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.pad" href="#bases.encoding.fixchar.FixcharBaseEncoding.pad">pad</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.pad_char" href="#bases.encoding.fixchar.FixcharBaseEncoding.pad_char">pad_char</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.pad_string" href="#bases.encoding.fixchar.FixcharBaseEncoding.pad_string">pad_string</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.padding">padding</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.require_padding" href="#bases.encoding.fixchar.FixcharBaseEncoding.require_padding">require_padding</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.strip_string" href="#bases.encoding.fixchar.FixcharBaseEncoding.strip_string">strip_string</a></code></li>
+<li><code><a title="bases.encoding.fixchar.FixcharBaseEncoding.with_pad_char" href="#bases.encoding.fixchar.FixcharBaseEncoding.with_pad_char">with_pad_char</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

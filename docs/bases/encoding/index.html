@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>bases.encoding API documentation</title>
+<meta name="description" content="Module containing classes for encodings …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>bases.encoding</code></h1>
+</header>
+<section id="section-intro">
+<p>Module containing classes for encodings.</p>
+<p>To access existing encodings, use the <code><a title="bases.encoding.get" href="#bases.encoding.get">get()</a></code> function:</p>
+<pre><code class="language-py">    &gt;&gt;&gt; from bases import encoding
+    &gt;&gt;&gt; encoding.get(&quot;base32&quot;)
+    FixcharBaseEncoding(
+        StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                       case_sensitive=False),
+        pad_char='=', padding='include')
+</code></pre>
+<p>To create new encodings, use the <code><a title="bases.encoding.make" href="#bases.encoding.make">make()</a></code> function:</p>
+<pre><code class="language-py">    &gt;&gt;&gt; encoding.make(&quot;0123&quot;, kind=&quot;zeropad-enc&quot;, block_nchars=4)
+    ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
+</code></pre>
+<p>To register new encodings, use the <code><a title="bases.encoding.register" href="#bases.encoding.register">register()</a></code> function:</p>
+<pre><code class="language-py">    &gt;&gt;&gt; myenc = encoding.get(&quot;base16&quot;).lower()
+    &gt;&gt;&gt; encoding.register(base16lower=myenc)
+    &gt;&gt;&gt; encoding.get(&quot;base16lower&quot;)
+    ZeropadBaseEncoding(
+        StringAlphabet('0123456789abcdef',
+                       case_sensitive=False),
+        block_nchars=2)
+</code></pre>
+<p>Alternatively, use the optional <code>"name"</code> argument of the <code><a title="bases.encoding.make" href="#bases.encoding.make">make()</a></code> function:</p>
+<pre><code class="language-py">    &gt;&gt;&gt; encoding.make(&quot;0123&quot;, kind=&quot;zeropad-enc&quot;, block_nchars=4, name=&quot;base4&quot;)
+    ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
+    &gt;&gt;&gt; encoding.get(&quot;base4&quot;)
+    ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
+</code></pre>
+<p>To list alphabets (with optional filtering), use <code><a title="bases.encoding.table" href="#bases.encoding.table">table()</a></code>:</p>
+<pre><code class="language-py">    &gt;&gt;&gt; dict(encoding.table(prefix=&quot;base32&quot;))
+    {'base32':      FixcharBaseEncoding(
+                        StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                                       case_sensitive=False),
+                        pad_char='=', padding='include'),
+     'base32hex':   FixcharBaseEncoding(
+                        StringAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUV',
+                                       case_sensitive=False),
+                        pad_char='=', padding='include'),
+     'base32z':     FixcharBaseEncoding(
+                        StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
+                                       case_sensitive=False))
+    }
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+    Module containing classes for encodings.
+
+    To access existing encodings, use the `get` function:
+
+    ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.get(&#34;base32&#34;)
+        FixcharBaseEncoding(
+            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                           case_sensitive=False),
+            pad_char=&#39;=&#39;, padding=&#39;include&#39;)
+    ```
+
+    To create new encodings, use the `make` function:
+
+    ```py
+        &gt;&gt;&gt; encoding.make(&#34;0123&#34;, kind=&#34;zeropad-enc&#34;, block_nchars=4)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+    ```
+
+    To register new encodings, use the `register` function:
+
+    ```py
+        &gt;&gt;&gt; myenc = encoding.get(&#34;base16&#34;).lower()
+        &gt;&gt;&gt; encoding.register(base16lower=myenc)
+        &gt;&gt;&gt; encoding.get(&#34;base16lower&#34;)
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789abcdef&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+    ```
+
+    Alternatively, use the optional `&#34;name&#34;` argument of the `make` function:
+
+    ```py
+        &gt;&gt;&gt; encoding.make(&#34;0123&#34;, kind=&#34;zeropad-enc&#34;, block_nchars=4, name=&#34;base4&#34;)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+        &gt;&gt;&gt; encoding.get(&#34;base4&#34;)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+    ```
+
+    To list alphabets (with optional filtering), use `table`:
+
+    ```py
+        &gt;&gt;&gt; dict(encoding.table(prefix=&#34;base32&#34;))
+        {&#39;base32&#39;:      FixcharBaseEncoding(
+                            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                                           case_sensitive=False),
+                            pad_char=&#39;=&#39;, padding=&#39;include&#39;),
+         &#39;base32hex&#39;:   FixcharBaseEncoding(
+                            StringAlphabet(&#39;0123456789ABCDEFGHIJKLMNOPQRSTUV&#39;,
+                                           case_sensitive=False),
+                            pad_char=&#39;=&#39;, padding=&#39;include&#39;),
+         &#39;base32z&#39;:     FixcharBaseEncoding(
+                            StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                                           case_sensitive=False))
+        }
+    ```
+
+&#34;&#34;&#34;
+
+import re
+from typing import Any, cast, Collection, Dict, Iterator, Mapping, Optional, overload, Tuple, Type, Union
+from typing_extensions import Literal
+
+from bases import alphabet
+from bases.alphabet import Alphabet
+from .base import BaseEncoding as BaseEncoding
+from .simple import SimpleBaseEncoding as SimpleBaseEncoding
+from .zeropad import ZeropadBaseEncoding as ZeropadBaseEncoding
+from .block import BlockBaseEncoding as BlockBaseEncoding
+from .fixchar import FixcharBaseEncoding as FixcharBaseEncoding
+
+_base_encodings: Dict[str, BaseEncoding] = {}
+
+def get(name: str) -&gt; BaseEncoding:
+    &#34;&#34;&#34;
+        Gets an encoding by name, raising `KeyError` if none exists.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.get(&#34;base16&#34;)
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789ABCDEF&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+        ```
+    &#34;&#34;&#34;
+    if name not in _base_encodings:
+        raise KeyError(f&#34;Encoding named {repr(name)} does not exist.&#34;)
+    return _base_encodings[name]
+
+def has(name: str) -&gt; bool:
+    &#34;&#34;&#34;
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.has(&#34;base32&#34;)
+        True
+        ```
+    &#34;&#34;&#34;
+    return name in _base_encodings
+
+def register(**kwargs: BaseEncoding) -&gt; None:
+    &#34;&#34;&#34;
+        Registers any number of new encodings by name.
+        Raises `KeyError` is an encoding with one of the given name already exists.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.register(base16lower=encoding.base16.lower())
+        &gt;&gt;&gt; encoding.get(&#34;base16lower&#34;)
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789abcdef&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+        ```
+
+        Encoding names must conform with:
+
+        ```py
+        re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name)
+        ```
+    &#34;&#34;&#34;
+    for name, encoding in kwargs.items():
+        if not re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name):
+            raise ValueError(f&#34;Invalid encoding name {repr(name)}&#34;)
+        if not isinstance(encoding, BaseEncoding):
+            raise TypeError()
+        if name in _base_encodings:
+            raise ValueError(f&#34;Encoding named {repr(name)} already exists.&#34;)
+        _base_encodings[name] = encoding
+
+def unregister(*names: str) -&gt; None:
+    &#34;&#34;&#34;
+        Unregisters any number of existing encodings by name.
+        Raises `KeyError` is an encoding with one of the given names doesn&#39;t exist.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.unregister(&#34;base16&#34;, &#34;base32&#34;)
+        &gt;&gt;&gt; encoding.has(&#34;base16&#34;)
+        False
+        &gt;&gt;&gt; encoding.get(&#34;base16&#34;)
+        KeyError: &#34;Encoding named &#39;base16&#39; does not exist.&#34;
+        ```
+
+        Note that pre-defined constants are unaffected by this:
+
+        ```py
+        &gt;&gt;&gt; encoding.base16
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789ABCDEF&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+        ```
+    &#34;&#34;&#34;
+    for name in names:
+        if name not in _base_encodings:
+            raise KeyError(f&#34;Encoding named {repr(name)} does not exist.&#34;)
+        del _base_encodings[name]
+
+def table(*, prefix: str = &#34;&#34;) -&gt; Iterator[Tuple[str, BaseEncoding]]:
+    &#34;&#34;&#34;
+        Iterates over all registered alphabets, optionally restricting to those with given prefix:
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; dict(encoding.table(prefix=&#34;base32&#34;))
+        {&#39;base32&#39;:      FixcharBaseEncoding(
+                            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                                           case_sensitive=False),
+                            pad_char=&#39;=&#39;, padding=&#39;include&#39;),
+         &#39;base32hex&#39;:   FixcharBaseEncoding(
+                            StringAlphabet(&#39;0123456789ABCDEFGHIJKLMNOPQRSTUV&#39;,
+                                           case_sensitive=False),
+                            pad_char=&#39;=&#39;, padding=&#39;include&#39;),
+         &#39;base32z&#39;:     FixcharBaseEncoding(
+                            StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                                           case_sensitive=False))
+        }
+        ```
+
+    &#34;&#34;&#34;
+    encodings = [(name, encoding) for name, encoding in _base_encodings.items()
+                 if name.startswith(prefix)]
+    encodings = sorted(encodings, key=lambda pair: pair[0])
+    return iter(encodings)
+
+BaseEncodingKind = Literal[&#34;simple-enc&#34;, &#34;zeropad-enc&#34;, &#34;block-enc&#34;, &#34;fixchar-enc&#34;]
+_base_encoding_kinds = (&#34;simple-enc&#34;, &#34;zeropad-enc&#34;, &#34;block-enc&#34;, &#34;fixchar-enc&#34;)
+
+@overload
+def make(chars: Union[str, range, Alphabet], *, kind: Literal[&#34;simple-enc&#34;], name: Optional[str] = None,
+         case_sensitive: Optional[bool] = None,) -&gt; SimpleBaseEncoding:
+    ...
+
+@overload
+def make(chars: Union[str, range, Alphabet], *, kind: Literal[&#34;zeropad-enc&#34;], name: Optional[str] = None,
+         case_sensitive: Optional[bool] = None, block_nbytes: int = 1, block_nchars: int = 1) -&gt; ZeropadBaseEncoding:
+    ...
+
+@overload
+def make(chars: Union[str, range, Alphabet], *, kind: Literal[&#34;block-enc&#34;], name: Optional[str] = None,
+         case_sensitive: Optional[bool] = None, block_size: Union[int, Mapping[int, int]], sep_char: str = &#34;&#34;) -&gt; BlockBaseEncoding:
+    ...
+
+@overload
+def make(chars: Union[str, range, Alphabet], *, kind: Literal[&#34;fixchar-enc&#34;], name: Optional[str] = None,
+         case_sensitive: Optional[bool] = None,) -&gt; FixcharBaseEncoding:
+    ...
+
+def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: str, name: Optional[str] = None,
+         case_sensitive: Optional[bool] = None, **kwargs: Any) -&gt; BaseEncoding:
+    &#34;&#34;&#34;
+        Utility function to create custom encodings.
+        The `kind` keyword argument can be used to select different encoding constructors:
+
+        - if `&#34;simple-enc&#34;`, uses `bases.encoding.simple.SimpleBaseEncoding`
+        - if `&#34;zeropad-enc&#34;`, uses `bases.encoding.zeropad.ZeropadBaseEncoding`
+        - if `&#34;block-enc&#34;`, uses `bases.encoding.block.BlockBaseEncoding`
+        - if `&#34;fixchar-enc&#34;`, uses `bases.encoding.fixchar.FixcharBaseEncoding`
+
+        If the optional keyword argument `name` is specified, the encoding is automatically registered using `register`.
+
+        The positional argument `chars` and the keyword argument `case_sensitive` are common to all encodings (with
+        `bases.encoding.block.BlockBaseEncoding` additionally accepting a `bases.encoding.base.BaseEncoding` instance).
+        The additional `kwargs` are those of each individual class constructor.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.make(&#34;0123&#34;, kind=&#34;zeropad-enc&#34;, block_nchars=4, name=&#34;base4&#34;)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+        &gt;&gt;&gt; encoding.get(&#34;base4&#34;)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+        &gt;&gt;&gt; encoding.get(&#34;base4&#34;).encode(b&#34;0x7E&#34;)
+        &#39;0300132003131011&#39;
+        ```
+
+    &#34;&#34;&#34;
+    kwargs[&#34;case_sensitive&#34;] = case_sensitive
+    if kind == &#34;simple-enc&#34;:
+        if isinstance(chars, BaseEncoding):
+            raise ValueError(&#34;Argument &#39;chars&#39; can be a BaseEncoding only when &#39;kind&#39; is &#39;block-enc&#39;.&#34;)
+        enc: BaseEncoding = SimpleBaseEncoding(chars, **kwargs)
+    elif kind == &#34;zeropad-enc&#34;:
+        if isinstance(chars, BaseEncoding):
+            raise ValueError(&#34;Argument &#39;chars&#39; can be a BaseEncoding only when &#39;kind&#39; is &#39;block-enc&#39;.&#34;)
+        enc = ZeropadBaseEncoding(chars, **kwargs)
+    elif kind == &#34;block-enc&#34;:
+        enc = BlockBaseEncoding(chars, **kwargs)
+    elif kind == &#34;fixchar-enc&#34;:
+        if isinstance(chars, BaseEncoding):
+            raise ValueError(&#34;Argument &#39;chars&#39; can be a BaseEncoding only when &#39;kind&#39; is &#39;block-enc&#39;.&#34;)
+        enc = FixcharBaseEncoding(chars, **kwargs)
+    else:
+        raise ValueError(f&#34;Encoding kind {repr(kind)} not currently supported.&#34;)
+    if name is not None:
+        register(**{name: enc})
+    return enc
+
+# zero-padded base encodings (fixed blocks)
+
+base2 = ZeropadBaseEncoding(alphabet.base2, block_nchars=8)
+&#34;&#34;&#34; Base-2 encoding (8-char blocks). &#34;&#34;&#34;
+
+base16 = ZeropadBaseEncoding(alphabet.base16, block_nchars=2)
+&#34;&#34;&#34;
+    Uppercase case-insensitive base-16 encoding (2-char blocks).
+    This is the same encoding specified by [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648).
+&#34;&#34;&#34;
+
+register(base2=base2, base16=base16)
+
+
+# zero-padded base encodings (elastic)
+
+base10 = ZeropadBaseEncoding(alphabet.base10)
+&#34;&#34;&#34; Base-10 encoding. &#34;&#34;&#34;
+
+base36 = ZeropadBaseEncoding(alphabet.base36)
+&#34;&#34;&#34; Uppercase case-insensitive base-36 alphabet. &#34;&#34;&#34;
+
+base58btc = ZeropadBaseEncoding(alphabet.base58btc)
+&#34;&#34;&#34;
+    Case-sensitive base-58 encoding used by Bitcoin.
+
+    Specs from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02
+&#34;&#34;&#34;
+
+base58flickr = ZeropadBaseEncoding(alphabet.base58flickr)
+&#34;&#34;&#34;
+    Case-sensitive base-58 encoding used by Flickr.
+
+    Spec from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02 but using alphabet `bases.alphabet.base58flickr`.
+&#34;&#34;&#34;
+
+base58ripple = ZeropadBaseEncoding(alphabet.base58ripple)
+&#34;&#34;&#34;
+    Case-sensitive base-58 encoding used by Ripple.
+
+    Spec from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02 but using alphabet `bases.alphabet.base58ripple`.
+&#34;&#34;&#34;
+
+register(base10=base10, base36=base36, base58btc=base58btc, base58flickr=base58flickr, base58ripple=base58ripple)
+
+
+# fixed-char base encodings
+
+base8 = FixcharBaseEncoding(alphabet.base8, pad_char=&#34;=&#34;, padding=&#34;include&#34;)
+&#34;&#34;&#34; Base-8 encoding from https://github.com/multiformats/multibase/blob/master/rfcs/Base8.md &#34;&#34;&#34;
+
+base32 = FixcharBaseEncoding(alphabet.base32, pad_char=&#34;=&#34;, padding=&#34;include&#34;)
+&#34;&#34;&#34; Uppercase case-insensitive base-32 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). &#34;&#34;&#34;
+
+base32hex = FixcharBaseEncoding(alphabet.base32hex, pad_char=&#34;=&#34;, padding=&#34;include&#34;)
+&#34;&#34;&#34; Uppercase case-insensitive hex base-32 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). &#34;&#34;&#34;
+
+base32z = FixcharBaseEncoding(alphabet.base32z)
+&#34;&#34;&#34;
+    Lowercase case-insensitive human-oriented base-32 encoding from https://philzimmermann.com/docs/human-oriented-base-32-encoding.txt
+&#34;&#34;&#34;
+
+base64 = FixcharBaseEncoding(alphabet.base64, pad_char=&#34;=&#34;, padding=&#34;include&#34;)
+&#34;&#34;&#34; Uppercase case-sensitive base-64 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). &#34;&#34;&#34;
+
+base64url = FixcharBaseEncoding(alphabet.base64url, pad_char=&#34;=&#34;, padding=&#34;include&#34;)
+&#34;&#34;&#34; Uppercase case-sensitive url-safe base-64 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). &#34;&#34;&#34;
+
+register(base8=base8, base32=base32, base32hex=base32hex, base32z=base32z,
+         base64=base64, base64url=base64url)
+
+# block base encodings
+
+base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3}, reverse_blocks=True)
+&#34;&#34;&#34;
+    Uppercase case-insensitive base-45 encoding from https://datatracker.ietf.org/doc/draft-faltstrom-base45/
+    
+    Note that this is (slightly) different from the [ISO/IEC 18004:2015 standard](https://www.iso.org/standard/62021.html)
+&#34;&#34;&#34;
+
+register(base45=base45)</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="bases.encoding.base" href="base.html">bases.encoding.base</a></code></dt>
+<dd>
+<div class="desc"><p>Abstract base encodings.</p></div>
+</dd>
+<dt><code class="name"><a title="bases.encoding.block" href="block.html">bases.encoding.block</a></code></dt>
+<dd>
+<div class="desc"><p>Block base encodings.</p></div>
+</dd>
+<dt><code class="name"><a title="bases.encoding.errors" href="errors.html">bases.encoding.errors</a></code></dt>
+<dd>
+<div class="desc"><p>Encoding error classes.</p></div>
+</dd>
+<dt><code class="name"><a title="bases.encoding.fixchar" href="fixchar.html">bases.encoding.fixchar</a></code></dt>
+<dd>
+<div class="desc"><p>Fixed-character base encodings.</p></div>
+</dd>
+<dt><code class="name"><a title="bases.encoding.simple" href="simple.html">bases.encoding.simple</a></code></dt>
+<dd>
+<div class="desc"><p>Simple base encodings.</p></div>
+</dd>
+<dt><code class="name"><a title="bases.encoding.zeropad" href="zeropad.html">bases.encoding.zeropad</a></code></dt>
+<dd>
+<div class="desc"><p>Zero-padded base encodings.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="bases.encoding.base10"><code class="name">var <span class="ident">base10</span></code></dt>
+<dd>
+<div class="desc"><p>Base-10 encoding.</p></div>
+</dd>
+<dt id="bases.encoding.base16"><code class="name">var <span class="ident">base16</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-insensitive base-16 encoding (2-char blocks).
+This is the same encoding specified by <a href="https://datatracker.ietf.org/doc/html/rfc4648">rfc4648</a>.</p></div>
+</dd>
+<dt id="bases.encoding.base2"><code class="name">var <span class="ident">base2</span></code></dt>
+<dd>
+<div class="desc"><p>Base-2 encoding (8-char blocks).</p></div>
+</dd>
+<dt id="bases.encoding.base32"><code class="name">var <span class="ident">base32</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-insensitive base-32 encoding from <a href="https://datatracker.ietf.org/doc/html/rfc4648">rfc4648</a>.</p></div>
+</dd>
+<dt id="bases.encoding.base32hex"><code class="name">var <span class="ident">base32hex</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-insensitive hex base-32 encoding from <a href="https://datatracker.ietf.org/doc/html/rfc4648">rfc4648</a>.</p></div>
+</dd>
+<dt id="bases.encoding.base32z"><code class="name">var <span class="ident">base32z</span></code></dt>
+<dd>
+<div class="desc"><p>Lowercase case-insensitive human-oriented base-32 encoding from <a href="https://philzimmermann.com/docs/human-oriented-base-32-encoding.txt">https://philzimmermann.com/docs/human-oriented-base-32-encoding.txt</a></p></div>
+</dd>
+<dt id="bases.encoding.base36"><code class="name">var <span class="ident">base36</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-insensitive base-36 alphabet.</p></div>
+</dd>
+<dt id="bases.encoding.base45"><code class="name">var <span class="ident">base45</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-insensitive base-45 encoding from <a href="https://datatracker.ietf.org/doc/draft-faltstrom-base45/">https://datatracker.ietf.org/doc/draft-faltstrom-base45/</a></p>
+<p>Note that this is (slightly) different from the <a href="https://www.iso.org/standard/62021.html">ISO/IEC 18004:2015 standard</a></p></div>
+</dd>
+<dt id="bases.encoding.base58btc"><code class="name">var <span class="ident">base58btc</span></code></dt>
+<dd>
+<div class="desc"><p>Case-sensitive base-58 encoding used by Bitcoin.</p>
+<p>Specs from <a href="https://datatracker.ietf.org/doc/html/draft-msporny-base58-02">https://datatracker.ietf.org/doc/html/draft-msporny-base58-02</a></p></div>
+</dd>
+<dt id="bases.encoding.base58flickr"><code class="name">var <span class="ident">base58flickr</span></code></dt>
+<dd>
+<div class="desc"><p>Case-sensitive base-58 encoding used by Flickr.</p>
+<p>Spec from <a href="https://datatracker.ietf.org/doc/html/draft-msporny-base58-02">https://datatracker.ietf.org/doc/html/draft-msporny-base58-02</a> but using alphabet <code><a title="bases.alphabet.base58flickr" href="../alphabet/index.html#bases.alphabet.base58flickr">base58flickr</a></code>.</p></div>
+</dd>
+<dt id="bases.encoding.base58ripple"><code class="name">var <span class="ident">base58ripple</span></code></dt>
+<dd>
+<div class="desc"><p>Case-sensitive base-58 encoding used by Ripple.</p>
+<p>Spec from <a href="https://datatracker.ietf.org/doc/html/draft-msporny-base58-02">https://datatracker.ietf.org/doc/html/draft-msporny-base58-02</a> but using alphabet <code><a title="bases.alphabet.base58ripple" href="../alphabet/index.html#bases.alphabet.base58ripple">base58ripple</a></code>.</p></div>
+</dd>
+<dt id="bases.encoding.base64"><code class="name">var <span class="ident">base64</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-sensitive base-64 encoding from <a href="https://datatracker.ietf.org/doc/html/rfc4648">rfc4648</a>.</p></div>
+</dd>
+<dt id="bases.encoding.base64url"><code class="name">var <span class="ident">base64url</span></code></dt>
+<dd>
+<div class="desc"><p>Uppercase case-sensitive url-safe base-64 encoding from <a href="https://datatracker.ietf.org/doc/html/rfc4648">rfc4648</a>.</p></div>
+</dd>
+<dt id="bases.encoding.base8"><code class="name">var <span class="ident">base8</span></code></dt>
+<dd>
+<div class="desc"><p>Base-8 encoding from <a href="https://github.com/multiformats/multibase/blob/master/rfcs/Base8.md">https://github.com/multiformats/multibase/blob/master/rfcs/Base8.md</a></p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="bases.encoding.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>name: str) ‑> <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets an encoding by name, raising <code>KeyError</code> if none exists.</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; from bases import encoding
+&gt;&gt;&gt; encoding.get(&quot;base16&quot;)
+ZeropadBaseEncoding(
+    StringAlphabet('0123456789ABCDEF',
+                   case_sensitive=False),
+    block_nchars=2)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(name: str) -&gt; BaseEncoding:
+    &#34;&#34;&#34;
+        Gets an encoding by name, raising `KeyError` if none exists.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.get(&#34;base16&#34;)
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789ABCDEF&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+        ```
+    &#34;&#34;&#34;
+    if name not in _base_encodings:
+        raise KeyError(f&#34;Encoding named {repr(name)} does not exist.&#34;)
+    return _base_encodings[name]</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.has"><code class="name flex">
+<span>def <span class="ident">has</span></span>(<span>name: str) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><pre><code class="language-py">&gt;&gt;&gt; from bases import encoding
+&gt;&gt;&gt; encoding.has(&quot;base32&quot;)
+True
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has(name: str) -&gt; bool:
+    &#34;&#34;&#34;
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.has(&#34;base32&#34;)
+        True
+        ```
+    &#34;&#34;&#34;
+    return name in _base_encodings</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.make"><code class="name flex">
+<span>def <span class="ident">make</span></span>(<span>chars: Union[str, range, <a title="bases.alphabet.abstract.Alphabet" href="../alphabet/abstract.html#bases.alphabet.abstract.Alphabet">Alphabet</a>, <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a>], *, kind: str, name: Optional[str] = None, case_sensitive: Optional[bool] = None, **kwargs: Any) ‑> <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Utility function to create custom encodings.
+The <code>kind</code> keyword argument can be used to select different encoding constructors:</p>
+<ul>
+<li>if <code>"simple-enc"</code>, uses <code><a title="bases.encoding.simple.SimpleBaseEncoding" href="simple.html#bases.encoding.simple.SimpleBaseEncoding">SimpleBaseEncoding</a></code></li>
+<li>if <code>"zeropad-enc"</code>, uses <code><a title="bases.encoding.zeropad.ZeropadBaseEncoding" href="zeropad.html#bases.encoding.zeropad.ZeropadBaseEncoding">ZeropadBaseEncoding</a></code></li>
+<li>if <code>"block-enc"</code>, uses <code><a title="bases.encoding.block.BlockBaseEncoding" href="block.html#bases.encoding.block.BlockBaseEncoding">BlockBaseEncoding</a></code></li>
+<li>if <code>"fixchar-enc"</code>, uses <code><a title="bases.encoding.fixchar.FixcharBaseEncoding" href="fixchar.html#bases.encoding.fixchar.FixcharBaseEncoding">FixcharBaseEncoding</a></code></li>
+</ul>
+<p>If the optional keyword argument <code>name</code> is specified, the encoding is automatically registered using <code><a title="bases.encoding.register" href="#bases.encoding.register">register()</a></code>.</p>
+<p>The positional argument <code>chars</code> and the keyword argument <code>case_sensitive</code> are common to all encodings (with
+<code><a title="bases.encoding.block.BlockBaseEncoding" href="block.html#bases.encoding.block.BlockBaseEncoding">BlockBaseEncoding</a></code> additionally accepting a <code><a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a></code> instance).
+The additional <code>kwargs</code> are those of each individual class constructor.</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; from bases import encoding
+&gt;&gt;&gt; encoding.make(&quot;0123&quot;, kind=&quot;zeropad-enc&quot;, block_nchars=4, name=&quot;base4&quot;)
+ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
+&gt;&gt;&gt; encoding.get(&quot;base4&quot;)
+ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
+&gt;&gt;&gt; encoding.get(&quot;base4&quot;).encode(b&quot;0x7E&quot;)
+'0300132003131011'
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: str, name: Optional[str] = None,
+         case_sensitive: Optional[bool] = None, **kwargs: Any) -&gt; BaseEncoding:
+    &#34;&#34;&#34;
+        Utility function to create custom encodings.
+        The `kind` keyword argument can be used to select different encoding constructors:
+
+        - if `&#34;simple-enc&#34;`, uses `bases.encoding.simple.SimpleBaseEncoding`
+        - if `&#34;zeropad-enc&#34;`, uses `bases.encoding.zeropad.ZeropadBaseEncoding`
+        - if `&#34;block-enc&#34;`, uses `bases.encoding.block.BlockBaseEncoding`
+        - if `&#34;fixchar-enc&#34;`, uses `bases.encoding.fixchar.FixcharBaseEncoding`
+
+        If the optional keyword argument `name` is specified, the encoding is automatically registered using `register`.
+
+        The positional argument `chars` and the keyword argument `case_sensitive` are common to all encodings (with
+        `bases.encoding.block.BlockBaseEncoding` additionally accepting a `bases.encoding.base.BaseEncoding` instance).
+        The additional `kwargs` are those of each individual class constructor.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.make(&#34;0123&#34;, kind=&#34;zeropad-enc&#34;, block_nchars=4, name=&#34;base4&#34;)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+        &gt;&gt;&gt; encoding.get(&#34;base4&#34;)
+        ZeropadBaseEncoding(StringAlphabet(&#39;0123&#39;), block_nchars=4)
+        &gt;&gt;&gt; encoding.get(&#34;base4&#34;).encode(b&#34;0x7E&#34;)
+        &#39;0300132003131011&#39;
+        ```
+
+    &#34;&#34;&#34;
+    kwargs[&#34;case_sensitive&#34;] = case_sensitive
+    if kind == &#34;simple-enc&#34;:
+        if isinstance(chars, BaseEncoding):
+            raise ValueError(&#34;Argument &#39;chars&#39; can be a BaseEncoding only when &#39;kind&#39; is &#39;block-enc&#39;.&#34;)
+        enc: BaseEncoding = SimpleBaseEncoding(chars, **kwargs)
+    elif kind == &#34;zeropad-enc&#34;:
+        if isinstance(chars, BaseEncoding):
+            raise ValueError(&#34;Argument &#39;chars&#39; can be a BaseEncoding only when &#39;kind&#39; is &#39;block-enc&#39;.&#34;)
+        enc = ZeropadBaseEncoding(chars, **kwargs)
+    elif kind == &#34;block-enc&#34;:
+        enc = BlockBaseEncoding(chars, **kwargs)
+    elif kind == &#34;fixchar-enc&#34;:
+        if isinstance(chars, BaseEncoding):
+            raise ValueError(&#34;Argument &#39;chars&#39; can be a BaseEncoding only when &#39;kind&#39; is &#39;block-enc&#39;.&#34;)
+        enc = FixcharBaseEncoding(chars, **kwargs)
+    else:
+        raise ValueError(f&#34;Encoding kind {repr(kind)} not currently supported.&#34;)
+    if name is not None:
+        register(**{name: enc})
+    return enc</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.register"><code class="name flex">
+<span>def <span class="ident">register</span></span>(<span>**kwargs: <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Registers any number of new encodings by name.
+Raises <code>KeyError</code> is an encoding with one of the given name already exists.</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; from bases import encoding
+&gt;&gt;&gt; encoding.register(base16lower=encoding.base16.lower())
+&gt;&gt;&gt; encoding.get(&quot;base16lower&quot;)
+ZeropadBaseEncoding(
+    StringAlphabet('0123456789abcdef',
+                   case_sensitive=False),
+    block_nchars=2)
+</code></pre>
+<p>Encoding names must conform with:</p>
+<pre><code class="language-py">re.match(r&quot;^base[0-9][a-zA-Z0-9_]*$&quot;, name)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def register(**kwargs: BaseEncoding) -&gt; None:
+    &#34;&#34;&#34;
+        Registers any number of new encodings by name.
+        Raises `KeyError` is an encoding with one of the given name already exists.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.register(base16lower=encoding.base16.lower())
+        &gt;&gt;&gt; encoding.get(&#34;base16lower&#34;)
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789abcdef&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+        ```
+
+        Encoding names must conform with:
+
+        ```py
+        re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name)
+        ```
+    &#34;&#34;&#34;
+    for name, encoding in kwargs.items():
+        if not re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name):
+            raise ValueError(f&#34;Invalid encoding name {repr(name)}&#34;)
+        if not isinstance(encoding, BaseEncoding):
+            raise TypeError()
+        if name in _base_encodings:
+            raise ValueError(f&#34;Encoding named {repr(name)} already exists.&#34;)
+        _base_encodings[name] = encoding</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.table"><code class="name flex">
+<span>def <span class="ident">table</span></span>(<span>*, prefix: str = '') ‑> Iterator[Tuple[str, <a title="bases.encoding.base.BaseEncoding" href="base.html#bases.encoding.base.BaseEncoding">BaseEncoding</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Iterates over all registered alphabets, optionally restricting to those with given prefix:</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; from bases import encoding
+&gt;&gt;&gt; dict(encoding.table(prefix=&quot;base32&quot;))
+{'base32':      FixcharBaseEncoding(
+                    StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+                                   case_sensitive=False),
+                    pad_char='=', padding='include'),
+ 'base32hex':   FixcharBaseEncoding(
+                    StringAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUV',
+                                   case_sensitive=False),
+                    pad_char='=', padding='include'),
+ 'base32z':     FixcharBaseEncoding(
+                    StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
+                                   case_sensitive=False))
+}
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def table(*, prefix: str = &#34;&#34;) -&gt; Iterator[Tuple[str, BaseEncoding]]:
+    &#34;&#34;&#34;
+        Iterates over all registered alphabets, optionally restricting to those with given prefix:
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; dict(encoding.table(prefix=&#34;base32&#34;))
+        {&#39;base32&#39;:      FixcharBaseEncoding(
+                            StringAlphabet(&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ234567&#39;,
+                                           case_sensitive=False),
+                            pad_char=&#39;=&#39;, padding=&#39;include&#39;),
+         &#39;base32hex&#39;:   FixcharBaseEncoding(
+                            StringAlphabet(&#39;0123456789ABCDEFGHIJKLMNOPQRSTUV&#39;,
+                                           case_sensitive=False),
+                            pad_char=&#39;=&#39;, padding=&#39;include&#39;),
+         &#39;base32z&#39;:     FixcharBaseEncoding(
+                            StringAlphabet(&#39;ybndrfg8ejkmcpqxot1uwisza345h769&#39;,
+                                           case_sensitive=False))
+        }
+        ```
+
+    &#34;&#34;&#34;
+    encodings = [(name, encoding) for name, encoding in _base_encodings.items()
+                 if name.startswith(prefix)]
+    encodings = sorted(encodings, key=lambda pair: pair[0])
+    return iter(encodings)</code></pre>
+</details>
+</dd>
+<dt id="bases.encoding.unregister"><code class="name flex">
+<span>def <span class="ident">unregister</span></span>(<span>*names: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Unregisters any number of existing encodings by name.
+Raises <code>KeyError</code> is an encoding with one of the given names doesn't exist.</p>
+<p>Example usage:</p>
+<pre><code class="language-py">&gt;&gt;&gt; from bases import encoding
+&gt;&gt;&gt; encoding.unregister(&quot;base16&quot;, &quot;base32&quot;)
+&gt;&gt;&gt; encoding.has(&quot;base16&quot;)
+False
+&gt;&gt;&gt; encoding.get(&quot;base16&quot;)
+KeyError: &quot;Encoding named 'base16' does not exist.&quot;
+</code></pre>
+<p>Note that pre-defined constants are unaffected by this:</p>
+<pre><code class="language-py">&gt;&gt;&gt; encoding.base16
+ZeropadBaseEncoding(
+    StringAlphabet('0123456789ABCDEF',
+                   case_sensitive=False),
+    block_nchars=2)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unregister(*names: str) -&gt; None:
+    &#34;&#34;&#34;
+        Unregisters any number of existing encodings by name.
+        Raises `KeyError` is an encoding with one of the given names doesn&#39;t exist.
+
+        Example usage:
+
+        ```py
+        &gt;&gt;&gt; from bases import encoding
+        &gt;&gt;&gt; encoding.unregister(&#34;base16&#34;, &#34;base32&#34;)
+        &gt;&gt;&gt; encoding.has(&#34;base16&#34;)
+        False
+        &gt;&gt;&gt; encoding.get(&#34;base16&#34;)
+        KeyError: &#34;Encoding named &#39;base16&#39; does not exist.&#34;
+        ```
+
+        Note that pre-defined constants are unaffected by this:
+
+        ```py
+        &gt;&gt;&gt; encoding.base16
+        ZeropadBaseEncoding(
+            StringAlphabet(&#39;0123456789ABCDEF&#39;,
+                           case_sensitive=False),
+            block_nchars=2)
+        ```
+    &#34;&#34;&#34;
+    for name in names:
+        if name not in _base_encodings:
+            raise KeyError(f&#34;Encoding named {repr(name)} does not exist.&#34;)
+        del _base_encodings[name]</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="bases" href="../index.html">bases</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="bases.encoding.base" href="base.html">bases.encoding.base</a></code></li>
+<li><code><a title="bases.encoding.block" href="block.html">bases.encoding.block</a></code></li>
+<li><code><a title="bases.encoding.errors" href="errors.html">bases.encoding.errors</a></code></li>
+<li><code><a title="bases.encoding.fixchar" href="fixchar.html">bases.encoding.fixchar</a></code></li>
+<li><code><a title="bases.encoding.simple" href="simple.html">bases.encoding.simple</a></code></li>
+<li><code><a title="bases.encoding.zeropad" href="zeropad.html">bases.encoding.zeropad</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="two-column">
+<li><code><a title="bases.encoding.base10" href="#bases.encoding.base10">base10</a></code></li>
+<li><code><a title="bases.encoding.base16" href="#bases.encoding.base16">base16</a></code></li>
+<li><code><a title="bases.encoding.base2" href="#bases.encoding.base2">base2</a></code></li>
+<li><code><a title="bases.encoding.base32" href="#bases.encoding.base32">base32</a></code></li>
+<li><code><a title="bases.encoding.base32hex" href="#bases.encoding.base32hex">base32hex</a></code></li>
+<li><code><a title="bases.encoding.base32z" href="#bases.encoding.base32z">base32z</a></code></li>
+<li><code><a title="bases.encoding.base36" href="#bases.encoding.base36">base36</a></code></li>
+<li><code><a title="bases.encoding.base45" href="#bases.encoding.base45">base45</a></code></li>
+<li><code><a title="bases.encoding.base58btc" href="#bases.encoding.base58btc">base58btc</a></code></li>
+<li><code><a title="bases.encoding.base58flickr" href="#bases.encoding.base58flickr">base58flickr</a></code></li>
+<li><code><a title="bases.encoding.base58ripple" href="#bases.encoding.base58ripple">base58ripple</a></code></li>
+<li><code><a title="bases.encoding.base64" href="#bases.encoding.base64">base64</a></code></li>
+<li><code><a title="bases.encoding.base64url" href="#bases.encoding.base64url">base64url</a></code></li>
+<li><code><a title="bases.encoding.base8" href="#bases.encoding.base8">base8</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="bases.encoding.get" href="#bases.encoding.get">get</a></code></li>
+<li><code><a title="bases.encoding.has" href="#bases.encoding.has">has</a></code></li>
+<li><code><a title="bases.encoding.make" href="#bases.encoding.make">make</a></code></li>
+<li><code><a title="bases.encoding.register" href="#bases.encoding.register">register</a></code></li>
+<li><code><a title="bases.encoding.table" href="#bases.encoding.table">table</a></code></li>
+<li><code><a title="bases.encoding.unregister" href="#bases.encoding.unregister">unregister</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
