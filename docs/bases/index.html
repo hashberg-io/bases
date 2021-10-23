@@ -141,7 +141,8 @@ from .encoding import get, has, make, register, unregister, table
 
 # re-export all encodings and functions.
 __all__ = [
-    *(name for name, _ in encoding.table()),
+    &#34;base2&#34;, &#34;base16&#34;, &#34;base8&#34;, &#34;base10&#34;, &#34;base36&#34;, &#34;base58btc&#34;, &#34;base58flickr&#34;, &#34;base58ripple&#34;,
+    &#34;base32&#34;, &#34;base32hex&#34;, &#34;base32z&#34;, &#34;base64&#34;, &#34;base64url&#34;, &#34;base45&#34;,
     &#34;get&#34;, &#34;has&#34;, &#34;make&#34;, &#34;register&#34;, &#34;unregister&#34;, &#34;table&#34;
 ]
 

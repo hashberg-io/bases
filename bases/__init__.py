@@ -65,7 +65,8 @@ from .encoding import get, has, make, register, unregister, table
 
 # re-export all encodings and functions.
 __all__ = [
-    *(name for name, _ in encoding.table()),
+    "base2", "base16", "base8", "base10", "base36", "base58btc", "base58flickr", "base58ripple",
+    "base32", "base32hex", "base32z", "base64", "base64url", "base45",
     "get", "has", "make", "register", "unregister", "table"
 ]
 
