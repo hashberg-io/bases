@@ -1,3 +1,3 @@
-python setup.py sdist bdist_wheel
-python -m twine upload dist/*
+py -m build
+py -m twine upload --skip-existing dist/*
 pause

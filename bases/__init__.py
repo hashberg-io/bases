@@ -57,6 +57,8 @@
 
 """
 
+__version__ = "0.1.1"
+
 from . import encoding as encoding
 from . import alphabet as alphabet
 from .encoding import (base2, base16, base8, base10, base36, base58btc, base58flickr, base58ripple,

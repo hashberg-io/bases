@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bases",
-    version="0.1.0.post2",
+    version="0.1.0.post3",
     author="hashberg",
     author_email="sg495@users.noreply.github.com",
     url="https://github.com/hashberg-io/bases",
@@ -26,8 +26,7 @@ setuptools.setup(
         "Natural Language :: English",
         "Typing :: Typed",
     ],
-    package_data={"": [],
-                  "bases": ["py.typed"],
+    package_data={"": ["py.typed"],
                  },
     install_requires=[
         "typing_extensions"
