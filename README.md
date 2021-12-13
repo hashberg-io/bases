@@ -1,6 +1,6 @@
 # `bases`: a Python library for general Base-N encodings.
 
-[![Generic badge](https://img.shields.io/badge/python-3.6+-green.svg)](https://docs.python.org/3.6/)
+[![Generic badge](https://img.shields.io/badge/python-3.7+-green.svg)](https://docs.python.org/3.7/)
 ![PyPI version shields.io](https://img.shields.io/pypi/v/bases.svg)
 [![PyPI status](https://img.shields.io/pypi/status/bases.svg)](https://pypi.python.org/pypi/bases/)
 [![Checked with Mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](https://github.com/python/mypy)
