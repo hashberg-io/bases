@@ -33,6 +33,7 @@
 &#34;&#34;&#34;
 
 from typing import Any, Iterator, Mapping, overload, Union
+from typing_validation import validate
 
 from .abstract import Alphabet
 from .string_alphabet import StringAlphabet
@@ -58,6 +59,7 @@ class RangeAlphabet(Alphabet):
     def __init__(self, codepoints: range, *,
                  case_sensitive: bool = True):
         super().__init__(case_sensitive)
+        validate(codepoints, range)
         self._codepoints = codepoints
         self._revdir = _RangeAlphabetRevdir(self)
         self.__validate_init()
@@ -105,12 +107,14 @@ class RangeAlphabet(Alphabet):
         ...
 
     def __getitem__(self, idx: Union[int, slice]) -&gt; Union[str, &#34;RangeAlphabet&#34;]:
+        validate(idx, Union[int, slice])
         if isinstance(idx, slice):
             new_codepoints = self._codepoints[idx]
             return RangeAlphabet(new_codepoints, case_sensitive=self.case_sensitive)
         return chr(self._codepoints[idx])
 
     def with_case_sensitivity(self, case_sensitive: bool) -&gt; &#34;RangeAlphabet&#34;:
+        validate(case_sensitive, bool)
         if case_sensitive == self.case_sensitive:
             return self
         return RangeAlphabet(self.codepoints, case_sensitive=case_sensitive)
@@ -176,6 +180,7 @@ class _RangeAlphabetRevdir(Mapping[str, int]):
         return ord(char.upper()) in alphabet.codepoints or ord(char.lower()) in alphabet.codepoints
 
     def __getitem__(self, char: str) -&gt; int:
+        validate(char, str)
         alphabet = self._alphabet
         if ord(char) in alphabet.codepoints:
             return ord(char)-alphabet.codepoints.start
@@ -233,6 +238,7 @@ RangeAlphabet(range(0x0, 0x100))
     def __init__(self, codepoints: range, *,
                  case_sensitive: bool = True):
         super().__init__(case_sensitive)
+        validate(codepoints, range)
         self._codepoints = codepoints
         self._revdir = _RangeAlphabetRevdir(self)
         self.__validate_init()
@@ -280,12 +286,14 @@ RangeAlphabet(range(0x0, 0x100))
         ...
 
     def __getitem__(self, idx: Union[int, slice]) -&gt; Union[str, &#34;RangeAlphabet&#34;]:
+        validate(idx, Union[int, slice])
         if isinstance(idx, slice):
             new_codepoints = self._codepoints[idx]
             return RangeAlphabet(new_codepoints, case_sensitive=self.case_sensitive)
         return chr(self._codepoints[idx])
 
     def with_case_sensitivity(self, case_sensitive: bool) -&gt; &#34;RangeAlphabet&#34;:
+        validate(case_sensitive, bool)
         if case_sensitive == self.case_sensitive:
             return self
         return RangeAlphabet(self.codepoints, case_sensitive=case_sensitive)

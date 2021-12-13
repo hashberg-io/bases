@@ -100,6 +100,7 @@
 import re
 from typing import Collection, Dict, Iterator, Optional, overload, Tuple, Union
 from typing_extensions import Literal
+from typing_validation import validate
 
 from .abstract import Alphabet as Alphabet
 from .string_alphabet import StringAlphabet as StringAlphabet
@@ -118,6 +119,7 @@ def get(name: str) -&gt; Alphabet:
         StringAlphabet(&#39;0123456789ABCDEF&#39;)
         ```
     &#34;&#34;&#34;
+    validate(name, str)
     if name not in _alphabets:
         raise KeyError(f&#34;Alphabet named {repr(name)} does not exist.&#34;)
     return _alphabets[name]
@@ -134,6 +136,7 @@ def has(name: str) -&gt; bool:
         True
         ```
     &#34;&#34;&#34;
+    validate(name, str)
     return name in _alphabets
 
 def register(**kwargs: Alphabet) -&gt; None:
@@ -156,6 +159,8 @@ def register(**kwargs: Alphabet) -&gt; None:
         re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name)
         ```
     &#34;&#34;&#34;
+    for arg in kwargs.values():
+        validate(arg, Alphabet)
     for name, alphabet in kwargs.items():
         if not re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name):
             raise ValueError(f&#34;Invalid alphabet name {repr(name)}&#34;)
@@ -189,6 +194,8 @@ def unregister(*names: str) -&gt; None:
         ```
     &#34;&#34;&#34;
     for name in names:
+        validate(name, str)
+    for name in names:
         if name not in _alphabets:
             raise KeyError(f&#34;Alphabet named {repr(name)} does not exist.&#34;)
         del _alphabets[name]
@@ -208,6 +215,7 @@ def table(*, prefix: str = &#34;&#34;) -&gt; Iterator[Tuple[str, Alphabet]]:
         ```
 
     &#34;&#34;&#34;
+    validate(prefix, str)
     alphabets = [(name, alphabet) for name, alphabet in _alphabets.items()
                  if name.startswith(prefix)]
     alphabets = sorted(alphabets, key=lambda pair: pair[0])
@@ -243,6 +251,9 @@ def make(chars: Union[str, range], *, case_sensitive: bool = True, name: Optiona
 
         If the optional keyword argument `name` is specified, the alphabet is automatically registered using `register`.
     &#34;&#34;&#34;
+    validate(chars, Union[str, range])
+    validate(case_sensitive, bool)
+    validate(name, Optional[str])
     if isinstance(chars, str):
         string_alphabet = StringAlphabet(chars, case_sensitive=case_sensitive)
         if name is not None:
@@ -407,6 +418,7 @@ StringAlphabet('0123456789ABCDEF')
         StringAlphabet(&#39;0123456789ABCDEF&#39;)
         ```
     &#34;&#34;&#34;
+    validate(name, str)
     if name not in _alphabets:
         raise KeyError(f&#34;Alphabet named {repr(name)} does not exist.&#34;)
     return _alphabets[name]</code></pre>
@@ -438,6 +450,7 @@ True
         True
         ```
     &#34;&#34;&#34;
+    validate(name, str)
     return name in _alphabets</code></pre>
 </details>
 </dd>
@@ -483,6 +496,9 @@ RangeAlphabet(range(0x00, 0x100))
 
         If the optional keyword argument `name` is specified, the alphabet is automatically registered using `register`.
     &#34;&#34;&#34;
+    validate(chars, Union[str, range])
+    validate(case_sensitive, bool)
+    validate(name, Optional[str])
     if isinstance(chars, str):
         string_alphabet = StringAlphabet(chars, case_sensitive=case_sensitive)
         if name is not None:
@@ -535,6 +551,8 @@ StringAlphabet('0123456789abcdef')
         re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name)
         ```
     &#34;&#34;&#34;
+    for arg in kwargs.values():
+        validate(arg, Alphabet)
     for name, alphabet in kwargs.items():
         if not re.match(r&#34;^base[0-9][a-zA-Z0-9_]*$&#34;, name):
             raise ValueError(f&#34;Invalid alphabet name {repr(name)}&#34;)
@@ -576,6 +594,7 @@ StringAlphabet('0123456789abcdef')
         ```
 
     &#34;&#34;&#34;
+    validate(prefix, str)
     alphabets = [(name, alphabet) for name, alphabet in _alphabets.items()
                  if name.startswith(prefix)]
     alphabets = sorted(alphabets, key=lambda pair: pair[0])
@@ -627,6 +646,8 @@ StringAlphabet('0123456789ABCDEF')
         StringAlphabet(&#39;0123456789ABCDEF&#39;)
         ```
     &#34;&#34;&#34;
+    for name in names:
+        validate(name, str)
     for name in names:
         if name not in _alphabets:
             raise KeyError(f&#34;Alphabet named {repr(name)} does not exist.&#34;)

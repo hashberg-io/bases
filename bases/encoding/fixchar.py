@@ -5,6 +5,7 @@
 import math
 from typing import Any, Dict, List, Mapping, Optional, Union
 from typing_extensions import Literal
+from typing_validation import validate
 
 from bases.alphabet import Alphabet
 from .base import BaseEncoding
@@ -95,6 +96,9 @@ class FixcharBaseEncoding(BaseEncoding):
                  char_nbits: Union[int, Literal["auto"]] = "auto",
                  pad_char: Optional[str] = None,
                  padding: PaddingOptions = "ignore"):
+        validate(char_nbits, Union[int, Literal["auto"]])
+        validate(pad_char, Optional[str])
+        validate(padding, PaddingOptions)
         if padding not in ("ignore", "include", "require"):
             raise TypeError("Allowed padding options are: 'ignore', 'include' and 'require'.")
         super().__init__(alphabet, case_sensitive=case_sensitive)
@@ -221,6 +225,7 @@ class FixcharBaseEncoding(BaseEncoding):
                 pad_char='=', padding='include')
             ```
         """
+        validate(require, bool)
         options = dict(padding="require" if require else "include")
         return self.with_options(**options)
 
@@ -248,6 +253,7 @@ class FixcharBaseEncoding(BaseEncoding):
                                case_sensitive=False))
             ```
         """
+        validate(allow, bool)
         options = dict(padding="ignore", pad_char=self.pad_char if allow else None)
         return self.with_options(**options)
 
@@ -272,6 +278,7 @@ class FixcharBaseEncoding(BaseEncoding):
             ```
 
         """
+        validate(pad_char, Optional[str])
         options: Dict[str, Any] = dict(pad_char=pad_char)
         if pad_char is None:
             options["padding"] = "ignore"
@@ -286,8 +293,7 @@ class FixcharBaseEncoding(BaseEncoding):
 
             The value of `FixcharBaseEncoding.padding` is irrelevant to this method.
         """
-        if not isinstance(s, str):
-            raise TypeError()
+        validate(s, str)
         pad_char = self.pad_char
         block_nchars = self._block_nchars
         # no padding available for this encoding scheme
@@ -309,8 +315,7 @@ class FixcharBaseEncoding(BaseEncoding):
             If `FixcharBaseEncoding.padding` is set to `"require"`, checks that the correct number of
             padding characters were included and raises `bases.encoding.errors.PaddingError` if not.
         """
-        if not isinstance(s, str):
-            raise TypeError()
+        validate(s, str)
         pad_char = self.pad_char
         case_sensitive = self.case_sensitive
         block_nchars = self._block_nchars
@@ -337,6 +342,7 @@ class FixcharBaseEncoding(BaseEncoding):
         return b
 
     def canonical_string(self, s: str) -> str:
+        validate(s, str)
         if self.include_padding:
             return self.pad_string(s)
         return self.strip_string(s)
@@ -395,6 +401,7 @@ class FixcharBaseEncoding(BaseEncoding):
         return i.to_bytes(length=original_nbytes, byteorder="big")
 
     def options(self, skip_defaults: bool = False) -> Mapping[str, Any]:
+        validate(skip_defaults, bool)
         options: Dict[str, Any] = {}
         if not skip_defaults or self._init_char_nbits != "auto":
             options["char_nbits"] = self._init_char_nbits

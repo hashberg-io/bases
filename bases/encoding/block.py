@@ -5,6 +5,7 @@
 import math
 from types import MappingProxyType
 from typing import Any, Dict, List, Mapping, Optional, Union
+from typing_validation import validate
 
 from bases.alphabet import Alphabet
 from .base import BaseEncoding
@@ -93,10 +94,13 @@ class BlockBaseEncoding(BaseEncoding):
                  block_size: Union[int, Mapping[int, int]],
                  sep_char: str = "",
                  reverse_blocks: bool = False):
+        validate(encoding, Union[str, range, Alphabet, BaseEncoding])
+        validate(block_size, Union[int, Mapping[int, int]])
+        validate(sep_char, str)
+        validate(reverse_blocks, bool)
         self._init_encoding = encoding
         self._init_case_sensitive = case_sensitive
         self._init_block_size = block_size
-
         if isinstance(encoding, BaseEncoding):
             alphabet: Union[str, range, Alphabet] = encoding.alphabet
         else:
@@ -221,6 +225,7 @@ class BlockBaseEncoding(BaseEncoding):
         return b
 
     def _validate_string(self, s: str) -> str:
+        validate(s, str)
         sep_char = self.sep_char
         block_nchars = self.block_nchars
         if sep_char:
@@ -293,6 +298,7 @@ class BlockBaseEncoding(BaseEncoding):
         return b"".join(byte_blocks)
 
     def options(self, skip_defaults: bool = False) -> Mapping[str, Any]:
+        validate(skip_defaults, bool)
         options: Dict[str, Any] = {
             "block_size": self._init_block_size,
         }

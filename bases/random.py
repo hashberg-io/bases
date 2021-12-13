@@ -52,6 +52,7 @@ from itertools import chain, islice
 from random import Random # pylint: disable = import-self
 from types import MappingProxyType
 from typing import Any, Dict, Iterator, Mapping, Optional
+from typing_validation import validate
 
 from .alphabet import Alphabet
 from .encoding import BaseEncoding, SimpleBaseEncoding, ZeropadBaseEncoding, BlockBaseEncoding, FixcharBaseEncoding
@@ -112,6 +113,8 @@ def options(*,
         See `set_options` for a description of the options.
     """
     # pylint: disable = too-many-locals
+    for arg in (seed, min_bytes, max_bytes, min_chars, max_chars):
+        validate(arg, Optional[int])
     global _options
     global _rand
     try:
@@ -145,6 +148,8 @@ def set_options(*,
 
     """
     # pylint: disable = too-many-branches, too-many-locals, too-many-statements
+    for arg in (seed, min_bytes, max_bytes, min_chars, max_chars):
+        validate(arg, Optional[int])
     global _options
     global _rand
     # set newly passed options
@@ -197,6 +202,8 @@ def rand_bytes(n: Optional[int] = None, *, encoding: Optional[BaseEncoding] = No
          [0, 96, 63]]
         ```
     """
+    validate(n, Optional[int])
+    validate(encoding, Optional[BaseEncoding])
     if encoding is None:
         return rand_raw_bytes(n)
     if isinstance(encoding, SimpleBaseEncoding):
@@ -217,6 +224,9 @@ def rand_raw_bytes(n: Optional[int] = None, *, min_bytes: Optional[int] = None, 
         The optional `min_bytes` and `max_bytes` parameters can be used to set a minimum/maximum length
         for the `bytes` objects: if `None`, the values are fetched from `get_options`.
     """
+    validate(n, Optional[int])
+    validate(min_bytes, Optional[int])
+    validate(max_bytes, Optional[int])
     if n is not None and n < 0:
         raise ValueError()
     if min_bytes is None:
@@ -318,6 +328,9 @@ def rand_str(n: Optional[int] = None, *, encoding: Optional[BaseEncoding]=None, 
         ```
 
     """
+    validate(n, Optional[int])
+    validate(encoding, Optional[BaseEncoding])
+    validate(alphabet, Optional[Alphabet])
     if encoding is None:
         if alphabet is None:
             raise ValueError("One of 'encoding' or 'alphabet' must be specified.")

@@ -34,6 +34,7 @@
 
 import math
 from typing import Any, Dict, Mapping, Optional, Union
+from typing_validation import validate
 
 from bases.alphabet import Alphabet
 from .base import BaseEncoding
@@ -79,6 +80,8 @@ class ZeropadBaseEncoding(BaseEncoding):
                  case_sensitive: Optional[bool] = None,
                  block_nbytes: int = 1,
                  block_nchars: int = 1):
+        validate(block_nbytes, int)
+        validate(block_nchars, int)
         super().__init__(alphabet, case_sensitive=case_sensitive)
         self._simple_encoding = SimpleBaseEncoding(self.alphabet)
         self._block_nbytes = block_nbytes
@@ -109,6 +112,8 @@ class ZeropadBaseEncoding(BaseEncoding):
                 256**block_nbytes &gt; base**(block_nchars-1)
             ```
         &#34;&#34;&#34;
+        validate(base, int)
+        validate(block_nbytes, int)
         if base &lt;= 1:
             raise ValueError(&#34;Base must be &gt;= 2.&#34;)
         if block_nbytes &lt;= 0:
@@ -127,6 +132,8 @@ class ZeropadBaseEncoding(BaseEncoding):
                 base**block_nchars &gt; 256**(block_nbytes-1)
             ```
         &#34;&#34;&#34;
+        validate(base, int)
+        validate(block_nchars, int)
         if base &lt;= 1:
             raise ValueError(&#34;Base must be &gt;= 2.&#34;)
         if block_nchars &lt;= 0:
@@ -204,6 +211,7 @@ class ZeropadBaseEncoding(BaseEncoding):
         return b
 
     def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        validate(skip_defaults, bool)
         options: Dict[str, Any] = {}
         if not skip_defaults or self.block_nbytes != 1:
             options[&#34;block_nbytes&#34;] = self.block_nbytes
@@ -297,6 +305,8 @@ This is to ensure that encoding/decoding can always be performed unambiguously.<
                  case_sensitive: Optional[bool] = None,
                  block_nbytes: int = 1,
                  block_nchars: int = 1):
+        validate(block_nbytes, int)
+        validate(block_nchars, int)
         super().__init__(alphabet, case_sensitive=case_sensitive)
         self._simple_encoding = SimpleBaseEncoding(self.alphabet)
         self._block_nbytes = block_nbytes
@@ -327,6 +337,8 @@ This is to ensure that encoding/decoding can always be performed unambiguously.<
                 256**block_nbytes &gt; base**(block_nchars-1)
             ```
         &#34;&#34;&#34;
+        validate(base, int)
+        validate(block_nbytes, int)
         if base &lt;= 1:
             raise ValueError(&#34;Base must be &gt;= 2.&#34;)
         if block_nbytes &lt;= 0:
@@ -345,6 +357,8 @@ This is to ensure that encoding/decoding can always be performed unambiguously.<
                 base**block_nchars &gt; 256**(block_nbytes-1)
             ```
         &#34;&#34;&#34;
+        validate(base, int)
+        validate(block_nchars, int)
         if base &lt;= 1:
             raise ValueError(&#34;Base must be &gt;= 2.&#34;)
         if block_nchars &lt;= 0:
@@ -422,6 +436,7 @@ This is to ensure that encoding/decoding can always be performed unambiguously.<
         return b
 
     def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        validate(skip_defaults, bool)
         options: Dict[str, Any] = {}
         if not skip_defaults or self.block_nbytes != 1:
             options[&#34;block_nbytes&#34;] = self.block_nbytes
@@ -456,6 +471,8 @@ def max_block_nbytes(base: int, block_nchars: int) -&gt; int:
             base**block_nchars &gt; 256**(block_nbytes-1)
         ```
     &#34;&#34;&#34;
+    validate(base, int)
+    validate(block_nchars, int)
     if base &lt;= 1:
         raise ValueError(&#34;Base must be &gt;= 2.&#34;)
     if block_nchars &lt;= 0:
@@ -485,6 +502,8 @@ def max_block_nchars(base: int, block_nbytes: int) -&gt; int:
             256**block_nbytes &gt; base**(block_nchars-1)
         ```
     &#34;&#34;&#34;
+    validate(base, int)
+    validate(block_nbytes, int)
     if base &lt;= 1:
         raise ValueError(&#34;Base must be &gt;= 2.&#34;)
     if block_nbytes &lt;= 0:

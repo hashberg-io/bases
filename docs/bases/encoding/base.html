@@ -34,6 +34,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Mapping, Optional, TypeVar, Union
+from typing_validation import validate
 
 from bases import alphabet
 from bases.alphabet import Alphabet
@@ -54,6 +55,8 @@ class BaseEncoding(ABC):
 
     def __init__(self, chars: Union[str, range, Alphabet], *,
                  case_sensitive: Optional[bool] = None):
+        validate(chars, Union[str, range, Alphabet])
+        validate(case_sensitive, Optional[bool])
         if isinstance(chars, Alphabet):
             if case_sensitive is not None:
                 chars = chars.with_case_sensitivity(case_sensitive)
@@ -129,6 +132,8 @@ class BaseEncoding(ABC):
             Returns a new encoding with the same kind and options as this one,
             but a different alphabet and/or case sensitivity.
         &#34;&#34;&#34;
+        validate(chars, Union[str, range, Alphabet])
+        validate(case_sensitive, Optional[bool])
         options = {**self.options()}
         options[&#34;case_sensitive&#34;] = case_sensitive
         return type(self)(chars, **options)
@@ -151,6 +156,7 @@ class BaseEncoding(ABC):
                 pad_char=&#39;=&#39;, padding=&#39;include&#39;)
             ```
         &#34;&#34;&#34;
+        validate(case_sensitive, bool)
         return self.with_alphabet(self.alphabet.with_case_sensitivity(case_sensitive))
 
     def upper(self: Self) -&gt; Self:
@@ -264,13 +270,11 @@ class BaseEncoding(ABC):
 
     def _validate_bytes(self, b: bytes) -&gt; bytes:
         # pylint: disable = no-self-use
-        if not isinstance(b, bytes):
-            raise TypeError()
+        validate(b, bytes)
         return b
 
     def _validate_string(self, s: str) -&gt; str:
-        if not isinstance(s, str):
-            raise TypeError()
+        validate(s, str)
         alphabet = self.alphabet
         for c in s:
             if c not in alphabet:
@@ -357,6 +361,8 @@ and a number of additional options specified by subclasses.</p></div>
 
     def __init__(self, chars: Union[str, range, Alphabet], *,
                  case_sensitive: Optional[bool] = None):
+        validate(chars, Union[str, range, Alphabet])
+        validate(case_sensitive, Optional[bool])
         if isinstance(chars, Alphabet):
             if case_sensitive is not None:
                 chars = chars.with_case_sensitivity(case_sensitive)
@@ -432,6 +438,8 @@ and a number of additional options specified by subclasses.</p></div>
             Returns a new encoding with the same kind and options as this one,
             but a different alphabet and/or case sensitivity.
         &#34;&#34;&#34;
+        validate(chars, Union[str, range, Alphabet])
+        validate(case_sensitive, Optional[bool])
         options = {**self.options()}
         options[&#34;case_sensitive&#34;] = case_sensitive
         return type(self)(chars, **options)
@@ -454,6 +462,7 @@ and a number of additional options specified by subclasses.</p></div>
                 pad_char=&#39;=&#39;, padding=&#39;include&#39;)
             ```
         &#34;&#34;&#34;
+        validate(case_sensitive, bool)
         return self.with_alphabet(self.alphabet.with_case_sensitivity(case_sensitive))
 
     def upper(self: Self) -&gt; Self:
@@ -567,13 +576,11 @@ and a number of additional options specified by subclasses.</p></div>
 
     def _validate_bytes(self, b: bytes) -&gt; bytes:
         # pylint: disable = no-self-use
-        if not isinstance(b, bytes):
-            raise TypeError()
+        validate(b, bytes)
         return b
 
     def _validate_string(self, s: str) -&gt; str:
-        if not isinstance(s, str):
-            raise TypeError()
+        validate(s, str)
         alphabet = self.alphabet
         for c in s:
             if c not in alphabet:
@@ -1007,6 +1014,8 @@ but a different alphabet and/or case sensitivity.</p></div>
         Returns a new encoding with the same kind and options as this one,
         but a different alphabet and/or case sensitivity.
     &#34;&#34;&#34;
+    validate(chars, Union[str, range, Alphabet])
+    validate(case_sensitive, Optional[bool])
     options = {**self.options()}
     options[&#34;case_sensitive&#34;] = case_sensitive
     return type(self)(chars, **options)</code></pre>
@@ -1050,6 +1059,7 @@ FixcharBaseEncoding(
             pad_char=&#39;=&#39;, padding=&#39;include&#39;)
         ```
     &#34;&#34;&#34;
+    validate(case_sensitive, bool)
     return self.with_alphabet(self.alphabet.with_case_sensitivity(case_sensitive))</code></pre>
 </details>
 </dd>

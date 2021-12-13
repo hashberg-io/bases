@@ -63,6 +63,7 @@
 import re
 from typing import Any, cast, Collection, Dict, Iterator, Mapping, Optional, overload, Tuple, Type, Union
 from typing_extensions import Literal
+from typing_validation import validate
 
 from bases import alphabet
 from bases.alphabet import Alphabet
@@ -89,6 +90,7 @@ def get(name: str) -> BaseEncoding:
             block_nchars=2)
         ```
     """
+    validate(name, str)
     if name not in _base_encodings:
         raise KeyError(f"Encoding named {repr(name)} does not exist.")
     return _base_encodings[name]
@@ -101,6 +103,7 @@ def has(name: str) -> bool:
         True
         ```
     """
+    validate(name, str)
     return name in _base_encodings
 
 def register(**kwargs: BaseEncoding) -> None:
@@ -126,6 +129,8 @@ def register(**kwargs: BaseEncoding) -> None:
         re.match(r"^base[0-9][a-zA-Z0-9_]*$", name)
         ```
     """
+    for arg in kwargs.values():
+        validate(arg, BaseEncoding)
     for name, encoding in kwargs.items():
         if not re.match(r"^base[0-9][a-zA-Z0-9_]*$", name):
             raise ValueError(f"Invalid encoding name {repr(name)}")
@@ -162,6 +167,8 @@ def unregister(*names: str) -> None:
         ```
     """
     for name in names:
+        validate(name, str)
+    for name in names:
         if name not in _base_encodings:
             raise KeyError(f"Encoding named {repr(name)} does not exist.")
         del _base_encodings[name]
@@ -190,6 +197,7 @@ def table(*, prefix: str = "") -> Iterator[Tuple[str, BaseEncoding]]:
         ```
 
     """
+    validate(prefix, str)
     encodings = [(name, encoding) for name, encoding in _base_encodings.items()
                  if name.startswith(prefix)]
     encodings = sorted(encodings, key=lambda pair: pair[0])
@@ -248,6 +256,10 @@ def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: str, name: O
         ```
 
     """
+    validate(chars, Union[str, range, Alphabet, BaseEncoding])
+    validate(kind, str)
+    validate(name, Optional[str])
+    validate(case_sensitive, Optional[bool])
     kwargs["case_sensitive"] = case_sensitive
     if kind == "simple-enc":
         if isinstance(chars, BaseEncoding):

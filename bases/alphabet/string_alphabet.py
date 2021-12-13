@@ -4,6 +4,7 @@
 
 from types import MappingProxyType
 from typing import Any, Mapping, overload, Union
+from typing_validation import validate
 
 from .abstract import Alphabet
 
@@ -30,6 +31,7 @@ class StringAlphabet(Alphabet):
     def __init__(self, chars: str, *,
                  case_sensitive: bool = True):
         super().__init__(case_sensitive)
+        validate(chars, str)
         self._chars = chars
         revdir = {
             c: idx for idx, c in enumerate(chars)
@@ -88,12 +90,14 @@ class StringAlphabet(Alphabet):
         ...
 
     def __getitem__(self, idx: Union[int, slice]) -> Union[str, "StringAlphabet"]:
+        validate(idx, Union[int, slice])
         if isinstance(idx, slice):
             new_chars = self._chars[idx]
             return StringAlphabet(new_chars, case_sensitive=self.case_sensitive)
         return self._chars[idx]
 
     def with_case_sensitivity(self, case_sensitive: bool) -> "StringAlphabet":
+        validate(case_sensitive, bool)
         if case_sensitive == self.case_sensitive:
             return self
         return StringAlphabet(self.chars, case_sensitive=case_sensitive)

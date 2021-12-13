@@ -45,6 +45,7 @@
 import re
 from typing import Collection, Dict, Iterator, Optional, overload, Tuple, Union
 from typing_extensions import Literal
+from typing_validation import validate
 
 from .abstract import Alphabet as Alphabet
 from .string_alphabet import StringAlphabet as StringAlphabet
@@ -63,6 +64,7 @@ def get(name: str) -> Alphabet:
         StringAlphabet('0123456789ABCDEF')
         ```
     """
+    validate(name, str)
     if name not in _alphabets:
         raise KeyError(f"Alphabet named {repr(name)} does not exist.")
     return _alphabets[name]
@@ -79,6 +81,7 @@ def has(name: str) -> bool:
         True
         ```
     """
+    validate(name, str)
     return name in _alphabets
 
 def register(**kwargs: Alphabet) -> None:
@@ -101,6 +104,8 @@ def register(**kwargs: Alphabet) -> None:
         re.match(r"^base[0-9][a-zA-Z0-9_]*$", name)
         ```
     """
+    for arg in kwargs.values():
+        validate(arg, Alphabet)
     for name, alphabet in kwargs.items():
         if not re.match(r"^base[0-9][a-zA-Z0-9_]*$", name):
             raise ValueError(f"Invalid alphabet name {repr(name)}")
@@ -134,6 +139,8 @@ def unregister(*names: str) -> None:
         ```
     """
     for name in names:
+        validate(name, str)
+    for name in names:
         if name not in _alphabets:
             raise KeyError(f"Alphabet named {repr(name)} does not exist.")
         del _alphabets[name]
@@ -153,6 +160,7 @@ def table(*, prefix: str = "") -> Iterator[Tuple[str, Alphabet]]:
         ```
 
     """
+    validate(prefix, str)
     alphabets = [(name, alphabet) for name, alphabet in _alphabets.items()
                  if name.startswith(prefix)]
     alphabets = sorted(alphabets, key=lambda pair: pair[0])
@@ -188,6 +196,9 @@ def make(chars: Union[str, range], *, case_sensitive: bool = True, name: Optiona
 
         If the optional keyword argument `name` is specified, the alphabet is automatically registered using `register`.
     """
+    validate(chars, Union[str, range])
+    validate(case_sensitive, bool)
+    validate(name, Optional[str])
     if isinstance(chars, str):
         string_alphabet = StringAlphabet(chars, case_sensitive=case_sensitive)
         if name is not None:

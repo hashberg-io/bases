@@ -3,6 +3,7 @@
 """
 
 from typing import Any, List, Mapping, Optional, Union
+from typing_validation import validate
 
 from bases.alphabet import Alphabet
 from .base import BaseEncoding
@@ -77,4 +78,5 @@ class SimpleBaseEncoding(BaseEncoding):
         return i.to_bytes(length=nbytes, byteorder="big")
 
     def options(self, skip_defaults: bool = False) -> Mapping[str, Any]:
+        validate(skip_defaults, bool)
         return {}

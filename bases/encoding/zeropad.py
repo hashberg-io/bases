@@ -4,6 +4,7 @@
 
 import math
 from typing import Any, Dict, Mapping, Optional, Union
+from typing_validation import validate
 
 from bases.alphabet import Alphabet
 from .base import BaseEncoding
@@ -49,6 +50,8 @@ class ZeropadBaseEncoding(BaseEncoding):
                  case_sensitive: Optional[bool] = None,
                  block_nbytes: int = 1,
                  block_nchars: int = 1):
+        validate(block_nbytes, int)
+        validate(block_nchars, int)
         super().__init__(alphabet, case_sensitive=case_sensitive)
         self._simple_encoding = SimpleBaseEncoding(self.alphabet)
         self._block_nbytes = block_nbytes
@@ -79,6 +82,8 @@ class ZeropadBaseEncoding(BaseEncoding):
                 256**block_nbytes > base**(block_nchars-1)
             ```
         """
+        validate(base, int)
+        validate(block_nbytes, int)
         if base <= 1:
             raise ValueError("Base must be >= 2.")
         if block_nbytes <= 0:
@@ -97,6 +102,8 @@ class ZeropadBaseEncoding(BaseEncoding):
                 base**block_nchars > 256**(block_nbytes-1)
             ```
         """
+        validate(base, int)
+        validate(block_nchars, int)
         if base <= 1:
             raise ValueError("Base must be >= 2.")
         if block_nchars <= 0:
@@ -174,6 +181,7 @@ class ZeropadBaseEncoding(BaseEncoding):
         return b
 
     def options(self, skip_defaults: bool = False) -> Mapping[str, Any]:
+        validate(skip_defaults, bool)
         options: Dict[str, Any] = {}
         if not skip_defaults or self.block_nbytes != 1:
             options["block_nbytes"] = self.block_nbytes

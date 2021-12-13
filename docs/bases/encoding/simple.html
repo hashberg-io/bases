@@ -33,6 +33,7 @@
 &#34;&#34;&#34;
 
 from typing import Any, List, Mapping, Optional, Union
+from typing_validation import validate
 
 from bases.alphabet import Alphabet
 from .base import BaseEncoding
@@ -107,6 +108,7 @@ class SimpleBaseEncoding(BaseEncoding):
         return i.to_bytes(length=nbytes, byteorder=&#34;big&#34;)
 
     def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        validate(skip_defaults, bool)
         return {}</code></pre>
 </details>
 </section>
@@ -210,6 +212,7 @@ class SimpleBaseEncoding(BaseEncoding):
         return i.to_bytes(length=nbytes, byteorder=&#34;big&#34;)
 
     def options(self, skip_defaults: bool = False) -&gt; Mapping[str, Any]:
+        validate(skip_defaults, bool)
         return {}</code></pre>
 </details>
 <h3>Ancestors</h3>

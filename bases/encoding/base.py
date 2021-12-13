@@ -4,6 +4,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Mapping, Optional, TypeVar, Union
+from typing_validation import validate
 
 from bases import alphabet
 from bases.alphabet import Alphabet
@@ -24,6 +25,8 @@ class BaseEncoding(ABC):
 
     def __init__(self, chars: Union[str, range, Alphabet], *,
                  case_sensitive: Optional[bool] = None):
+        validate(chars, Union[str, range, Alphabet])
+        validate(case_sensitive, Optional[bool])
         if isinstance(chars, Alphabet):
             if case_sensitive is not None:
                 chars = chars.with_case_sensitivity(case_sensitive)
@@ -99,6 +102,8 @@ class BaseEncoding(ABC):
             Returns a new encoding with the same kind and options as this one,
             but a different alphabet and/or case sensitivity.
         """
+        validate(chars, Union[str, range, Alphabet])
+        validate(case_sensitive, Optional[bool])
         options = {**self.options()}
         options["case_sensitive"] = case_sensitive
         return type(self)(chars, **options)
@@ -121,6 +126,7 @@ class BaseEncoding(ABC):
                 pad_char='=', padding='include')
             ```
         """
+        validate(case_sensitive, bool)
         return self.with_alphabet(self.alphabet.with_case_sensitivity(case_sensitive))
 
     def upper(self: Self) -> Self:
@@ -234,13 +240,11 @@ class BaseEncoding(ABC):
 
     def _validate_bytes(self, b: bytes) -> bytes:
         # pylint: disable = no-self-use
-        if not isinstance(b, bytes):
-            raise TypeError()
+        validate(b, bytes)
         return b
 
     def _validate_string(self, s: str) -> str:
-        if not isinstance(s, str):
-            raise TypeError()
+        validate(s, str)
         alphabet = self.alphabet
         for c in s:
             if c not in alphabet:

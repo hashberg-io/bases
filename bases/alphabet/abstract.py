@@ -4,6 +4,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Mapping, Optional, overload, Sequence, TypeVar, Union
+from typing_validation import validate
 
 Self = TypeVar("Self", bound="Alphabet")
 
@@ -26,6 +27,7 @@ class Alphabet(ABC, Sequence[str]):
     _case_sensitive: bool
 
     def __init__(self, case_sensitive: bool = True):
+        validate(case_sensitive, bool)
         self._case_sensitive = case_sensitive
 
     @property
@@ -68,6 +70,9 @@ class Alphabet(ABC, Sequence[str]):
             ```
         """
         # pylint: disable = arguments-renamed
+        validate(char, str)
+        validate(start, int)
+        validate(stop, Optional[int])
         if start < 0:
             start = max(len(self) + start, 0)
         if stop is None:
@@ -87,6 +92,7 @@ class Alphabet(ABC, Sequence[str]):
             Returns 1 if `char` is in the alphabet and 0 otherwise.
         """
         # pylint: disable = arguments-renamed
+        validate(char, str)
         return 1 if char in self else 0
 
     def __contains__(self, char: Any) -> bool:
