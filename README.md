@@ -1,4 +1,4 @@
-# `bases`: a Python library for Base-N encodings
+# `bases`: A Python library for Base-N encodings
 
 [![Generic badge](https://img.shields.io/badge/python-3.7+-green.svg)](https://docs.python.org/3.7/)
 ![PyPI version shields.io](https://img.shields.io/pypi/v/bases.svg)
