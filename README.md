@@ -27,7 +27,7 @@ pip install bases
 
 ## Usage
 
-The core functionality of the library is performed by the [`encode(b)`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.encode) and [`decode(s)`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.decode) methods of base encodings, instances of [`BaseEncoding`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding) (or, more precisely, of its concrete subclasses).
+The core functionality of the library is performed by the [`encode`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.encode) and [`decode`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.decode) methods of base encodings, instances of [`BaseEncoding`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding) (or, more precisely, of its concrete subclasses).
 
 Common encodings are associated to pre-defined constants:
 
@@ -40,7 +40,7 @@ FixcharBaseEncoding(
     pad_char='=', padding='include')
 ```
 
-The [`encode(b)`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.encode) method can be used to encode bytestrings into strings:
+The [`encode`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.encode) method can be used to encode bytestrings into strings:
 
 ```py
 >>> b = bytes([70, 98, 190, 187, 66, 224, 178])
@@ -48,7 +48,7 @@ The [`encode(b)`](https://hashberg-io.github.io/bases/bases/encoding/base.html#b
 'IZRL5O2C4CZA===='
 ```
 
-The [`decode(s)`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.decode) method can be used to decode strings into bytestrings:
+The [`decode`](https://hashberg-io.github.io/bases/bases/encoding/base.html#bases.encoding.base.BaseEncoding.decode) method can be used to decode strings into bytestrings:
 
 ```py
 >>> s = 'IZRL5O2C4CZA===='
@@ -58,8 +58,8 @@ b'Fb\xbe\xbbB\xe0\xb2'
 [70, 98, 190, 187, 66, 224, 178]
 ```
 
-The [`get(name)`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.get), [`make(...)`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.make), [`has(name)`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.has) and [`table(prefix="")`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.table) functions provide an interface for the programmatic management of encodings.
-The [`get(name)`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.get) function can be used to obtain an existing encoding by name:
+The [`get`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.get), [`make`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.make), [`has`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.has) and [`table`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.table) functions provide an interface for the programmatic management of encodings.
+The [`get`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.get) function can be used to obtain an existing encoding by name:
 
 ```py
 >>> import bases
@@ -70,7 +70,7 @@ FixcharBaseEncoding(
     pad_char='=', padding='include')
 ```
 
-The [`make(...)`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.make) function can be used to create a new encoding from a given alphabet, encoding kind and options:
+The [`make`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.make) function can be used to create a new encoding from a given alphabet, encoding kind and options:
 
 ```py
 >>> bases.make("0123", kind="zeropad-enc", block_nchars=4, name="base4")
@@ -78,14 +78,14 @@ ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
 ```
 
 The optional keyword argument `name` can be used to register with the library for future retrieval.
-The [`has(name)`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.has) function can be used to check whether an encoding exists by a given name:
+The [`has`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.has) function can be used to check whether an encoding exists by a given name:
 
 ```py
 >>> bases.has("base4")
 True
 ```
 
-The [`table(prefix="")`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.table) function can be used to iterate through the existing encoding, optionally filtering by name prefix:
+The [`table`](https://hashberg-io.github.io/bases/bases/encoding/index.html#bases.encoding.table) function can be used to iterate through the existing encoding, optionally filtering by name prefix:
 
 ```py
 >>> dict(bases.table(prefix="base32"))
