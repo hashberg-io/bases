@@ -19,10 +19,10 @@
 
 ## Install
 
-You can install this package with `pip`:
+You can install the latest release from PyPI as follows:
 
 ```
-pip install bases
+pip install --upgrade bases
 ```
 
 ## Usage
