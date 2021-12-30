@@ -1,50 +1,6 @@
 """
     Functions to generate random data.
-
-    The main functions are `rand_bytes` and `rand_str`:
-
-    - the function call `rand_bytes(n)` returns an iterator yielding a stream of `n` random bytestrings
-    - the function call `rand_bytes(n, encoding=enc)` returns an iterator yielding a stream of `n` random bytestrings valid for the encoding
-      (i.e. they should be encoded without error)
-    - the function call `rand_str(n, encoding=enc)` returns an iterator yielding a stream of `n` random strings valid for the encoding
-      (i.e. they should be decoded without error)
-    - the function call `rand_str(n, alphabet=alph)` returns an iterator yielding a stream of `n` random strings with characters from the alphabet
-    - the function call `rand_bytes()` returns an iterator yielding an infinite stream of random bytestrings
-    - the function call `rand_bytes(encoding=enc)` returns an iterator yielding an infinite stream of random bytestrings valid for the encoding
-    - the function call `rand_str(encoding=enc)` returns an iterator yielding an infinite stream of random strings valid for the encoding
-    - the function call `rand_str(alphabet=alph)` returns an iterator yielding an infinite stream of random strings with characters from the alphabet
-
-    Example usage:
-
-    ```python
-        >>> from bases import base10, base32
-        >>> from bases import random
-        >>> my_random_bytes = list(random.rand_bytes(4, encoding=base10))
-        >>> [list(b) for b in my_random_bytes]
-        [[0, 30, 135, 156, 223, 90, 134, 83, 6, 243, 245],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 216, 87, 1, 2],
-         [70, 98, 190, 187, 66, 224, 178],
-         [0, 96, 63]]
-        >>> my_random_strings = list(random.rand_str(4, encoding=base32))
-        >>> my_random_strings
-        ['2CQ7ZT6WNI', 'IGQJTGA', 'V6GW3UN64QDAFZA7', 'PUEMOPJ4']
-    ```
-
-    The `options()` context manager is used to set options temporarily, within the scope of a `with` directive:
-
-    - `min_bytes` and `max_bytes` bound the length of bytestrings yielded by `rand_bytes`
-    - `min_chars` and `max_chars` bound the length of strings yielded by `rand_str`
-
-    Options can be set with `set_options()` and reset with `reset_options()`. A read-only view on options can be obtained
-    from `get_options()`, and a read-only view on default options can be obtained from `default_options()`:
-
-    ```py
-        >>> random.default_options()
-        mappingproxy({'min_bytes': 0, 'max_bytes': 16,
-                      'min_chars': 0, 'max_chars': 16})
-    ```
 """
-
 # pylint: disable = global-statement
 
 from contextlib import contextmanager
@@ -104,13 +60,13 @@ def options(*,
     """
         Returns with-statement context manager for temporary option setting:
 
-        ```py
+        .. code-block:: python
+
             with options(**options):
                 for value in rand_data(num_samples, encoding):
                     ...
-        ```
 
-        See `set_options` for a description of the options.
+        See :func:`set_options` for a description of the options.
     """
     # pylint: disable = too-many-locals
     for arg in (seed, min_bytes, max_bytes, min_chars, max_chars):
@@ -138,13 +94,13 @@ def set_options(*,
     """
         Permanently sets random generation options:
 
-        ```python
+        .. code-block:: python
+
             seed: int           # set new random number generator, with this seed
             min_bytes: int      # min length of `bytes` value
             max_bytes: int      # max length of `bytes` value
             min_chars: int      # min length of `str` value
             max_chars: int      # max length of `str` value
-        ```
 
     """
     # pylint: disable = too-many-branches, too-many-locals, too-many-statements
@@ -187,20 +143,24 @@ def set_options(*,
 
 def rand_bytes(n: Optional[int] = None, *, encoding: Optional[BaseEncoding] = None) -> Iterator[bytes]:
     """
-        Generates a stream of random `bytes` objects.
-        If a number `n` is given, that number of samples is yelded.
-        If an encoding `encoding` is given, only bytes valid for that encoding are yielded.
+        Generates a stream of random :obj:`bytes` objects.
+        If a number ``n`` is given, that number of samples is yelded.
+        If an encoding ``encoding`` is given, only bytes valid for that encoding are yielded.
 
         Example usage:
 
-        ```py
         >>> my_random_bytes = list(random.rand_bytes(4, encoding=base10))
         >>> [list(b) for b in my_random_bytes]
         [[0, 30, 135, 156, 223, 90, 134, 83, 6, 243, 245],
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 216, 87, 1, 2],
          [70, 98, 190, 187, 66, 224, 178],
          [0, 96, 63]]
-        ```
+
+        :param n: the number of samples
+        :type n: :obj:`int` or :obj:`None`, *optional*
+        :param encoding: optional encoding for which the bytestrings must be valid
+        :type encoding: :obj:`~bases.encoding.base.BaseEncoding` or :obj:`None`, *optional*
+
     """
     validate(n, Optional[int])
     validate(encoding, Optional[BaseEncoding])
@@ -219,10 +179,17 @@ def rand_bytes(n: Optional[int] = None, *, encoding: Optional[BaseEncoding] = No
 
 def rand_raw_bytes(n: Optional[int] = None, *, min_bytes: Optional[int] = None, max_bytes: Optional[int] = None) -> Iterator[bytes]:
     """
-        Generates a stream of random `bytes` objects.
-        If a number `n` is given, that number of samples is yelded.
-        The optional `min_bytes` and `max_bytes` parameters can be used to set a minimum/maximum length
-        for the `bytes` objects: if `None`, the values are fetched from `get_options`.
+        Generates a stream of random :obj:`bytes` objects.
+        If a number ``n`` is given, that number of samples is yelded.
+        The optional ``min_bytes`` and ``max_bytes`` parameters can be used to set a minimum/maximum length
+        for the :obj:`bytes` objects: if :obj:`None`, the values are fetched from :func:`get_options`.
+
+        :param n: the number of samples
+        :type n: :obj:`int` or :obj:`None`, *optional*
+        :param min_bytes: the minimum length for the bytestrings
+        :type min_bytes: :obj:`int` or :obj:`None`, *optional*
+        :param max_bytes: the maximum length for the bytestrings
+        :type max_bytes: :obj:`int` or :obj:`None`, *optional*
     """
     validate(n, Optional[int])
     validate(min_bytes, Optional[int])
@@ -314,18 +281,26 @@ def _rand_bytes_fixedchar_enc(n: Optional[int], _: FixcharBaseEncoding) -> Itera
 def rand_str(n: Optional[int] = None, *, encoding: Optional[BaseEncoding]=None, alphabet: Optional[Alphabet]=None) -> Iterator[str]:
     """
         Generates a stream of random strings.
-        If a number `n` is given, that number of samples is yelded.
-        Exactly one of `encoding` or `alphabet` must be given:
-        - if an `encoding` is given, only strings valid for that encoding are yielded
-        - if an `alphabet` is given, only strings valid for that alphabet are yielded
+        If a number ``n`` is given, that number of samples is yelded.
+        Exactly one of ``encoding`` or ``alphabet`` must be given:
+        - if an ``encoding`` is given, only strings valid for that encoding are yielded
+        - if an ``alphabet`` is given, only strings valid for that alphabet are yielded
 
         Example usage:
 
-        ```py
         >>> my_random_strings = list(random.rand_str(4, encoding=base32))
         >>> my_random_strings
         ['2CQ7ZT6WNI', 'IGQJTGA', 'V6GW3UN64QDAFZA7', 'PUEMOPJ4']
-        ```
+
+        :param n: the number of samples
+        :type n: :obj:`int` or :obj:`None`, *optional*
+        :param encoding: optional encoding for which the strings must be valid
+        :type encoding: :obj:`~bases.encoding.base.BaseEncoding` or :obj:`None`, *optional*
+        :param alphabet: optional alphabet for which the bytestrings must be valid
+        :type alphabet: :obj:`~bases.alphabet.abstract.Alphabet` or :obj:`None`, *optional*
+
+        :raises ValueError: unless exactly one of ``encoding`` or ``alphabet`` is specified
+        :raises ValueError: if an instance of a an unsupported (i.e. custom) base encoding subclass is passed to ``encoding``
 
     """
     validate(n, Optional[int])
@@ -350,8 +325,15 @@ def rand_str(n: Optional[int] = None, *, encoding: Optional[BaseEncoding]=None, 
 def rand_char(n: Optional[int] = None, *, alphabet: Alphabet, non_zero: bool = False) -> Iterator[str]:
     """
         Generates a stream of random characters from the alphabet (one character yielded at a time).
-        If a number `n` is given, that number of samples is yelded.
-        If `non_zero` is `True`, the zero character for the alphabet is not yielded.
+        If a number ``n`` is given, that number of samples is yelded.
+        If ``non_zero`` is :obj:`True`, the zero character for the alphabet is not yielded.
+
+        :param n: the number of samples
+        :type n: :obj:`int` or :obj:`None`, *optional*
+        :param alphabet: optional alphabet for which the characters must be valid
+        :type alphabet: :obj:`~bases.alphabet.abstract.Alphabet` or :obj:`None`, *optional*
+        :param non_zero: whether to exclude the zero character for the alphabet
+        :type non_zero: :obj:`bool`, *optional*
     """
     if n is not None and n < 0:
         raise ValueError()
@@ -435,8 +417,15 @@ def _rand_str_zeropad_enc(n: Optional[int], encoding: ZeropadBaseEncoding) -> It
 def rand_block_chars(n: Optional[int] = None, *, block_nchars: int, encoding: BlockBaseEncoding) -> Iterator[str]:
     """
         Generates a stream of random char blocks for a block base encoding.
-        If a number `n` is given, that number of samples is yelded.
-        The number `block_nchars` of characters in the blocks must be valid for the encoding.
+        If a number ``n`` is given, that number of samples is yelded.
+        The number ``block_nchars`` of characters in the blocks must be valid for the encoding.
+
+        :param n: the number of samples
+        :type n: :obj:`int` or :obj:`None`, *optional*
+        :param block_nchars: the number of characters in a block
+        :type block_nchars: :obj:`int`
+        :param encoding: block encoding for which the char blocks must be valid
+        :type encoding: :obj:`~bases.encoding.block.BlockBaseEncoding`
     """
     if n is not None and n < 0:
         raise ValueError()

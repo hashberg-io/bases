@@ -1,0 +1,16 @@
+{
+    "pkg_name": "bases",
+    "pkg_path": "..",
+    "apidocs_folder": "api",
+    "toc_filename": "api-toc.rst",
+    "include_members": {
+        "bases.alphabet": ["AlphabetSubclass", "base2", "base8", "base10", "base16", "base32", "base32hex", "base32z", "base36", "base64", "base64url", "base10", "base36", "base58btc", "base58flickr", "base58ripple", "base45"],
+        "bases.encoding": ["BaseEncodingKind", "base2", "base8", "base10", "base16", "base32", "base32hex", "base32z", "base36", "base64", "base64url", "base10", "base36", "base58btc", "base58flickr", "base58ripple", "base45"],
+        "bases.encoding.base": ["BaseEncodingSubclass", "BytesLike", "byteslike"],
+        "bases.encoding.fixchar": ["PaddingOptions"],
+        "bases.encoding.block": ["BlockBaseEncodingSubclass"]
+    },
+    "exclude_members": {},
+    "include_modules": [],
+    "exclude_modules": []
+}

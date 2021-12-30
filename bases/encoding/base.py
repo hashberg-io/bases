@@ -4,37 +4,50 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Mapping, Optional, TypeVar, Union
+from typing_extensions import Final
 from typing_validation import validate
 
-from bases import alphabet
 from bases.alphabet import Alphabet
+from bases.alphabet import make as alphabet_make
 from .errors import NonAlphabeticCharError
 
-Self = TypeVar("Self", bound="BaseEncoding")
+BytesLike = Union[bytes, bytearray, memoryview]
+""" Type alias for bytes-like objects. """
+
+byteslike: Final = (bytes, bytearray, memoryview)
+""" Tuple of bytes-like objects types (for use with :obj:`isinstance` checks). """
+
+BaseEncodingSubclass = TypeVar("BaseEncodingSubclass", bound="BaseEncoding")
+""" Type variable for subclasses of :class:`BaseEncoding`. """
 
 class BaseEncoding(ABC):
     """
         Abstract superclass for base encodings.
         Instances can always be constructed from an alphabet (with optional change of case sensitivity)
         and a number of additional options specified by subclasses.
+
+        :param alphabet: the alphabet to use for the encoding
+        :type alphabet: :obj:`str`, :obj:`range` or :class:`~bases.alphabet.abstract.Alphabet`
+        :param case_sensitive: optional case sensitivity (if :obj:`None`, the one from the alphabet is used)
+        :type case_sensitive: :obj:`bool` or :obj:`None`, *optional*
     """
 
     _alphabet: Alphabet
     _alphabet_revdir: Mapping[str, int]
     _case_sensitive: bool
 
-    def __init__(self, chars: Union[str, range, Alphabet], *,
+    def __init__(self, alphabet: Union[str, range, Alphabet], *,
                  case_sensitive: Optional[bool] = None):
-        validate(chars, Union[str, range, Alphabet])
+        validate(alphabet, Union[str, range, Alphabet])
         validate(case_sensitive, Optional[bool])
-        if isinstance(chars, Alphabet):
+        if isinstance(alphabet, Alphabet):
             if case_sensitive is not None:
-                chars = chars.with_case_sensitivity(case_sensitive)
-            self._alphabet = chars
+                alphabet = alphabet.with_case_sensitivity(case_sensitive)
+            self._alphabet = alphabet
         else:
             if case_sensitive is None:
                 case_sensitive = True
-            self._alphabet = alphabet.make(chars, case_sensitive=case_sensitive)
+            self._alphabet = alphabet_make(alphabet, case_sensitive=case_sensitive)
 
     @property
     def alphabet(self) -> Alphabet:
@@ -43,11 +56,10 @@ class BaseEncoding(ABC):
 
             Example usage:
 
-            ```py
             >>> encoding.base32.alphabet
             StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                            case_sensitive=False)
-            ```
+
         """
         return self._alphabet
 
@@ -58,10 +70,9 @@ class BaseEncoding(ABC):
 
             Example usage:
 
-            ```py
             >>> encoding.base32.base
             32
-            ```
+
         """
         return len(self.alphabet)
 
@@ -72,10 +83,9 @@ class BaseEncoding(ABC):
 
             Example usage:
 
-            ```py
             >>> encoding.base32.case_sensitive
             False
-            ```
+
         """
         return self.alphabet.case_sensitive
 
@@ -86,35 +96,40 @@ class BaseEncoding(ABC):
 
             Example usage:
 
-            ```py
             >>> encoding.base32.alphabet
             StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                            case_sensitive=False)
             >>> encoding.base32.zero_char
             'A'
-            ```
+
         """
         return self.alphabet[0]
 
-    def with_alphabet(self: Self, chars: Union[str, range, Alphabet], *,
-                      case_sensitive: Optional[bool] = None) -> Self:
+    def with_alphabet(self: BaseEncodingSubclass, alphabet: Union[str, range, Alphabet], *,
+                      case_sensitive: Optional[bool] = None) -> BaseEncodingSubclass:
         """
             Returns a new encoding with the same kind and options as this one,
             but a different alphabet and/or case sensitivity.
+
+            :param alphabet: the alphabet to use for the encoding
+            :type alphabet: :obj:`str`, :obj:`range` or :class:`~bases.alphabet.abstract.Alphabet`
+            :param case_sensitive: optional case sensitivity (if :obj:`None`, the one from the alphabet is used)
+            :type case_sensitive: :obj:`bool` or :obj:`None`, *optional*
+
+            :rtype: :obj:`BaseEncodingSubclass`
         """
-        validate(chars, Union[str, range, Alphabet])
+        validate(alphabet, Union[str, range, Alphabet])
         validate(case_sensitive, Optional[bool])
         options = {**self.options()}
         options["case_sensitive"] = case_sensitive
-        return type(self)(chars, **options)
+        return type(self)(alphabet, **options)
 
-    def with_case_sensitivity(self: Self, case_sensitive: bool) -> Self:
+    def with_case_sensitivity(self: BaseEncodingSubclass, case_sensitive: bool) -> BaseEncodingSubclass:
         """
             Returns a new encoding with the same characters as this one but with specified case sensitivity.
 
             Example usage:
 
-            ```py
             >>> encoding.base32
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
@@ -124,18 +139,20 @@ class BaseEncoding(ABC):
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'),
                 pad_char='=', padding='include')
-            ```
+
+            :param case_sensitive: case sensitivity for the new encoding
+            :type case_sensitive: :obj:`bool`
+            :rtype: :obj:`BaseEncodingSubclass`
         """
         validate(case_sensitive, bool)
         return self.with_alphabet(self.alphabet.with_case_sensitivity(case_sensitive))
 
-    def upper(self: Self) -> Self:
+    def upper(self: BaseEncodingSubclass) -> BaseEncodingSubclass:
         """
             Returns a new encoding with all cased characters turned to uppercase.
 
             Example usage:
 
-            ```py
             >>> encoding.base32z
             FixcharBaseEncoding(
                 StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
@@ -144,17 +161,18 @@ class BaseEncoding(ABC):
             FixcharBaseEncoding(
                 StringAlphabet('YBNDRFG8EJKMCPQXOT1UWISZA345H769',
                                case_sensitive=False))
-            ```
+
+            :rtype: :obj:`BaseEncodingSubclass`
+
         """
         return self.with_alphabet(self.alphabet.upper())
 
-    def lower(self: Self) -> Self:
+    def lower(self: BaseEncodingSubclass) -> BaseEncodingSubclass:
         """
             Returns a new encoding with all cased characters turned to lowercase.
 
             Example usage:
 
-            ```py
             >>> encoding.base32
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
@@ -165,14 +183,22 @@ class BaseEncoding(ABC):
                 StringAlphabet('abcdefghijklmnopqrstuvwxyz234567',
                                case_sensitive=False),
                 pad_char='=', padding='include')
-            ```
+
+            :rtype: :obj:`BaseEncodingSubclass`
+
         """
         return self.with_alphabet(self.alphabet.lower())
 
-    def with_options(self: Self, **options: Any) -> Self:
-        """
+    def with_options(self: BaseEncodingSubclass, **options: Any) -> BaseEncodingSubclass:
+        r"""
             Returns a new encoding with the same kind, alphabet and case sensitivity as this one,
             but different options.
+
+
+            :param options: options to set for the new encoding
+            :type options: :obj:`~typing.Dict`\ [:obj:`str`, :obj:`~typing.Any`]
+
+            :rtype: :obj:`BaseEncodingSubclass`
         """
         new_options = {**self.options()}
         for name in options:
@@ -181,22 +207,23 @@ class BaseEncoding(ABC):
         new_options.update(options)
         return type(self)(self.alphabet, **new_options)
 
-    def encode(self, b: bytes) -> str:
+    def encode(self, b: BytesLike) -> str:
         """
             Encodes a bytestring into a string.
-            Raises `bases.encoding.errors.EncodingError`
-            if the bytestring is invalid.
 
             Example usage:
 
-            ```py
             >>> b = bytes([70, 98, 190, 187, 66, 224, 178])
             >>> encoding.base32.encode(b)
             'IZRL5O2C4CZA===='
             >>> s = 'IZRL5O2C4CZA===='
             >>> list(base32.decode(s))
             [70, 98, 190, 187, 66, 224, 178]
-            ```
+
+            :param b: the bytestring
+            :type b: :obj:`BytesLike`
+
+            :raises ~bases.encoding.errors.EncodingError: if the bytestring is invalid
         """
         b = self._validate_bytes(b)
         return self._encode(b)
@@ -204,44 +231,52 @@ class BaseEncoding(ABC):
     def decode(self, s: str) -> bytes:
         """
             Decodes a string into a bytestring.
-            Raises `bases.encoding.errors.DecodingError`
-            if the string is invalid.
 
             Example usage:
 
-            ```py
             >>> s = 'IZRL5O2C4CZA===='
             >>> list(encoding.base32.decode(s))
             [70, 98, 190, 187, 66, 224, 178]
-            ```
+
+            :param s: the string
+            :type s: :obj:`str`
+
+            :raises ~bases.encoding.errors.DecodingError: if the string is invalid
+
         """
         s = self._validate_string(s)
         return self._decode(s)
 
-    def canonical_bytes(self, b: bytes) -> bytes:
+    def canonical_bytes(self, b: BytesLike) -> bytes:
         """
-            Returns a canonical version of the bytestring `b`:
-            this is the bytestring obtained by first encoding `b`
+            Returns a canonical version of the bytestring ``b``:
+            this is the bytestring obtained by first encoding ``b``
             and then decoding it.
 
             (This method is overridden by subclasses with more efficient implementations.)
+
+            :param b: the bytestring
+            :type b: :obj:`BytesLike`
         """
         return self.decode(self.encode(b))
 
     def canonical_string(self, s: str) -> str:
         """
-            Returns a canonical version of the string `s`:
-            this is the string obtained by first decoding `s`
+            Returns a canonical version of the string ``s``:
+            this is the string obtained by first decoding ``s``
             and then encoding it.
 
             (This method is overridden by subclasses with more efficient implementations.)
+
+            :param s: the string
+            :type s: :obj:`str`
         """
         return self.encode(self.decode(s))
 
-    def _validate_bytes(self, b: bytes) -> bytes:
+    def _validate_bytes(self, b: BytesLike) -> memoryview:
         # pylint: disable = no-self-use
-        validate(b, bytes)
-        return b
+        validate(b, BytesLike)
+        return memoryview(b)
 
     def _validate_string(self, s: str) -> str:
         validate(s, str)
@@ -252,7 +287,7 @@ class BaseEncoding(ABC):
         return s
 
     @abstractmethod
-    def _encode(self, b: bytes) -> str:
+    def _encode(self, b: memoryview) -> str:
         ...
 
     @abstractmethod
@@ -263,17 +298,17 @@ class BaseEncoding(ABC):
     def options(self, skip_defaults: bool = False) -> Mapping[str, Any]:
         """
             The options used to construct this particular encoding.
-            If `skip_defaults` is `True`, only options with non-default values
-            are included in the mapping.
 
             Example usage:
 
-            ```py
             >>> encoding.base32.options()
             {'char_nbits': 'auto', 'pad_char': '=', 'padding': 'include'}
             >>> encoding.base32.options(skip_defaults=True)
             {'pad_char': '=', 'padding': 'include'}
-            ```
+
+            :param skip_defaults: if set to :obj:`True`, only options with non-default values are included in the mapping
+            :type skip_defaults: :obj:`bool`, *optional*
+
         """
         ...
 
@@ -295,3 +330,46 @@ class BaseEncoding(ABC):
             return f"{type_name}({alphabet_str})"
         options_str = ", ".join(f"{name}={repr(value)}" for name, value in options.items())
         return f"{type_name}({alphabet_str}, {options_str})"
+
+def lstrip_memview(b: memoryview, byte: int = 0) -> memoryview:
+    r"""
+        Returns a new memoryview obtained by slicing away all leading zero bytes
+        from the given memoryview ``b``.
+
+        Example usage:
+
+        >>> b = bytes([0, 0, 1, 0, 2, 0, 3, 0, 0])
+        >>> b
+        b'\x00\x00\x01\x00\x02\x00\x03\x00\x00'
+        >>> m = memview(b)
+        >>> m
+        <memory at 0x0000024A3AB9EB80>
+        >>> bytes(m)
+        b'\x00\x00\x01\x00\x02\x00\x03\x00\x00'
+        >>> ms = lstrip_memview(m)
+        >>> ms
+        <memory at 0x0000024A3AB9EC40>
+        >>> bytes(ms)
+        b'\x01\x00\x02\x00\x03\x00\x00'
+
+        :param b: the memoryview from which to strip leading zero bytes
+        :type b: :obj:`memoryview`
+        :param byte: optionally, a leading byte value to strip instead of zero
+        :type byte: :obj:`int`, *optional*
+
+        :raises ValueError: if ``byte not in range(256)``
+
+    """
+    validate(b, memoryview)
+    if byte != 0:
+        validate(byte, int)
+        if byte not in range(256):
+            raise ValueError(f"Byte values must be in range(256), found {byte}.")
+    return _lstrip_memview(b, byte)
+
+def _lstrip_memview(b: memoryview, byte: int = 0) -> memoryview:
+    idx = 0
+    l = len(b)
+    while idx < l and b[idx] == byte:
+        idx += 1
+    return b[idx:]

@@ -1,78 +1,100 @@
 """
     Block base encodings.
+
+    Split the bytestring to encode (resp. string to decode) into blocks,
+    then encodes (resp. decodes) each block individually using an underlying encoding.
+    By default, the underlying encoding is a :mod:`~bases.encoding.simple` base encoding.
+
+    Constructor options:
+
+    - ``block_size: Union[int, Mapping[int, int]]`` cf. below
+    - ``sep_char: str`` an optional separator character for encoded string blocks (default: ``""``)
+    - ``reverse_blocks: bool`` an optional flag to reverse individual char blocks in the encoded string (default: :obj:`False`)
+
+    The ``block_size`` option is mandatory and determines the allowed block sizes for encoding and decoding:
+
+    - if ``block_size`` is a strictly increasing mapping of positive integers to positive integers, its keys are taken
+      to be the allowed block byte sizes and its values are taken to be the corresponding block char sizes.
+    - if ``block_size`` is an integer, all block byte sizes in ``range(1, block_size+1)`` are allowed, and the coresponding
+      block char sizes are computed by:
+
+    .. code-block:: python
+
+        char_size = int(math.floor(math.log(256**byte_size, base)))+1
+
+    The property :attr:`~BlockBaseEncoding.nbytes2nchars` has all valid block byte sizes as keys and the corresponding block char sizes as values.
+    The property :attr:`~BlockBaseEncoding.nchars2nbytes` has all valid block char sizes as keys and the corresponding block byte sizes as values.
+    Each pair of corresponding block byte and char sizes is assessed to ensure that encoding and decoding are unambiguous,
+    using the static methods :meth:`~bases.encoding.zeropad.ZeropadBaseEncoding.max_block_nchars` and
+    :meth:`~bases.encoding.zeropad.ZeropadBaseEncoding.max_block_nbytes` from the :mod:`~bases.encoding.zeropad` base encoding implementation
+    (cf. class :class:`~bases.encoding.zeropad.ZeropadBaseEncoding`).
+
+    The maximum valid block byte (resp. char) size is used on encoding (resp. decoding) for all blocks except at most the last one:
+    if the number of bytes (resp. chars) in the last block is not valid, the bytestring (resp. string) is not valid overall.
+
+    As a concrete example, the following is the constructor for the `base45 encoding <https://datatracker.ietf.org/doc/draft-faltstrom-base45/>`_:
+
+    .. code-block:: python
+
+        base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3})
+
+    In this case, encoding uses blocks of 2 bytes, with the final block allowed to be 1 or 2 bytes. Decoding uses blocks of 3 chars, with the
+    final block allowed to be 2 or 3 chars (but not 1 char). Because no encoding was explicitly specified, the encoding used is the simple
+    encoding for the base45 alphabet.
+
+    Encoding of a bytestring ``b``:
+
+    1. split ``b`` into blocks of size :attr:`~BlockBaseEncoding.block_nbytes`, with the final block allowed to be any size in
+       :attr:`~BlockBaseEncoding.nbytes2nchars` (raise :class:`~bases.encoding.errors.EncodingError` if it isn't)
+    2. encode each block individually using the :attr:`~BlockBaseEncoding.block_encoding`
+    3. check that no encoded block string exceeds the block char size corresponding to the original block byte size
+    4. prepend zero chars to each encoded block string until it reaches the designated block char size
+    5. if ``reverse_blocks``, reverse each individual char block
+    6. join the blocks into the final encoded string (using the separator character :attr:`~BlockBaseEncoding.sep_char`, if specified)
+
+    Decoding of a string ``s``:
+
+    1. split ``s`` into blocks of size :attr:`~BlockBaseEncoding.block_nchars`, with the final block allowed to be any size in
+       :attr:`~BlockBaseEncoding.nchars2nbytes` (raise :class:`~bases.encoding.errors.DecodingError` if it isn't)
+    2. if ``reverse_blocks``, reverse each individual char block
+    3. decode each block individually using the :attr:`~BlockBaseEncoding.block_encoding`
+    4. check that no decode block bytestring exceeds the block byte size corresponding to the original block char size
+    5. prepend zero bytes to each decoded block bytestring until it reaches the designated block byte size
+    6. join the blocks into the final decoded bytestring
+
 """
 
 import math
 from types import MappingProxyType
-from typing import Any, Dict, List, Mapping, Optional, Union
+from typing import Any, Dict, List, Mapping, Optional, Union, TypeVar
 from typing_validation import validate
 
 from bases.alphabet import Alphabet
-from .base import BaseEncoding
+from .base import BaseEncoding, BytesLike, _lstrip_memview
 from .simple import SimpleBaseEncoding
 from .zeropad import ZeropadBaseEncoding
 from .errors import EncodingError, DecodingError, InvalidCharBlockError, InvalidByteBlockError
 
+
+BlockBaseEncodingSubclass = TypeVar("BlockBaseEncodingSubclass", bound="BlockBaseEncoding")
+""" Type variable for subclasses of :class:`BlockBaseEncoding`. """
+
 class BlockBaseEncoding(BaseEncoding):
-    """
-        Block base encodings. Split the bytestring to encode (resp. string to decode) into blocks,
-        then encodes (resp. decodes) each block individually using an underlying encoding.
-        By default, the underlying encoding is a `bases.encoding.simple.SimpleBaseEncoding`.
+    r"""
+        Block base encodings.
 
-        Constructor options:
+        :param alphabet: the alphabet to use for the encoding
+        :type alphabet: :obj:`str`, :obj:`range` or :class:`~bases.alphabet.abstract.Alphabet`
+        :param case_sensitive: optional case sensitivity (if :obj:`None`, the one from the alphabet is used)
+        :type case_sensitive: :obj:`bool` or :obj:`None`, *optional*
 
-        - `block_size: Union[int, Mapping[int, int]]` cf. below
-        - `sep_char: str = ""` an optional separator character for encoded string blocks (empty string if unspecified)
-        - `reverse_blocks: bool = False` an optional flag to reverse individual char blocks in the encoded string
 
-        The `block_size` option is mandatory and determines the allowed block sizes for encoding and decoding:
-
-        - if `block_size` is a strictly increasing mapping of positive integers to positive integers, its keys are taken
-          to be the allowed block byte sizes and its values are taken to be the corresponding block char sizes.
-        - if `block_size` is an integer, all block byte sizes in `range(1, block_size+1)` are allowed, and the coresponding
-          block char sizes are computed by:
-
-          ```py
-          char_size = int(math.floor(math.log(256**byte_size, base)))+1
-          ```
-
-        The property `BlockBaseEncoding.nbytes2nchars` has all valid block byte sizes as keys and the corresponding block char sizes as values.
-        The property `BlockBaseEncoding.nchars2nbytes` has all valid block char sizes as keys and the corresponding block byte sizes as values.
-        Each pair of corresponding block byte and char sizes is assessed to ensure that encoding and decoding are unambiguous,
-        using the static methods `ZeropadBaseEncoding.max_block_nchars` and `ZeropadBaseEncoding.max_block_nbytes`.
-
-        The maximum valid block byte (resp. char) size is used on encoding (resp. decoding) for all blocks except at most the last one:
-        if the number of bytes (resp. chars) in the last block is not valid, the bytestring (resp. string) is not valid overall.
-
-        As a concrete example, the following is the constructor for the [base45 encoding](https://datatracker.ietf.org/doc/draft-faltstrom-base45/):
-
-        ```py
-        base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3})
-        ```
-
-        In this case, encoding uses blocks of 2 bytes, with the final block allowed to be 1 or 2 bytes. Decoding uses blocks of 3 chars, with the
-        final block allowed to be 2 or 3 chars (but not 1 char). Because no encoding was explicitly specified, the encoding used is the simple
-        encoding for the base45 alphabet.
-
-        Encoding of a bytestring `b`:
-
-        1. split `b` into blocks of size `BlockBaseEncoding.block_nbytes`, with the final block allowed to be any size in `BlockBaseEncoding.nbytes2nchars`
-           (raise `bases.encoding.errors.EncodingError` if it isn't)
-        2. encode each block individually using the `BlockBaseEncoding.block_encoding`
-        3. check that no encoded block string exceeds the block char size corresponding to the original block byte size
-        4. prepend zero chars to each encoded block string until it reaches the designated block char size
-        5. if `reverse_blocks`, reverse each individual char block
-        6. join the blocks into the final encoded string (using the separator character `BlockBaseEncoding.sep_char`, if specified)
-
-        Decoding of a string `s`:
-
-        1. split `s` into blocks of size `BlockBaseEncoding.block_nchars`, with the final block allowed to be any size in `BlockBaseEncoding.nchars2nbytes`
-           (raise `bases.encoding.errors.DecodingError` if it isn't)
-        2. if `reverse_blocks`, reverse each individual char block
-        3. decode each block individually using the `BlockBaseEncoding.block_encoding`
-        4. check that no decode block bytestring exceeds the block byte size corresponding to the original block char size
-        5. prepend zero bytes to each decoded block bytestring until it reaches the designated block byte size
-        6. join the blocks into the final decoded bytestring
+        :param block_size: allowed block size(s) for encoding/decoding
+        :type block_size: :obj:`int` or :obj:`~typing.Mapping`\ [:obj:`int`, :obj:`int`]]
+        :param sep_char: an optional separator character for encoded string blocks (default: ``""``)
+        :type sep_char: :obj:`str`, *optional*
+        :param reverse_blocks: an optional flag to reverse individual char blocks in the encoded string (default: :obj:`False`)
+        :type sep_char: :obj:`bool`, *optional*
 
     """
     # pylint: disable = too-many-instance-attributes
@@ -205,19 +227,19 @@ class BlockBaseEncoding(BaseEncoding):
     def reverse_blocks(self) -> bool:
         """
             Whether individual char block should be reversed when encoding,
-            e.g. as done by the [base45 spec](https://datatracker.ietf.org/doc/draft-faltstrom-base45/)
+            e.g. as done by the `base45 spec <https://datatracker.ietf.org/doc/draft-faltstrom-base45/>`_.
         """
         return self._reverse_blocks
 
-    def canonical_bytes(self, b: bytes) -> bytes:
+    def canonical_bytes(self, b: BytesLike) -> bytes:
         self._validate_bytes(b)
-        return b
+        return bytes(b)
 
     def canonical_string(self, s: str) -> str:
         self._validate_string(s)
         return s
 
-    def _validate_bytes(self, b: bytes) -> bytes:
+    def _validate_bytes(self, b: BytesLike) -> memoryview:
         b = super()._validate_bytes(b)
         last_block_nbytes = len(b)%self.block_nbytes
         if last_block_nbytes > 0 and last_block_nbytes not in self.nbytes2nchars:
@@ -247,7 +269,7 @@ class BlockBaseEncoding(BaseEncoding):
             raise EncodingError(f"Last block of {last_block_nchars} chars not allowed.")
         return s
 
-    def _encode(self, b: bytes) -> str:
+    def _encode(self, b: memoryview) -> str:
         zero_char = self.zero_char
         block_nbytes = self.block_nbytes
         nbytes2nchars = self.nbytes2nchars
@@ -258,7 +280,8 @@ class BlockBaseEncoding(BaseEncoding):
             # extract next byte block
             byte_block = b[idx:idx+block_nbytes]
             # simple encoding of byte block
-            s = self._block_encoding.encode(byte_block.lstrip(b"\x00"))
+            # s = self._block_encoding.encode(byte_block.lstrip(b"\x00"))
+            s = self._block_encoding.encode(_lstrip_memview(byte_block))
             # number of chars in corresponding char block
             block_nchars = nbytes2nchars[len(byte_block)]
             if len(s) > block_nchars:
@@ -269,7 +292,6 @@ class BlockBaseEncoding(BaseEncoding):
             if reverse_blocks:
                 char_block = char_block[::-1]
             char_blocks.append(char_block)
-            print(list(byte_block), repr(char_block))
         # join character blocks to form encoded string
         return "".join(char_blocks)
 
@@ -308,7 +330,16 @@ class BlockBaseEncoding(BaseEncoding):
             options["reverse_blocks"] = self.reverse_blocks
         return options
 
-    def with_options(self, **options: Any) -> "BlockBaseEncoding":
+    def with_options(self: BlockBaseEncodingSubclass, **options: Any) -> BlockBaseEncodingSubclass:
+        r"""
+            Returns a new encoding with the same kind, alphabet and case sensitivity as this one,
+            but different options.
+
+            :param options: options to set for the new encoding
+            :type options: :obj:`~typing.Dict`\ [:obj:`str`, :obj:`~typing.Any`]
+
+            :rtype: :obj:`BlockBaseEncodingSubclass`
+        """
         new_options = {**self.options()}
         for name in options:
             if name not in new_options:

@@ -15,11 +15,18 @@ class RangeAlphabet(Alphabet):
 
         Example usage:
 
-        ```py
         >>> from bases.alphabet import RangeAlphabet
         >>> RangeAlphabet(range(0x00, 0x100))
         RangeAlphabet(range(0x0, 0x100))
-        ```
+
+        :param codepoints: a range of unicode codepoints for the alphabet
+        :type codepoints: :obj:`range`
+        :param case_sensitive: whether the alphabet is case-sensitive
+        :type case_sensitive: :obj:`bool`, *optional*
+
+        :raises ValueError: if the range is shorter than 2 integers
+        :raises ValueError: if the alphabet is case-insensitive and it contains both uppercase and lowercase versions of the same character
+
     """
 
     _codepoints: range
@@ -54,10 +61,9 @@ class RangeAlphabet(Alphabet):
 
             Example usage:
 
-            ```py
             >>> RangeAlphabet(range(0x00, 0x100)).codepoints
             range(0, 256)
-            ```
+
         """
         return self._codepoints
 
@@ -96,11 +102,10 @@ class RangeAlphabet(Alphabet):
 
             Example usage:
 
-            ```py
             >>> RangeAlphabet(range(0x20, 0x7E)).as_string_alphabet()
             StringAlphabet(' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMN
                             OPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}')
-            ```
+
         """
         chars = "".join(self)
         return StringAlphabet(chars, case_sensitive=self.case_sensitive)

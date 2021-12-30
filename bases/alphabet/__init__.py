@@ -1,45 +1,5 @@
 """
     Module containing classes for alphabets.
-
-    To access existing alphabets, use the `get` function:
-
-    ```py
-        >>> from bases import encoding
-        >>> alphabet.get("base16")
-        StringAlphabet('0123456789ABCDEF')
-    ```
-
-    To create new alphabets, use the `make` function:
-
-    ```py
-        >>> alphabet.make("0123456789abcdef")
-        StringAlphabet('0123456789abcdef')
-    ```
-
-    To register new alphabets, use the `register` function:
-
-    ```py
-        >>> myalpha = alphabet.make("0123456789abcdef")
-        >>> alphabet.register(base16lower=myalpha)
-    ```
-
-    Alternatively, use the optional `"name"` argument of the `make` function:
-
-    ```py
-        >>> alphabet.make("0123456789abcdef", name="base16lower")
-        StringAlphabet('0123456789abcdef')
-        >>> alphabet.get("base16lower")
-        StringAlphabet('0123456789abcdef')
-    ```
-
-    To list alphabets (with optional filtering), use `table`:
-
-    ```py
-        >>> dict(alphabet.table(prefix="base32"))
-        {'base32': StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', case_sensitive=False),
-         'base32hex': StringAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUV', case_sensitive=False),
-         'base32z': StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769', case_sensitive=False)}
-    ```
 """
 
 import re
@@ -59,10 +19,12 @@ def get(name: str) -> Alphabet:
 
         Example usage:
 
-        ```py
         >>> alphabet.get("base16")
         StringAlphabet('0123456789ABCDEF')
-        ```
+
+        :param name: the alphabet name
+        :type name: :obj:`str`
+
     """
     validate(name, str)
     if name not in _alphabets:
@@ -75,38 +37,41 @@ def has(name: str) -> bool:
 
         Example usage:
 
-        ```py
         >>> from bases import alphabet
         >>> alphabet.has("base32")
         True
-        ```
+
+        :param name: the alphabet name
+        :type name: :obj:`str`
     """
     validate(name, str)
     return name in _alphabets
 
-def register(**kwargs: Alphabet) -> None:
-    """
+def register(**alphabets: Alphabet) -> None:
+    r"""
         Registers any number of new alphabets by name.
-        Raises `KeyError` is an alphabet with one of the given name already exists.
 
         Example usage:
 
-        ```py
         >>> from bases import alphabet
         >>> alphabet.register(base16lower=alphabet.base16.lower())
         >>> alphabet.get("base16lower")
         StringAlphabet('0123456789abcdef')
-        ```
 
         Alphabet names must conform with:
 
-        ```py
-        re.match(r"^base[0-9][a-zA-Z0-9_]*$", name)
-        ```
+        .. code-block::
+
+            re.match(r"^base[0-9][a-zA-Z0-9_]*$", name)
+
+        :param alphabets: the alphabets to register, passed by desired registration name
+        :type alphabets: :obj:`~typing.Dict`\ [:obj:`str`, :class:`~bases.alphabet.abstract.Alphabet`]
+
+        :raises KeyError: if an alphabet with one of the given names already exists
     """
-    for arg in kwargs.values():
+    for arg in alphabets.values():
         validate(arg, Alphabet)
-    for name, alphabet in kwargs.items():
+    for name, alphabet in alphabets.items():
         if not re.match(r"^base[0-9][a-zA-Z0-9_]*$", name):
             raise ValueError(f"Invalid alphabet name {repr(name)}")
         if not isinstance(alphabet, Alphabet):
@@ -116,27 +81,28 @@ def register(**kwargs: Alphabet) -> None:
         _alphabets[name] = alphabet
 
 def unregister(*names: str) -> None:
-    """
+    r"""
         Unregisters any number of existing alphabets by name.
-        Raises `KeyError` is an alphabet with one of the given names doesn't exist.
 
         Example usage:
 
-        ```py
         >>> from bases import alphabet
         >>> alphabet.unregister("base16", "base32")
         >>> alphabet.has("base16")
         False
         >>> alphabet.get("base16")
         KeyError: "Alphabet named 'base16' does not exist."
-        ```
 
         Note that pre-defined constants are unaffected by this:
 
-        ```py
         >>> alphabet.base16
         StringAlphabet('0123456789ABCDEF')
-        ```
+
+        :param names: the alphabet names
+        :type names: :obj:`~typing.Tuple`\ [:obj:`str`, ...]
+
+        :raises KeyError: if an alphabet with one of the given names does not exists
+
     """
     for name in names:
         validate(name, str)
@@ -151,13 +117,14 @@ def table(*, prefix: str = "") -> Iterator[Tuple[str, Alphabet]]:
 
         Example usage:
 
-        ```py
         >>> from bases import alphabet
         >>> dict(alphabet.table(prefix="base32"))
         {'base32': StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', case_sensitive=False),
          'base32hex': StringAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUV', case_sensitive=False),
          'base32z': StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769', case_sensitive=False)}
-        ```
+
+        :param name: optional prefix to filter by when listing alphabets
+        :type name: :obj:`str`, *optional*
 
     """
     validate(prefix, str)
@@ -177,24 +144,27 @@ def make(chars: range, *, case_sensitive: bool = True, name: Optional[str] = Non
 def make(chars: Union[str, range], *, case_sensitive: bool = True, name: Optional[str] = None) -> Union[StringAlphabet, RangeAlphabet]:
     """
         Utility function to create custom alphabets.
-        Automatically creates an instance of `bases.alphabet.string_alphabet.StringAlphabet`
-        or `bases.alphabet.range_alphabet.RangeAlphabet` based on whether a string or range is passed.
+        Automatically creates an instance of :class:`~bases.alphabet.string_alphabet.StringAlphabet`
+        or :class:`~bases.alphabet.range_alphabet.RangeAlphabet` based on whether a string or range is passed.
 
         Example usage with string (case-insensitive base-16):
 
-        ```py
         >>> alphabet.make("0123456789ABCDEF", case_sensitive=False)
         StringAlphabet('0123456789ABCDEF', case_sensitive=False)
-        ```
 
         Example usage with range (extended ASCII):
 
-        ```py
         >>> alphabet.make(range(0x00, 0x100))
         RangeAlphabet(range(0x00, 0x100))
-        ```
 
-        If the optional keyword argument `name` is specified, the alphabet is automatically registered using `register`.
+        If the optional keyword argument ``name`` is specified, the alphabet is automatically registered using :func:`register`.
+
+        :param chars: the alphabet characters or codepoint range
+        :type chars: :obj:`str` or :obj:`range`
+        :param case_sensitive: whether the alphabet is case-sensitive
+        :type case_sensitive: :obj:`bool`, *optional*
+        :param name: if specified, the newly created alphabet is registered with this name
+        :type name: :obj:`str` or :obj:`None`, *optional*
     """
     validate(chars, Union[str, range])
     validate(case_sensitive, bool)
@@ -221,10 +191,10 @@ base16 = make("0123456789ABCDEF", case_sensitive=False, name="base16")
 """ Uppercase case-insensitive base-16 alphabet. """
 
 base32 = make("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", case_sensitive=False, name="base32")
-""" Uppercase case-insensitive base-32 alphabet from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-insensitive base-32 alphabet from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base32hex = make("0123456789ABCDEFGHIJKLMNOPQRSTUV", case_sensitive=False, name="base32hex")
-""" Uppercase case-insensitive hex base-32 alphabet from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-insensitive hex base-32 alphabet from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base32z = make("ybndrfg8ejkmcpqxot1uwisza345h769", case_sensitive=False, name="base32z")
 """
@@ -232,10 +202,10 @@ base32z = make("ybndrfg8ejkmcpqxot1uwisza345h769", case_sensitive=False, name="b
 """
 
 base64 = make("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", name="base64")
-""" Uppercase case-insensitive base-64 alphabet from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-insensitive base-64 alphabet from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base64url = make("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", name="base64url")
-""" Uppercase case-insensitive url-safe base-64 alphabet from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-insensitive url-safe base-64 alphabet from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base10 = make("0123456789", name="base10")
 """ Base-10 alphabet. """

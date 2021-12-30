@@ -6,22 +6,24 @@ from abc import ABC, abstractmethod
 from typing import Any, Mapping, Optional, overload, Sequence, TypeVar, Union
 from typing_validation import validate
 
-Self = TypeVar("Self", bound="Alphabet")
+AlphabetSubclass = TypeVar("AlphabetSubclass", bound="Alphabet")
+""" Type variable for subclasses of :class:`Alphabet`. """
 
 class Alphabet(ABC, Sequence[str]):
     """
         Abstract superclass for alphabets with specified case sensitivity.
-        It contains a mapping of digits (numbers in `range(len(self))`) to characters
+        It contains a mapping of digits (numbers in ``range(len(self))``) to characters
         and a reverse mapping of characters to digits:
 
-        ```py
         >>> alphabet.base16
         StringAlphabet('0123456789ABCDEF')
         >>> alphabet.base16[12]
         'C'
         >>> alphabet.base16.index("C")
         12
-        ```
+
+        :param case_sensitive: whether the alphabet is case-sensitive
+        :type case_sensitive: :obj:`bool`, *optional*
     """
 
     _case_sensitive: bool
@@ -33,11 +35,10 @@ class Alphabet(ABC, Sequence[str]):
     @property
     def case_sensitive(self) -> bool:
         """
-            Case sensitivity of the alphabet (default: `True`).
-            If set to `False`, characters will be deemed in the alphabet regardless of case.
+            Case sensitivity of the alphabet (default: :obj:`True`).
+            If set to :obj:`False`, characters will be deemed in the alphabet regardless of case.
             However, accessing characters from the alphabet will yield the case originally specified:
 
-            ```py
             >>> alphabet.base32
             StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                            case_sensitive=False)
@@ -45,19 +46,17 @@ class Alphabet(ABC, Sequence[str]):
             True
             >>> alphabet.base32[0]
             'A'
-            ```
+
         """
         return self._case_sensitive
 
     def index(self, char: str, start: int = 0, stop: Optional[int] = None) -> int:
         """
             Returns the index of a character in the alphabet.
-            Raises `ValueError` if the character is not in the alphabet.
             Optionally allows a starting index (included) and stopping index (excluded).
 
             Example usage:
 
-            ```py
             >>> alphabet.base32
             StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                            case_sensitive=False)
@@ -67,7 +66,15 @@ class Alphabet(ABC, Sequence[str]):
             'F'
             >>> alphabet.base32.index("f") # case-insensitive
             5
-            ```
+
+            :param char: the character to look for
+            :type char: :obj:`str`
+            :param start: optional start index (included) for the search range
+            :param start: :obj:`int`, *optional*
+            :param start: optional end index (excluded) for the search range
+            :param start: :obj:`int` or :obj:`None`, *optional*
+
+            :raises ValueError: if the character is not in the alphabet
         """
         # pylint: disable = arguments-renamed
         validate(char, str)
@@ -90,6 +97,9 @@ class Alphabet(ABC, Sequence[str]):
     def count(self, char: str) -> int:
         """
             Returns 1 if `char` is in the alphabet and 0 otherwise.
+
+            :param char: the character to count for
+            :type char: :obj:`str`
         """
         # pylint: disable = arguments-renamed
         validate(char, str)
@@ -108,39 +118,38 @@ class Alphabet(ABC, Sequence[str]):
 
             Example usage:
 
-            ```py
             >>> alphabet.base16.revdir
             mappingproxy({'0': 0, '1': 1, '2': 2, '3': 3, '4': 4,
                           '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
                           'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15})
-            ```
 
             For case-insensitive alphabets, this contains both cases of any cased characters:
 
-            ```py
             >>> alphabet.base16.with_case_sensitivity(False).revdir
             mappingproxy({'0': 0, '1': 1, '2': 2, '3': 3, '4': 4,
                           '5': 5, '6': 6, '7': 7,'8': 8, '9': 9,
                           'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15,
                           'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15})
-            ```
+
         """
         ...
 
     @abstractmethod
-    def with_case_sensitivity(self: Self, case_sensitive: bool) -> Self:
+    def with_case_sensitivity(self: AlphabetSubclass, case_sensitive: bool) -> AlphabetSubclass:
         """
             Returns a new alphabet with the same characters as this one but with specified case sensitivity.
 
             Example usage:
 
-            ```py
             >>> alphabet.base32
             StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                            case_sensitive=False)
             >>> alphabet.base32.with_case_sensitivity(True)
             StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567')
-            ```
+
+            :param case_sensitive: whether the new alphabet is case-sensitive
+            :type case_sensitive: :obj:`bool`, *optional*
+            :rtype: :obj:`AlphabetSubclass`
         """
         ...
 
@@ -151,14 +160,13 @@ class Alphabet(ABC, Sequence[str]):
 
             Example usage:
 
-            ```py
             >>> alphabet.base32z
             StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
                            case_sensitive=False)
             >>> alphabet.base32z.upper()
             StringAlphabet('YBNDRFG8EJKMCPQXOT1UWISZA345H769',
                            case_sensitive=False)
-            ```
+
         """
         ...
 
@@ -169,12 +177,11 @@ class Alphabet(ABC, Sequence[str]):
 
             Example usage:
 
-            ```py
             >>> alphabet.base16
             StringAlphabet('0123456789ABCDEF')
             >>> alphabet.base16.lower()
             StringAlphabet('0123456789abcdef')
-            ```
+
         """
         ...
 

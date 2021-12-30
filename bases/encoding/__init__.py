@@ -1,63 +1,6 @@
 """
     Module containing classes for encodings.
 
-    To access existing encodings, use the `get` function:
-
-    ```py
-        >>> from bases import encoding
-        >>> encoding.get("base32")
-        FixcharBaseEncoding(
-            StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
-                           case_sensitive=False),
-            pad_char='=', padding='include')
-    ```
-
-    To create new encodings, use the `make` function:
-
-    ```py
-        >>> encoding.make("0123", kind="zeropad-enc", block_nchars=4)
-        ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
-    ```
-
-    To register new encodings, use the `register` function:
-
-    ```py
-        >>> myenc = encoding.get("base16").lower()
-        >>> encoding.register(base16lower=myenc)
-        >>> encoding.get("base16lower")
-        ZeropadBaseEncoding(
-            StringAlphabet('0123456789abcdef',
-                           case_sensitive=False),
-            block_nchars=2)
-    ```
-
-    Alternatively, use the optional `"name"` argument of the `make` function:
-
-    ```py
-        >>> encoding.make("0123", kind="zeropad-enc", block_nchars=4, name="base4")
-        ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
-        >>> encoding.get("base4")
-        ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
-    ```
-
-    To list alphabets (with optional filtering), use `table`:
-
-    ```py
-        >>> dict(encoding.table(prefix="base32"))
-        {'base32':      FixcharBaseEncoding(
-                            StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
-                                           case_sensitive=False),
-                            pad_char='=', padding='include'),
-         'base32hex':   FixcharBaseEncoding(
-                            StringAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUV',
-                                           case_sensitive=False),
-                            pad_char='=', padding='include'),
-         'base32z':     FixcharBaseEncoding(
-                            StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
-                                           case_sensitive=False))
-        }
-    ```
-
 """
 
 import re
@@ -77,18 +20,20 @@ _base_encodings: Dict[str, BaseEncoding] = {}
 
 def get(name: str) -> BaseEncoding:
     """
-        Gets an encoding by name, raising `KeyError` if none exists.
+        Gets an encoding by name.
 
         Example usage:
 
-        ```py
-        >>> from bases import encoding
-        >>> encoding.get("base16")
+        >>> bases.get("base16")
         ZeropadBaseEncoding(
             StringAlphabet('0123456789ABCDEF',
                            case_sensitive=False),
             block_nchars=2)
-        ```
+
+        :param name: the encoding name
+        :type name: :obj:`str`
+
+        :raises KeyError: if an encoding by the given name does not exist
     """
     validate(name, str)
     if name not in _base_encodings:
@@ -97,41 +42,45 @@ def get(name: str) -> BaseEncoding:
 
 def has(name: str) -> bool:
     """
-        ```py
-        >>> from bases import encoding
-        >>> encoding.has("base32")
+        Checks whether an encoding with the given name exists.
+
+        >>> bases.has("base32")
         True
-        ```
+
+        :param name: the encoding name
+        :type name: :obj:`str`
     """
     validate(name, str)
     return name in _base_encodings
 
-def register(**kwargs: BaseEncoding) -> None:
-    """
+def register(**encs: BaseEncoding) -> None:
+    r"""
         Registers any number of new encodings by name.
-        Raises `KeyError` is an encoding with one of the given name already exists.
 
         Example usage:
 
-        ```py
-        >>> from bases import encoding
-        >>> encoding.register(base16lower=encoding.base16.lower())
-        >>> encoding.get("base16lower")
+        >>> bases.register(base16lower=encoding.base16.lower())
+        >>> bases.get("base16lower")
         ZeropadBaseEncoding(
             StringAlphabet('0123456789abcdef',
                            case_sensitive=False),
             block_nchars=2)
-        ```
 
         Encoding names must conform with:
 
-        ```py
-        re.match(r"^base[0-9][a-zA-Z0-9_]*$", name)
-        ```
+        .. code-block:: python
+
+            re.match(r"^base[0-9][a-zA-Z0-9_]*$", name)
+
+        :param encs: the encodings to register, passed by desired registration name
+        :type encs: :obj:`~typing.Dict`\ [:obj:`str`, :class:`~bases.encoding.base.BaseEncoding`]
+
+        :raises KeyError: if an encoding with one of the given names already exists
+
     """
-    for arg in kwargs.values():
+    for arg in encs.values():
         validate(arg, BaseEncoding)
-    for name, encoding in kwargs.items():
+    for name, encoding in encs.items():
         if not re.match(r"^base[0-9][a-zA-Z0-9_]*$", name):
             raise ValueError(f"Invalid encoding name {repr(name)}")
         if not isinstance(encoding, BaseEncoding):
@@ -141,30 +90,30 @@ def register(**kwargs: BaseEncoding) -> None:
         _base_encodings[name] = encoding
 
 def unregister(*names: str) -> None:
-    """
+    r"""
         Unregisters any number of existing encodings by name.
-        Raises `KeyError` is an encoding with one of the given names doesn't exist.
 
         Example usage:
 
-        ```py
         >>> from bases import encoding
         >>> encoding.unregister("base16", "base32")
         >>> encoding.has("base16")
         False
         >>> encoding.get("base16")
         KeyError: "Encoding named 'base16' does not exist."
-        ```
 
         Note that pre-defined constants are unaffected by this:
 
-        ```py
         >>> encoding.base16
         ZeropadBaseEncoding(
             StringAlphabet('0123456789ABCDEF',
                            case_sensitive=False),
             block_nchars=2)
-        ```
+
+        :param names: the encoding names
+        :type names: :obj:`~typing.Tuple`\ [:obj:`str`, ...]
+
+        :raises KeyError: if an encoding with one of the given names does not exists
     """
     for name in names:
         validate(name, str)
@@ -175,11 +124,10 @@ def unregister(*names: str) -> None:
 
 def table(*, prefix: str = "") -> Iterator[Tuple[str, BaseEncoding]]:
     """
-        Iterates over all registered alphabets, optionally restricting to those with given prefix:
+        Iterates over all registered encodings, optionally restricting to those with given prefix:
 
         Example usage:
 
-        ```py
         >>> from bases import encoding
         >>> dict(encoding.table(prefix="base32"))
         {'base32':      FixcharBaseEncoding(
@@ -194,8 +142,9 @@ def table(*, prefix: str = "") -> Iterator[Tuple[str, BaseEncoding]]:
                             StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
                                            case_sensitive=False))
         }
-        ```
 
+        :param name: optional prefix to filter by when listing encodings
+        :type name: :obj:`str`, *optional*
     """
     validate(prefix, str)
     encodings = [(name, encoding) for name, encoding in _base_encodings.items()
@@ -204,6 +153,8 @@ def table(*, prefix: str = "") -> Iterator[Tuple[str, BaseEncoding]]:
     return iter(encodings)
 
 BaseEncodingKind = Literal["simple-enc", "zeropad-enc", "block-enc", "fixchar-enc"]
+""" Possible values for the ``kind`` keyword argument to :func:`make` """
+
 _base_encoding_kinds = ("simple-enc", "zeropad-enc", "block-enc", "fixchar-enc")
 
 @overload
@@ -217,7 +168,7 @@ def make(chars: Union[str, range, Alphabet], *, kind: Literal["zeropad-enc"], na
     ...
 
 @overload
-def make(chars: Union[str, range, Alphabet], *, kind: Literal["block-enc"], name: Optional[str] = None,
+def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: Literal["block-enc"], name: Optional[str] = None,
          case_sensitive: Optional[bool] = None, block_size: Union[int, Mapping[int, int]], sep_char: str = "") -> BlockBaseEncoding:
     ...
 
@@ -228,24 +179,24 @@ def make(chars: Union[str, range, Alphabet], *, kind: Literal["fixchar-enc"], na
 
 def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: str, name: Optional[str] = None,
          case_sensitive: Optional[bool] = None, **kwargs: Any) -> BaseEncoding:
-    """
+    r"""
         Utility function to create custom encodings.
-        The `kind` keyword argument can be used to select different encoding constructors:
 
-        - if `"simple-enc"`, uses `bases.encoding.simple.SimpleBaseEncoding`
-        - if `"zeropad-enc"`, uses `bases.encoding.zeropad.ZeropadBaseEncoding`
-        - if `"block-enc"`, uses `bases.encoding.block.BlockBaseEncoding`
-        - if `"fixchar-enc"`, uses `bases.encoding.fixchar.FixcharBaseEncoding`
+        The ``kind`` keyword argument can be used to select different encoding constructors:
 
-        If the optional keyword argument `name` is specified, the encoding is automatically registered using `register`.
+        - if ``"simple-enc"``, uses :class:`~bases.encoding.simple.SimpleBaseEncoding`
+        - if ``"zeropad-enc"``, uses :class:`~bases.encoding.zeropad.ZeropadBaseEncoding`
+        - if ``"block-enc"``, uses :class:`~bases.encoding.block.BlockBaseEncoding`
+        - if ``"fixchar-enc"``, uses :class:`~bases.encoding.fixchar.FixcharBaseEncoding`
 
-        The positional argument `chars` and the keyword argument `case_sensitive` are common to all encodings (with
-        `bases.encoding.block.BlockBaseEncoding` additionally accepting a `bases.encoding.base.BaseEncoding` instance).
-        The additional `kwargs` are those of each individual class constructor.
+        If the optional keyword argument ``name`` is specified, the encoding is automatically registered using :func:`register`.
+
+        The positional argument ``chars`` and the keyword argument ``case_sensitive`` are common to all encodings (with
+        :class:`~bases.encoding.block.BlockBaseEncoding` additionally accepting a :class:`~bases.encoding.base.BaseEncoding` instance).
+        The additional ``kwargs`` are those of each individual class constructor.
 
         Example usage:
 
-        ```py
         >>> from bases import encoding
         >>> encoding.make("0123", kind="zeropad-enc", block_nchars=4, name="base4")
         ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
@@ -253,7 +204,17 @@ def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: str, name: O
         ZeropadBaseEncoding(StringAlphabet('0123'), block_nchars=4)
         >>> encoding.get("base4").encode(b"0x7E")
         '0300132003131011'
-        ```
+
+        :param chars: the alphabet to use for the encoding, or a "block encoding" when ``'kind'`` is set to ``'block-enc'``
+        :type chars: :obj:`str`, :obj:`range`, :class:`~bases.alphabet.abstract.Alphabet` or :class:`~bases.encoding.base.BaseEncoding`
+        :param kind: whether the alphabet is case-sensitive
+        :type kind: ``"simple-enc"``, ``"zeropad-enc"``, ``"block-enc"`` or ``"fixchar-enc"``
+        :param name: if specified, the newly created alphabet is registered with this name
+        :type name: :obj:`str` or :obj:`None`, *optional*
+        :param case_sensitive: whether the encoding alphabet is case-sensitive
+        :type case_sensitive: :obj:`bool`, *optional*
+        :param kwargs: additional keyword arguments to be passed to the chosen encoding constructor
+        :type kwargs: :obj:`~typing.Dict`\ [:obj:`str`, :obj:`~typing.Any`]
 
     """
     validate(chars, Union[str, range, Alphabet, BaseEncoding])
@@ -289,7 +250,7 @@ base2 = ZeropadBaseEncoding(alphabet.base2, block_nchars=8)
 base16 = ZeropadBaseEncoding(alphabet.base16, block_nchars=2)
 """
     Uppercase case-insensitive base-16 encoding (2-char blocks).
-    This is the same encoding specified by [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648).
+    This is the same encoding specified by `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_.
 """
 
 register(base2=base2, base16=base16)
@@ -314,14 +275,14 @@ base58flickr = ZeropadBaseEncoding(alphabet.base58flickr)
 """
     Case-sensitive base-58 encoding used by Flickr.
 
-    Spec from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02 but using alphabet `bases.alphabet.base58flickr`.
+    Spec from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02 but using alphabet :obj:`~bases.alphabet.base58flickr`.
 """
 
 base58ripple = ZeropadBaseEncoding(alphabet.base58ripple)
 """
     Case-sensitive base-58 encoding used by Ripple.
 
-    Spec from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02 but using alphabet `bases.alphabet.base58ripple`.
+    Spec from https://datatracker.ietf.org/doc/html/draft-msporny-base58-02 but using alphabet :obj:`~bases.alphabet.base58ripple`.
 """
 
 register(base10=base10, base36=base36, base58btc=base58btc, base58flickr=base58flickr, base58ripple=base58ripple)
@@ -333,10 +294,10 @@ base8 = FixcharBaseEncoding(alphabet.base8, pad_char="=", padding="include")
 """ Base-8 encoding from https://github.com/multiformats/multibase/blob/master/rfcs/Base8.md """
 
 base32 = FixcharBaseEncoding(alphabet.base32, pad_char="=", padding="include")
-""" Uppercase case-insensitive base-32 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-insensitive base-32 encoding from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base32hex = FixcharBaseEncoding(alphabet.base32hex, pad_char="=", padding="include")
-""" Uppercase case-insensitive hex base-32 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-insensitive hex base-32 encoding from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base32z = FixcharBaseEncoding(alphabet.base32z)
 """
@@ -344,10 +305,10 @@ base32z = FixcharBaseEncoding(alphabet.base32z)
 """
 
 base64 = FixcharBaseEncoding(alphabet.base64, pad_char="=", padding="include")
-""" Uppercase case-sensitive base-64 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-sensitive base-64 encoding from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 base64url = FixcharBaseEncoding(alphabet.base64url, pad_char="=", padding="include")
-""" Uppercase case-sensitive url-safe base-64 encoding from [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648). """
+""" Uppercase case-sensitive url-safe base-64 encoding from `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648>`_. """
 
 register(base8=base8, base32=base32, base32hex=base32hex, base32z=base32z,
          base64=base64, base64url=base64url)
@@ -358,7 +319,7 @@ base45 = BlockBaseEncoding(alphabet.base45, block_size={1: 2, 2: 3}, reverse_blo
 """
     Uppercase case-insensitive base-45 encoding from https://datatracker.ietf.org/doc/draft-faltstrom-base45/
 
-    Note that this is (slightly) different from the [ISO/IEC 18004:2015 standard](https://www.iso.org/standard/62021.html)
+    Note that this is (slightly) different from the `ISO/IEC 18004:2015 standard <https://www.iso.org/standard/62021.html>`_.
 """
 
 register(base45=base45)

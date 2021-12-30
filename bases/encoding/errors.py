@@ -22,7 +22,7 @@ class EncodingError(Error):
 class InvalidDigitError(EncodingError):
     """
         Encoding error raised when a digit does not index a character
-        in the given alphabet (because `not 0 <= digit < len(alphabet)`)
+        in the given alphabet (because ``not 0 <= digit < len(alphabet)``)
     """
 
     digit: int

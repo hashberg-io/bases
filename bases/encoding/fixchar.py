@@ -1,5 +1,58 @@
 """
-    Fixed-character base encodings.
+    Fixed-character base encodings, generalising those described by `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648.html>`_.
+
+    Constructor options:
+
+    - ``char_nbits: Union[int, Literal["auto"]]``, number of bits per character (default: ``"auto"``)
+    - ``pad_char: Optional[str]``, optional padding character (default: :obj:`None`)
+    - ``padding: PaddingOptions``, padding style (default: ``"ignore"``)
+
+    If ``char_nbits`` is set to ``"auto"`` (by default), it is automatically computed as:
+
+    .. code-block:: python
+
+        int(math.ceil(math.log2(base)))
+
+    From ``char_nbits``, size of a block (in bytes and chars) is computed as:
+
+    .. code-block:: python
+
+        block_nbytes = lcm(char_nbits, 8)//8
+        block_nchars = lcm(char_nbits, 8)//char_nbits
+
+    The value ``block_nbytes`` is presently not used, while the ``block_nchars`` is used for padding.
+
+    The ``padding`` option must be set to ``"ignore"`` if a padding character is not specified (i.e. if ``pad_char`` is :obj:`None`).
+    If a padding character is specified, it must be a character (string of length 1) not in the encoding alphabet:
+    it is allowed in decoding strings, but only at then end (so that ``s.rstrip(pad_char)`` removes all padding).
+
+    The padding behaviour is determined by the value of ``padding``:
+
+    - ``"ignore"``: no padding included on encoding, no padding required on decoding
+    - ``"include"``: padding included on encoding, no padding required on decoding
+    - ``"require"``: padding included on encoding, padding required on decoding
+
+    Encoding of a bytestring ``b``:
+
+    1. compute the minimum number ``extra_nbits`` of additional bits necessary to make ``8*len(b)`` an integral multiple of ``char_nbits``
+    2. convert ``b`` to an unsigned integer ``i`` (big-endian)
+    3. left-shift ``i`` by ``extra_nbits`` bits, introducing the necessary zero *pad bits*
+    4. converts ``i`` to the encoding base, using the encoding alphabet for digits
+    5. if ``padding`` is ``"include"`` or ``"require"``, append the minimum number of padding characters necessary to make the encoded
+       string length an integral multiple of ``block_nchars``
+
+    Decoding of a string ``s``:
+
+    1. if ``pad_char`` is not :obj:`None`, count the number N of contiguous padding characters at the end of ``s`` and strip them, obtaining ``s_stripped``
+    2. if ``padding`` is ``"require"``, ensure that N is exactly the minimum number of padding characters that must be appended to ``s_stripped``
+       to make its length an integral multiple of ``block_nchars``
+    3. converts ``s`` to an unsigned integer ``i``, using the encoding alphabet for digits of the encoding base
+    4. compute the number ``extra_nbits = (char_nbits*len(s))%8`` of pad bits: if this is not smaller than ``char_nbits``,
+       raise `bases.encoding.errors.DecodingError`
+    5. extract the value ``i%(2**extra_nbits)`` of the pad bits: if this is not zero, raise :class:`~bases.encoding.errors.DecodingError`
+    6. compute the number of bytes in the decoded bytestring as ``original_nbytes = (char_nbits*len(s))//8``
+    7. right-shift ``i`` by ``extra_nbits`` bits, removing the zero pad bits
+    8. converts ``i`` to its minimal byte representation (big-endian), then zero-pad on the left to reach ``original_nbytes`` bytes
 """
 
 import math
@@ -8,18 +61,13 @@ from typing_extensions import Literal
 from typing_validation import validate
 
 from bases.alphabet import Alphabet
-from .base import BaseEncoding
+from .base import BaseEncoding, BytesLike
 from .errors import DecodingError, InvalidDigitError, PaddingError
 
 PaddingOptions = Literal["ignore", "include", "require"]
 """
-    Type of allowed padding options for fixed-character encoding:
-
-    ```py
-    PaddingOptions = Literal["ignore", "include", "require"]
-    ```
-
-    See `FixcharBaseEncoding.padding`.
+    Type of allowed padding options for fixed-character encoding.
+    See :attr:`FixcharBaseEncoding.padding`.
 """
 
 def _lcm(a: int, b: int) -> int:
@@ -28,60 +76,19 @@ def _lcm(a: int, b: int) -> int:
 
 class FixcharBaseEncoding(BaseEncoding):
     """
-        Fixed-character encodings, generalising those described by [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html).
+        Fixed-character encodings.
 
-        Constructor options:
+        :param alphabet: the alphabet to use for the encoding
+        :type alphabet: :obj:`str`, :obj:`range` or :class:`~bases.alphabet.abstract.Alphabet`
+        :param case_sensitive: optional case sensitivity (if :obj:`None`, the one from the alphabet is used)
+        :type case_sensitive: :obj:`bool` or :obj:`None`, *optional*
 
-        - `char_nbits: Union[int, Literal["auto"]] = "auto"`, number of bits per character
-        - `pad_char: Optional[str] = None`, optional padding character
-        - `padding: PaddingOptions = "ignore"`, padding style
-
-        If `char_nbits` is set to `"auto"` (by default), it is automatically computed as:
-
-        ```py
-        int(math.ceil(math.log2(base)))
-        ```
-
-        From `char_nbits`, size of a block (in bytes and chars) is computed as:
-
-        ```py
-        block_nbytes = lcm(char_nbits, 8)//8
-        block_nchars = lcm(char_nbits, 8)//char_nbits
-        ```
-
-        The value `block_nbytes` is presently not used, while the `block_nchars` is used for padding.
-
-        The `padding` option must be set to `"ignore"` if a padding character is not specified (i.e. if `pad_char` is `None`).
-        If a padding character is specified, it must be a character (string of length 1) not in the encoding alphabet:
-        it is allowed in decoding strings, but only at then end (so that `s.rstrip(pad_char)` removes all padding).
-
-        The padding behaviour is determined by the value of `padding`:
-
-        - `"ignore"`: no padding included on encoding, no padding required on decoding
-        - `"include"`: padding included on encoding, no padding required on decoding
-        - `"require"`: padding included on encoding, padding required on decoding
-
-        Encoding of a bytestring `b`:
-
-        1. compute the minimum number `extra_nbits` of additional bits necessary to make `8*len(b)` an integral multiple of `char_nbits`
-        2. convert `b` to an unsigned integer `i` (big-endian)
-        3. left-shift `i` by `extra_nbits` bits, introducing the necessary zero _pad bits_
-        4. converts `i` to the encoding base, using the encoding alphabet for digits
-        5. if `padding` is `"include"` or `"require"`, append the minimum number of padding characters necessary to make the encoded
-           string length an integral multiple of `block_nchars`
-
-        Decoding of a string `s`:
-
-        1. if `pad_char` is not `None`, count the number N of contiguous padding characters at the end of `s` and strip them, obtaining `s_stripped`
-        2. if `padding` is `"require"`, ensure that N is exactly the minimum number of padding characters that must be appended to `s_stripped`
-           to make its length an integral multiple of `block_nchars`
-        3. converts `s` to an unsigned integer `i`, using the encoding alphabet for digits of the encoding base
-        4. compute the number `extra_nbits = (char_nbits*len(s))%8` of pad bits: if this is not smaller than `char_nbits`,
-           raise `bases.encoding.errors.DecodingError`
-        5. extract the value `i%(2**extra_nbits)` of the pad bits: if this is not zero, raise `bases.encoding.errors.DecodingError`
-        6. compute the number of bytes in the decoded bytestring as `original_nbytes = (char_nbits*len(s))//8`
-        7. right-shift `i` by `extra_nbits` bits, removing the zero pad bits
-        8. converts `i` to its minimal byte representation (big-endian), then zero-pad on the left to reach `original_nbytes` bytes
+        :param char_nbits: number of bits per character (default: ``"auto"``)
+        :type char_nbits: :obj:`int` or ``"auto"``, *optional*
+        :param pad_char: optional padding character (default: :obj:`None`)
+        :type pad_char: :obj:`str` or :obj:`None`, *optional*
+        :param padding: padding style (default: ``"ignore"``)
+        :type padding: :obj:`PaddingOptions`, *optional*
     """
 
     _char_nbits: int
@@ -149,7 +156,7 @@ class FixcharBaseEncoding(BaseEncoding):
     @property
     def effective_base(self) -> int:
         """
-            Effective base used when decoding is `2**char_nbits`.
+            Effective base used when decoding is ``2**char_nbits``.
         """
         effective_base: int = 2**self.char_nbits
         return effective_base
@@ -159,23 +166,23 @@ class FixcharBaseEncoding(BaseEncoding):
         """
             Padding style:
 
-            - `"ignore"`: no padding included on encoding, no padding required on decoding
-            - `"include"`: padding included on encoding, no padding required on decoding
-            - `"require"`: padding included on encoding, padding required on decoding
+            - ``"ignore"``: no padding included on encoding, no padding required on decoding
+            - ``"include"``: padding included on encoding, no padding required on decoding
+            - ``"require"``: padding included on encoding, padding required on decoding
         """
         return self._padding
 
     @property
     def include_padding(self) -> bool:
         """
-            Whether padding is included on encoding (derived from `FixcharBaseEncoding.padding`).
+            Whether padding is included on encoding (derived from :attr:`~FixcharBaseEncoding.padding`).
         """
         return self.padding in ("include", "require")
 
     @property
     def require_padding(self) -> bool:
         """
-            Whether padding is required on decoding (derived from `FixcharBaseEncoding.padding`).
+            Whether padding is required on decoding (derived from :attr:`~FixcharBaseEncoding.padding`).
         """
         return self.padding == "require"
 
@@ -183,7 +190,7 @@ class FixcharBaseEncoding(BaseEncoding):
     def pad_char(self) -> Optional[str]:
         """
             An optional character to be used for padding of encoded strings.
-            In [rfc4648](https://datatracker.ietf.org/doc/html/rfc4648.html), this is `"="` for both base64 and base32.
+            In `rfc4648 <https://datatracker.ietf.org/doc/html/rfc4648.html>`_, this is ``"="`` for both base64 and base32.
         """
         return self._pad_char
 
@@ -191,9 +198,8 @@ class FixcharBaseEncoding(BaseEncoding):
         """
             Returns a copy of this encoding which includes paddding (and optionally requires it).
 
-            Example usage, from `"include"` to `"require"`:
+            Example usage, from ``"include"`` to ``"require"``:
 
-            ```py
             >>> encoding.base32
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
@@ -204,11 +210,9 @@ class FixcharBaseEncoding(BaseEncoding):
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                                case_sensitive=False),
                 pad_char='=', padding='require')
-            ```
 
-            Example usage, from `"ignore"` to `"include"`:
+            Example usage, from ``"ignore"`` to ``"include"``:
 
-            ```py
             >>> encoding.base32z
             FixcharBaseEncoding(
                 StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
@@ -223,7 +227,9 @@ class FixcharBaseEncoding(BaseEncoding):
                 StringAlphabet('ybndrfg8ejkmcpqxot1uwisza345h769',
                                case_sensitive=False),
                 pad_char='=', padding='include')
-            ```
+
+            :param require: whether padding is to be required on decoding
+            :type require: :obj:`bool`
         """
         validate(require, bool)
         options = dict(padding="require" if require else "include")
@@ -236,7 +242,6 @@ class FixcharBaseEncoding(BaseEncoding):
 
             Example usage:
 
-            ```py
             >>> encoding.base32
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
@@ -251,7 +256,9 @@ class FixcharBaseEncoding(BaseEncoding):
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                                case_sensitive=False))
-            ```
+
+            :param allow: whether padding is to be allowed on decoding
+            :type allow: :obj:`bool`
         """
         validate(allow, bool)
         options = dict(padding="ignore", pad_char=self.pad_char if allow else None)
@@ -264,7 +271,6 @@ class FixcharBaseEncoding(BaseEncoding):
 
             Example usage:
 
-            ```py
             >>> encoding.base32
             FixcharBaseEncoding(
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
@@ -275,8 +281,9 @@ class FixcharBaseEncoding(BaseEncoding):
                 StringAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
                                case_sensitive=False),
                 pad_char='~', padding='include')
-            ```
 
+            :param pad_char: padding character (default: :obj:`None`)
+            :type pad_char: :obj:`str` or :obj:`None`
         """
         validate(pad_char, Optional[str])
         options: Dict[str, Any] = dict(pad_char=pad_char)
@@ -289,9 +296,12 @@ class FixcharBaseEncoding(BaseEncoding):
             If no padding character is specified for this encoding, returns the input string unchanged.
             If a padding character is specified for this encoding, pads the input string by appending the
             minimum number of padding characters necessary to make its length an integral multiple of the
-            block char size (given by `FixcharBaseEncoding.block_nchars`).
+            block char size (given by :attr:`~FixcharBaseEncoding.block_nchars`).
 
-            The value of `FixcharBaseEncoding.padding` is irrelevant to this method.
+            The value of :attr:`~FixcharBaseEncoding.padding` is irrelevant to this method.
+
+            :param s: the string
+            :type s: :obj:`str`
         """
         validate(s, str)
         pad_char = self.pad_char
@@ -312,8 +322,11 @@ class FixcharBaseEncoding(BaseEncoding):
             If no padding character is specified for this encoding, returns the input string unchanged.
             If a padding character is specified for this encoding, strips the input string of any padding
             characters it might have to the right.
-            If `FixcharBaseEncoding.padding` is set to `"require"`, checks that the correct number of
-            padding characters were included and raises `bases.encoding.errors.PaddingError` if not.
+            If :attr:`~FixcharBaseEncoding.padding` is set to ``"require"``, checks that the correct number of
+            padding characters were included and raises :class:`~bases.encoding.errors.PaddingError` if not.
+
+            :param s: the string
+            :type s: :obj:`str`
         """
         validate(s, str)
         pad_char = self.pad_char
@@ -337,9 +350,9 @@ class FixcharBaseEncoding(BaseEncoding):
                 raise PaddingError(padding, expected_padding)
         return s_stripped
 
-    def canonical_bytes(self, b: bytes) -> bytes:
+    def canonical_bytes(self, b: BytesLike) -> bytes:
         self._validate_bytes(b)
-        return b
+        return bytes(b)
 
     def canonical_string(self, s: str) -> str:
         validate(s, str)
@@ -351,7 +364,7 @@ class FixcharBaseEncoding(BaseEncoding):
         s = self.strip_string(s)
         return super()._validate_string(s)
 
-    def _encode(self, b: bytes) -> str:
+    def _encode(self, b: memoryview) -> str:
         alphabet = self.alphabet
         base = self.base
         char_nbits = self.char_nbits

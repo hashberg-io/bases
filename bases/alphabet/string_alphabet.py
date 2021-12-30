@@ -15,13 +15,21 @@ class StringAlphabet(Alphabet):
 
         Example usage:
 
-        ```py
         >>> from bases.alphabet import StringAlphabet
         >>> StringAlphabet("0123456789abcdef", case_sensitive=False)
         StringAlphabet('0123456789abcdef', case_sensitive=False)
         >>> StringAlphabet("0123").case_sensitive
         True
-        ```
+
+        :param chars: a string excplicitly listing all characters in the alphabet
+        :type chars: :obj:`str`
+        :param case_sensitive: whether the alphabet is case-sensitive
+        :type case_sensitive: :obj:`bool`, *optional*
+
+        :raises ValueError: if the alphabet contains fewer than 2 characters
+        :raises ValueError: if ``chars`` contains repeated characters
+        :raises ValueError: if the alphabet is case-insensitive and it contains both uppercase and lowercase versions of the same character
+
     """
 
     _chars: str
@@ -67,10 +75,9 @@ class StringAlphabet(Alphabet):
 
             Example usage:
 
-            ```py
             >>> alphabet.base16.chars
             '0123456789ABCDEF'
-            ```
+
         """
         return self._chars
 
