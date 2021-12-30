@@ -36,7 +36,8 @@ def make_apidocs() -> None:
     "toc_filename": Optional[str],
     "include_members": Dict[str, List[str]],
     "exclude_members": Dict[str, List[str]],
-    "exclude_modules": List[str]
+    "exclude_modules": List[str],
+    "member_fullnames": Dict[str, Dict[str, str]],
 }
 
 Set "toc_filename" to null to avoid generating a table of contents file.
@@ -61,6 +62,8 @@ Set "toc_filename" to null to avoid generating a table of contents file.
             validate(include_modules, List[str])
             exclude_modules = config.get("exclude_modules", None)
             validate(exclude_modules, List[str])
+            member_fullnames = config.get("member_fullnames", None)
+            validate(member_fullnames, Dict[str, Dict[str, str]])
     except FileNotFoundError:
         print(err_msg)
         sys.exit(1)
@@ -110,7 +113,9 @@ Set "toc_filename" to null to avoid generating a table of contents file.
             imported_member = member_module is not None and member_module != mod
             if mod_name in include_members and member_name in include_members[mod_name]:
                 imported_member = False
-            if imported_member:
+            if mod_name in member_fullnames and member_name in member_fullnames[mod_name]:
+                member_fullname = member_fullnames[mod_name][member_name]
+            elif imported_member:
                 if inspect.ismodule(member):
                     member_fullname = member_module_name or ""
                 else:

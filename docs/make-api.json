@@ -12,5 +12,25 @@
     },
     "exclude_members": {},
     "include_modules": [],
-    "exclude_modules": []
+    "exclude_modules": [],
+    "member_fullnames": {
+        "bases": {
+            "base2": "bases.encoding.base2",
+            "base8": "bases.encoding.base8",
+            "base10": "bases.encoding.base10",
+            "base16": "bases.encoding.base16",
+            "base32": "bases.encoding.base32",
+            "base32hex": "bases.encoding.base32hex",
+            "base32z": "bases.encoding.base32z",
+            "base36": "bases.encoding.base36",
+            "base64": "bases.encoding.base64",
+            "base64url": "bases.encoding.base64url",
+            "base10": "bases.encoding.base10",
+            "base36": "bases.encoding.base36",
+            "base58btc": "bases.encoding.base58btc",
+            "base58flickr": "bases.encoding.base58flickr",
+            "base58ripple": "bases.encoding.base58ripple",
+            "base45": "bases.encoding.base45"   
+        }
+    }
 }
