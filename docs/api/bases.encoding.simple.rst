@@ -7,4 +7,5 @@ SimpleBaseEncoding
 ------------------
 
 .. autoclass:: bases.encoding.simple.SimpleBaseEncoding
+    :show-inheritance:
     :members:

@@ -7,4 +7,5 @@ ZeropadBaseEncoding
 -------------------
 
 .. autoclass:: bases.encoding.zeropad.ZeropadBaseEncoding
+    :show-inheritance:
     :members:

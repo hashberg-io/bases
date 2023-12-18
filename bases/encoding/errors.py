@@ -2,6 +2,8 @@
     Encoding error classes.
 """
 
+from __future__ import annotations
+
 import binascii
 from typing_validation import validate
 
@@ -11,13 +13,11 @@ class Error(binascii.Error):
     """
         Generic encoding or decoding error.
     """
-    ...
 
 class EncodingError(Error):
     """
         Generic encoding error.
     """
-    ...
 
 class InvalidDigitError(EncodingError):
     """
@@ -42,13 +42,11 @@ class InvalidByteBlockError(EncodingError):
     """
         Encoding error raised by block encodings when a byte block is invalid.
     """
-    ...
 
 class DecodingError(Error):
     """
         Generic decoding error.
     """
-    ...
 
 class NonAlphabeticCharError(DecodingError):
     """
@@ -94,4 +92,3 @@ class InvalidCharBlockError(DecodingError):
     """
         Decoding error raised by block encodings when a char block is invalid.
     """
-    ...

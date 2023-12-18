@@ -14,6 +14,8 @@
     3. converts ``i`` to its minimal byte representation (big-endian)
 """
 
+from __future__ import annotations
+
 from typing import Any, List, Mapping, Optional, Union
 from typing_validation import validate
 

@@ -55,6 +55,8 @@
     8. converts ``i`` to its minimal byte representation (big-endian), then zero-pad on the left to reach ``original_nbytes`` bytes
 """
 
+from __future__ import annotations
+
 import math
 from typing import Any, Dict, List, Mapping, Optional, Union
 from typing_extensions import Literal
@@ -103,6 +105,7 @@ class FixcharBaseEncoding(BaseEncoding):
                  char_nbits: Union[int, Literal["auto"]] = "auto",
                  pad_char: Optional[str] = None,
                  padding: PaddingOptions = "ignore"):
+        # pylint: disable = too-many-arguments
         validate(char_nbits, Union[int, Literal["auto"]])
         validate(pad_char, Optional[str])
         validate(padding, PaddingOptions)
@@ -232,7 +235,7 @@ class FixcharBaseEncoding(BaseEncoding):
             :type require: :obj:`bool`
         """
         validate(require, bool)
-        options = dict(padding="require" if require else "include")
+        options = {"padding": 'require' if require else 'include'}
         return self.with_options(**options)
 
     def nopad(self, allow: bool = True) -> "FixcharBaseEncoding":
@@ -261,7 +264,10 @@ class FixcharBaseEncoding(BaseEncoding):
             :type allow: :obj:`bool`
         """
         validate(allow, bool)
-        options = dict(padding="ignore", pad_char=self.pad_char if allow else None)
+        options = {
+            "padding": "ignore",
+            "pad_char": self.pad_char if allow else None
+        }
         return self.with_options(**options)
 
     def with_pad_char(self, pad_char: Optional[str]) -> "FixcharBaseEncoding":
@@ -286,7 +292,7 @@ class FixcharBaseEncoding(BaseEncoding):
             :type pad_char: :obj:`str` or :obj:`None`
         """
         validate(pad_char, Optional[str])
-        options: Dict[str, Any] = dict(pad_char=pad_char)
+        options: Dict[str, Any] = {"pad_char": pad_char}
         if pad_char is None:
             options["padding"] = "ignore"
         return self.with_options(**options)

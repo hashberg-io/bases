@@ -7,6 +7,7 @@ FixcharBaseEncoding
 -------------------
 
 .. autoclass:: bases.encoding.fixchar.FixcharBaseEncoding
+    :show-inheritance:
     :members:
 
 PaddingOptions

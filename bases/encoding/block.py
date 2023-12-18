@@ -64,6 +64,8 @@
 
 """
 
+from __future__ import annotations
+
 import math
 from types import MappingProxyType
 from typing import Any, Dict, List, Mapping, Optional, Union, TypeVar
@@ -116,6 +118,7 @@ class BlockBaseEncoding(BaseEncoding):
                  block_size: Union[int, Mapping[int, int]],
                  sep_char: str = "",
                  reverse_blocks: bool = False):
+        # pylint: disable = too-many-arguments
         validate(encoding, Union[str, range, Alphabet, BaseEncoding])
         validate(block_size, Union[int, Mapping[int, int]])
         validate(sep_char, str)

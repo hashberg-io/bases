@@ -2,6 +2,8 @@
     Module containing classes for alphabets.
 """
 
+from __future__ import annotations
+
 import re
 from typing import Collection, Dict, Iterator, Optional, overload, Tuple, Union
 from typing_extensions import Literal

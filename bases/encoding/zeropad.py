@@ -30,6 +30,8 @@
     4. prepend Z zero byte blocks to the encoded string
 """
 
+from __future__ import annotations
+
 import math
 from typing import Any, Dict, Mapping, Optional, Union
 from typing_validation import validate

@@ -2,6 +2,8 @@
     Abstract base encodings.
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Mapping, Optional, TypeVar, Union
 from typing_extensions import Final
@@ -274,7 +276,6 @@ class BaseEncoding(ABC):
         return self.encode(self.decode(s))
 
     def _validate_bytes(self, b: BytesLike) -> memoryview:
-        # pylint: disable = no-self-use
         validate(b, BytesLike)
         return memoryview(b)
 
@@ -310,7 +311,6 @@ class BaseEncoding(ABC):
             :type skip_defaults: :obj:`bool`, *optional*
 
         """
-        ...
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, BaseEncoding):

@@ -7,9 +7,5 @@ Alphabet
 --------
 
 .. autoclass:: bases.alphabet.abstract.Alphabet
+    :show-inheritance:
     :members:
-
-AlphabetSubclass
-----------------
-
-.. autodata:: bases.alphabet.abstract.AlphabetSubclass

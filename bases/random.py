@@ -1,6 +1,9 @@
 """
     Functions to generate random data.
 """
+
+from __future__ import annotations
+
 # pylint: disable = global-statement
 
 from contextlib import contextmanager
@@ -73,9 +76,9 @@ def options(*,
         validate(arg, Optional[int])
     global _options
     global _rand
+    _old_options = _options
+    _old_rand = _rand
     try:
-        _old_options = _options
-        _old_rand = _rand
         set_options(seed=seed,
                     min_bytes=min_bytes, max_bytes=max_bytes,
                     min_chars=min_chars, max_chars=max_chars,)

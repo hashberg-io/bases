@@ -1,0 +1,4 @@
+{
+    "workbench.colorTheme": "Default Dark Modern",
+    "esbonio.sphinx.confDir": "${workspaceFolder}\\docs"
+}

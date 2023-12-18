@@ -2,12 +2,12 @@
     Abstract alphabets.
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Mapping, Optional, overload, Sequence, TypeVar, Union
-from typing_validation import validate
+from __future__ import annotations
 
-AlphabetSubclass = TypeVar("AlphabetSubclass", bound="Alphabet")
-""" Type variable for subclasses of :class:`Alphabet`. """
+from abc import ABC, abstractmethod
+from typing import Any, Mapping, Optional, overload, Sequence, Union
+from typing_extensions import Self
+from typing_validation import validate
 
 class Alphabet(ABC, Sequence[str]):
     """
@@ -132,10 +132,9 @@ class Alphabet(ABC, Sequence[str]):
                           'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15})
 
         """
-        ...
 
     @abstractmethod
-    def with_case_sensitivity(self: AlphabetSubclass, case_sensitive: bool) -> AlphabetSubclass:
+    def with_case_sensitivity(self, case_sensitive: bool) -> Self:
         """
             Returns a new alphabet with the same characters as this one but with specified case sensitivity.
 
@@ -149,12 +148,10 @@ class Alphabet(ABC, Sequence[str]):
 
             :param case_sensitive: whether the new alphabet is case-sensitive
             :type case_sensitive: :obj:`bool`, *optional*
-            :rtype: :obj:`AlphabetSubclass`
         """
-        ...
 
     @abstractmethod
-    def upper(self) -> "Alphabet":
+    def upper(self) -> Alphabet:
         """
             Returns a new alphabet with all cased characters turned to uppercase.
 
@@ -168,10 +165,9 @@ class Alphabet(ABC, Sequence[str]):
                            case_sensitive=False)
 
         """
-        ...
 
     @abstractmethod
-    def lower(self) -> "Alphabet":
+    def lower(self) -> Alphabet:
         """
             Returns a new alphabet with all cased characters turned to lowercase.
 
@@ -183,7 +179,6 @@ class Alphabet(ABC, Sequence[str]):
             StringAlphabet('0123456789abcdef')
 
         """
-        ...
 
     @abstractmethod
     def __len__(self) -> int:
@@ -194,9 +189,10 @@ class Alphabet(ABC, Sequence[str]):
         ...
 
     @overload
-    def __getitem__(self, idx: slice) -> "Alphabet":
+    def __getitem__(self, idx: slice) -> Alphabet:
         ...
 
     @abstractmethod
-    def __getitem__(self, idx: Union[int, slice]) -> Union[str, "Alphabet"]: #type: ignore
+    def __getitem__(self, idx: Union[int, slice]) -> Union[str, Alphabet]:
         ...
+

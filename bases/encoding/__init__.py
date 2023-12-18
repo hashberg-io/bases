@@ -3,6 +3,8 @@
 
 """
 
+from __future__ import annotations
+
 import re
 from typing import Any, cast, Collection, Dict, Iterator, Mapping, Optional, overload, Tuple, Type, Union
 from typing_extensions import Literal
@@ -165,11 +167,13 @@ def make(chars: Union[str, range, Alphabet], *, kind: Literal["simple-enc"], nam
 @overload
 def make(chars: Union[str, range, Alphabet], *, kind: Literal["zeropad-enc"], name: Optional[str] = None,
          case_sensitive: Optional[bool] = None, block_nbytes: int = 1, block_nchars: int = 1) -> ZeropadBaseEncoding:
+    # pylint: disable = too-many-arguments
     ...
 
 @overload
 def make(chars: Union[str, range, Alphabet, BaseEncoding], *, kind: Literal["block-enc"], name: Optional[str] = None,
          case_sensitive: Optional[bool] = None, block_size: Union[int, Mapping[int, int]], sep_char: str = "") -> BlockBaseEncoding:
+    # pylint: disable = too-many-arguments
     ...
 
 @overload

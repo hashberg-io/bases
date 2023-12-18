@@ -7,6 +7,7 @@ BlockBaseEncoding
 -----------------
 
 .. autoclass:: bases.encoding.block.BlockBaseEncoding
+    :show-inheritance:
     :members:
 
 BlockBaseEncodingSubclass

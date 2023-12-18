@@ -7,6 +7,7 @@ BaseEncoding
 ------------
 
 .. autoclass:: bases.encoding.base.BaseEncoding
+    :show-inheritance:
     :members:
 
 BaseEncodingSubclass

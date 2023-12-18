@@ -2,6 +2,8 @@
     Alphabets implicitly specified by Unicode codepoint range.
 """
 
+from __future__ import annotations
+
 from typing import Any, Iterator, Mapping, overload, Union
 from typing_validation import validate
 

@@ -7,4 +7,5 @@ StringAlphabet
 --------------
 
 .. autoclass:: bases.alphabet.string_alphabet.StringAlphabet
+    :show-inheritance:
     :members:

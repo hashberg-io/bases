@@ -7,4 +7,5 @@ RangeAlphabet
 -------------
 
 .. autoclass:: bases.alphabet.range_alphabet.RangeAlphabet
+    :show-inheritance:
     :members:

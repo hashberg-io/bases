@@ -2,6 +2,8 @@
     Alphabets explicitly specified by strings.
 """
 
+from __future__ import annotations
+
 from types import MappingProxyType
 from typing import Any, Mapping, overload, Union
 from typing_validation import validate
